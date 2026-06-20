@@ -177,9 +177,7 @@ main_dev.dart
 SplashScreen (shown)
     └── Initialize.run()
             ├── setupNotifications()
-            └── JailbreakDetector.isDeviceCompromised()
-                    ├── compromised → JailbreakBlockApp
-                    └── safe       → AppNavigator route
+            └── route to ShellNavigator.dashboardPath
 ```
 
 ---
@@ -558,14 +556,6 @@ String? emailError = _form.errorFor('email');
 ```
 
 **Available rules:** `required`, `email`, `minLength`, `maxLength`, `min`, `max`, `range`, `pattern`, `equals`, `custom`
-
----
-
-## Security — Jailbreak / Root Detection
-
-Native platform channel detects jailbroken (iOS) or rooted (Android) devices. Checked in `Initialize.run()`. If compromised, `JailbreakBlockApp` is shown and the app is unusable.
-
-Update the `com.base.project/security` channel ID with your own bundle ID on the native side.
 
 ---
 
