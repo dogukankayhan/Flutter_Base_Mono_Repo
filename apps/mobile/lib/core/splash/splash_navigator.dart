@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'splash_screen.dart';
 
-final class SplashCoordinator {
-  SplashCoordinator._();
+final class SplashNavigator {
+  SplashNavigator._();
 
   static const String path = '/splash';
 

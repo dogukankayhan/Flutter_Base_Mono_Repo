@@ -6,7 +6,7 @@ import '../../core/domain/entity/movie.dart';
 import 'cubit/movie_detail_cubit.dart';
 import 'view/movie_detail_screen.dart';
 
-final class MovieDetailCoordinator {
+final class MovieDetailNavigator {
   static const _segment = 'movie';
 
   /// Root navigator route — bottom navbar is HIDDEN (from movies tab)

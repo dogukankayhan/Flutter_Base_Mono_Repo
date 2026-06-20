@@ -1,19 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/splash/splash_coordinator.dart';
-import 'app_coordinator.dart';
+import '../../../core/splash/splash_navigator.dart';
+import 'app_navigator.dart';
 import 'guards.dart';
 
-export 'app_coordinator.dart' show rootKey;
+export 'app_navigator.dart' show rootKey;
 
 final class AppRouter {
   AppRouter._();
 
   static GoRouter create({
     required ChangeNotifier auth,
-    String initialLocation = SplashCoordinator.path,
+    String initialLocation = SplashNavigator.path,
   }) {
-    final coordinator = AppCoordinator.instance;
+    final navigator = AppNavigator.instance;
 
     return GoRouter(
       navigatorKey: rootKey,
@@ -21,15 +21,15 @@ final class AppRouter {
       refreshListenable: auth,
       debugLogDiagnostics: kDebugMode,
       redirect: (context, state) {
-        if (state.uri.path == SplashCoordinator.path) return null;
-        return coordinator.redirect(
+        if (state.uri.path == SplashNavigator.path) return null;
+        return navigator.redirect(
           isLoggedIn: (auth as AuthRouterNotifier).isLoggedIn,
           path: state.uri.path,
         );
       },
       routes: [
-        SplashCoordinator.route(rootKey),
-        ...coordinator.routes,
+        SplashNavigator.route(rootKey),
+        ...navigator.routes,
       ],
     );
   }

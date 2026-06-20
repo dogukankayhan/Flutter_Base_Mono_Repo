@@ -5,10 +5,10 @@ import 'dart:io';
 
 // ─── Paths ───────────────────────────────────────────────────────────────────
 
-const _appCoordinatorPath =
-    'apps/mobile/lib/core/managers/navigation_manager/app_coordinator.dart';
-const _shellCoordinatorPath =
-    'apps/mobile/lib/features/shell/shell_coordinator.dart';
+const _appNavigatorPath =
+    'apps/mobile/lib/core/managers/navigation_manager/app_navigator.dart';
+const _shellNavigatorPath =
+    'apps/mobile/lib/features/shell/shell_navigator.dart';
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
@@ -133,10 +133,10 @@ void main() {
 
   if (routeType != 'tab') {
     _write(
-      '$featureDir/${featureName}_coordinator.dart',
-      _coordinatorTemplate(featureName, className, routeType == 'nested'),
+      '$featureDir/${featureName}_navigator.dart',
+      _navigatorTemplate(featureName, className, routeType == 'nested'),
     );
-    created.add('${featureName}_coordinator.dart');
+    created.add('${featureName}_navigator.dart');
   }
 
   // ─── Register route ──────────────────────────────────────────────────────
@@ -159,44 +159,44 @@ void main() {
 // ─── Route registration ───────────────────────────────────────────────────────
 
 void _registerStandalone(String featureName, String className) {
-  var content = File(_appCoordinatorPath).readAsStringSync();
+  var content = File(_appNavigatorPath).readAsStringSync();
 
   final importLine =
-      "import '../../../features/$featureName/${featureName}_coordinator.dart';";
+      "import '../../../features/$featureName/${featureName}_navigator.dart';";
   if (!content.contains(importLine)) {
-    const anchor = "import '../../../features/shell/shell_coordinator.dart';";
+    const anchor = "import '../../../features/shell/shell_navigator.dart';";
     content = content.replaceFirst(anchor, '$anchor\n$importLine');
   }
 
-  if (!content.contains('${className}Coordinator')) {
+  if (!content.contains('${className}Navigator')) {
     content = content.replaceFirst(
       '      ];\n',
-      '        ${className}Coordinator.route,\n      ];\n',
+      '        ${className}Navigator.route,\n      ];\n',
     );
   }
 
-  File(_appCoordinatorPath).writeAsStringSync(content);
-  print('  updated  $_appCoordinatorPath');
+  File(_appNavigatorPath).writeAsStringSync(content);
+  print('  updated  $_appNavigatorPath');
 }
 
 void _registerNested(String featureName, String className, String branch) {
-  var content = File(_shellCoordinatorPath).readAsStringSync();
+  var content = File(_shellNavigatorPath).readAsStringSync();
 
   final importLine =
-      "import '../$featureName/${featureName}_coordinator.dart';";
+      "import '../$featureName/${featureName}_navigator.dart';";
   if (!content.contains(importLine)) {
     const anchor = "import 'view/shell_screen.dart';";
     content = content.replaceFirst(anchor, '$importLine\n$anchor');
   }
 
-  if (!content.contains('${className}Coordinator')) {
+  if (!content.contains('${className}Navigator')) {
     switch (branch) {
       case 'appointments':
         const anchor =
             '            ],\n          ),\n        ],\n      ),\n      StatefulShellBranch(\n        routes: [\n          GoRoute(\n            path: pokemonPath,';
         content = content.replaceFirst(
           anchor,
-          '              ${className}Coordinator.route,\n$anchor',
+          '              ${className}Navigator.route,\n$anchor',
         );
 
       case 'pokemon':
@@ -204,17 +204,17 @@ void _registerNested(String featureName, String className, String branch) {
             '            ],\n          ),\n        ],\n      ),\n    ],\n  );';
         content = content.replaceFirst(
           anchor,
-          '              ${className}Coordinator.route,\n$anchor',
+          '              ${className}Navigator.route,\n$anchor',
         );
 
       case 'dashboard':
         print(
-            '  ⚠  Dashboard branch uses an inline GoRoute — add manually (ShellCoordinator, add a routes: [...] parameter to the dashboardPath GoRoute).');
+            '  ⚠  Dashboard branch uses an inline GoRoute — add manually (ShellNavigator, add a routes: [...] parameter to the dashboardPath GoRoute).');
     }
   }
 
-  File(_shellCoordinatorPath).writeAsStringSync(content);
-  print('  updated  $_shellCoordinatorPath');
+  File(_shellNavigatorPath).writeAsStringSync(content);
+  print('  updated  $_shellNavigatorPath');
 }
 
 // ─── IO helpers ───────────────────────────────────────────────────────────────
@@ -560,7 +560,7 @@ class ${className}Screen extends StatelessWidget {
 }
 ''';
 
-String _coordinatorTemplate(String name, String className, bool isNested) {
+String _navigatorTemplate(String name, String className, bool isNested) {
   final path = isNested ? _toKebab(name) : '/${_toKebab(name)}';
   final navMethod = isNested ? 'context.push' : 'context.go';
   return '''
@@ -568,7 +568,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'view/${name}_screen.dart';
 
-final class ${className}Coordinator {
+final class ${className}Navigator {
   static const String path = '$path';
 
   static GoRoute get route => GoRoute(

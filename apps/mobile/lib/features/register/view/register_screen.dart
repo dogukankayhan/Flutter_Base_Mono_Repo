@@ -4,7 +4,7 @@ import '../../../core/components/app_button.dart';
 import '../../../core/components/app_error_banner.dart';
 import '../../../core/components/app_text_field.dart';
 import '../../../core/localization/localization_extension.dart';
-import '../../../core/managers/navigation_manager/app_coordinator.dart';
+import '../../../core/managers/navigation_manager/app_navigator.dart';
 import '../bloc/register_bloc.dart';
 import '../bloc/register_event.dart';
 import '../bloc/register_state.dart';
@@ -178,7 +178,7 @@ class _BackButton extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: AppCoordinator.instance.login.show,
+        onPressed: AppNavigator.instance.login.show,
         tooltip: context.translations.register.backTooltip,
       ),
     );
@@ -222,7 +222,7 @@ class _LoginLink extends StatelessWidget {
         Text(t.register.hasAccount,
             style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6))),
         TextButton(
-          onPressed: AppCoordinator.instance.login.show,
+          onPressed: AppNavigator.instance.login.show,
           child: Text(t.register.loginLink),
         ),
       ],

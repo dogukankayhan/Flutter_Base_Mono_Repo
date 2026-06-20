@@ -78,28 +78,28 @@ Somut örnek üzerinden tüm katmanlar:
 
 ---
 
-## Navigation Mimarisi — Coordinator Pattern
+## Navigation Mimarisi — Navigator Pattern
 
 ```
-AppCoordinator (singleton)
-├── LoginCoordinator      → GoRoute('/login')
-├── RegisterCoordinator   → GoRoute('/register')
-├── ShellCoordinator      → StatefulShellRoute (bottom nav)
-│   ├── DashboardCoordinator  → GoRoute('/dashboard')
-│   ├── AppointmentsCoordinator
-│   ├── CustomersCoordinator
-│   └── MoreCoordinator
-└── HomeCoordinator       → GoRoute('/home', '/home/showcase')
+AppNavigator (singleton)
+├── LoginNavigator      → GoRoute('/login')
+├── RegisterNavigator   → GoRoute('/register')
+├── ShellNavigator      → StatefulShellRoute (bottom nav)
+│   ├── DashboardNavigator  → GoRoute('/dashboard')
+│   ├── AppointmentsNavigator
+│   ├── CustomersNavigator
+│   └── MoreNavigator
+└── HomeNavigator       → GoRoute('/home', '/home/showcase')
 ```
 
-Her Coordinator:
+Her Navigator:
 - Kendi path constant'ını tutar: `static const path = '/dashboard'`
 - `show(BuildContext context)` static metodu: `context.go(path)`
 - `route` getter: `GoRoute(path: path, builder: (_, __) => Screen())`
 
-**Auth Guard:** `AppCoordinator.redirect(isLoggedIn, path)` login/register sayfalarına auth kontrolü yapar. GoRouter'ın `redirect:` callback'i bu metodu çağırır.
+**Auth Guard:** `AppNavigator.redirect(isLoggedIn, path)` login/register sayfalarına auth kontrolü yapar. GoRouter'ın `redirect:` callback'i bu metodu çağırır.
 
-**Navigation Facade:** `NavigationFacade` low-level helper (`push`, `pop`, `replace`). Feature screen'lerden doğrudan kullanılmaz — her feature kendi coordinator'ını kullanır.
+**Navigation Facade:** `NavigationFacade` low-level helper (`push`, `pop`, `replace`). Feature screen'lerden doğrudan kullanılmaz — her feature kendi navigator'ını kullanır.
 
 ---
 

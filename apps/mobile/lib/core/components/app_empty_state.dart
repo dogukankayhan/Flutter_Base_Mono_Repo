@@ -10,7 +10,7 @@ import 'app_button.dart';
 ///     subtitle: 'You have not added any customers yet.',
 ///     icon: Icons.people_outline,
 ///     actionLabel: 'Add Customer',
-///     onAction: () => CustomerCoordinator.showCreate(context),
+///     onAction: () => CustomerNavigator.showCreate(context),
 ///   )
 class AppEmptyState extends StatelessWidget {
   const AppEmptyState({

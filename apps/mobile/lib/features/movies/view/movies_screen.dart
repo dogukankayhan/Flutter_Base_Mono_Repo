@@ -15,7 +15,7 @@ import '../bloc/movies_event.dart';
 import '../bloc/movies_state.dart';
 import '../cubit/favorites_cubit.dart';
 import '../cubit/favorites_state.dart';
-import '../movie_detail_coordinator.dart';
+import '../movie_detail_navigator.dart';
 
 class MoviesScreen extends StatelessWidget {
   const MoviesScreen({super.key});
@@ -102,7 +102,7 @@ class _MovieCard extends StatelessWidget {
     final colors = context.appColors;
 
     return GestureDetector(
-      onTap: () => MovieDetailCoordinator.showFromMovies(context, movie),
+      onTap: () => MovieDetailNavigator.showFromMovies(context, movie),
       child: Container(
         decoration: BoxDecoration(
           color: colors.surface,

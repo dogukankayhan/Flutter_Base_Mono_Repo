@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../pokemon_home/widgets/pokemon_card.dart';
 import '../bloc/pokemon_favorites_bloc.dart';
 import '../bloc/pokemon_favorites_state.dart';
-import '../coordinator/favorites_coordinator.dart';
+import '../navigator/favorites_navigator.dart';
 
 class PokemonFavoritesTab extends StatelessWidget {
   const PokemonFavoritesTab({
@@ -93,7 +93,7 @@ class PokemonFavoritesTab extends StatelessWidget {
               pokemon: pokemon,
               isFavorite: true,
               onFavoriteToggle: () => bloc.add(PokemonFavoritesRemove(pokemon.id)),
-              onTap: () => PokemonFavoritesCoordinator.showDetail(context, pokemon),
+              onTap: () => PokemonFavoritesNavigator.showDetail(context, pokemon),
             ),
           );
         },

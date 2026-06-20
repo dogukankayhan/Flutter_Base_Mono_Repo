@@ -3,12 +3,12 @@ import 'package:flutter_base_kit/features/pokemon_detail/view/pokemon_detail_scr
 import 'package:go_router/go_router.dart';
 
 import '../favorites/view/favorites_screen.dart';
-import '../movies/movie_detail_coordinator.dart';
+import '../movies/movie_detail_navigator.dart';
 import '../movies/view/movies_screen.dart';
 import '../pokemon_home/view/pokemon_home_screen.dart';
 import 'view/shell_screen.dart';
 
-final class ShellCoordinator {
+final class ShellNavigator {
   static const String dashboardPath = '/dashboard';
   static const String appointmentsPath = '/appointments';
   static const String pokemonPath = '/pokemon';
@@ -25,7 +25,7 @@ final class ShellCoordinator {
             path: appointmentsPath,
             builder: (_, _) => const FavoritesScreen(),
             routes: [
-              MovieDetailCoordinator.nestedRoute(),
+              MovieDetailNavigator.nestedRoute(),
               GoRoute(
                 path: 'pokemon/:id',
                 builder: (context, state) => PokemonDetailScreen(

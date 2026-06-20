@@ -4,7 +4,7 @@ import '../../../core/components/app_button.dart';
 import '../../../core/components/app_error_banner.dart';
 import '../../../core/components/app_text_field.dart';
 import '../../../core/localization/localization_extension.dart';
-import '../../../core/managers/navigation_manager/app_coordinator.dart';
+import '../../../core/managers/navigation_manager/app_navigator.dart';
 import '../bloc/login_bloc.dart';
 import '../bloc/login_event.dart';
 import '../bloc/login_state.dart';
@@ -247,7 +247,7 @@ class _RegisterLink extends StatelessWidget {
         Text(t.login.noAccount,
             style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6))),
         TextButton(
-          onPressed: AppCoordinator.instance.register.show,
+          onPressed: AppNavigator.instance.register.show,
           child: Text(t.login.registerLink),
         ),
       ],

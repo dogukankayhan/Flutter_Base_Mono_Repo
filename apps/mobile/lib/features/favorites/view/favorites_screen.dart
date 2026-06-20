@@ -12,7 +12,7 @@ import '../../../core/domain/entity/movie.dart';
 import '../../../core/localization/localization_extension.dart';
 import '../../movies/cubit/favorites_cubit.dart';
 import '../../movies/cubit/favorites_state.dart';
-import '../../movies/movie_detail_coordinator.dart';
+import '../../movies/movie_detail_navigator.dart';
 import '../../pokemon_favorites/bloc/pokemon_favorites_bloc.dart';
 import '../../pokemon_favorites/bloc/pokemon_favorites_state.dart';
 import '../../pokemon_favorites/view/favorites_screen.dart';
@@ -145,7 +145,7 @@ class _FavoriteCard extends StatelessWidget {
     final colors = context.appColors;
 
     return GestureDetector(
-      onTap: () => MovieDetailCoordinator.showFromFavorites(context, movie),
+      onTap: () => MovieDetailNavigator.showFromFavorites(context, movie),
       child: Container(
         decoration: BoxDecoration(
           color: colors.surface,

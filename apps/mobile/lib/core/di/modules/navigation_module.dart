@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_environment.dart';
 import '../../../core/managers/navigation_manager/app_router.dart';
 import '../../../core/managers/navigation_manager/guards.dart';
-import '../../../core/splash/splash_coordinator.dart';
-import '../../../features/shell/shell_coordinator.dart';
+import '../../../core/splash/splash_navigator.dart';
+import '../../../features/shell/shell_navigator.dart';
 
 void setupNavigationModule(GetIt getIt) {
   getIt.registerLazySingleton<GoRouter>(() {
@@ -14,8 +14,8 @@ void setupNavigationModule(GetIt getIt) {
     return AppRouter.create(
       auth: notifier,
       initialLocation: AppConfig.instance.isDev
-          ? ShellCoordinator.dashboardPath
-          : SplashCoordinator.path,
+          ? ShellNavigator.dashboardPath
+          : SplashNavigator.path,
     );
   });
 }

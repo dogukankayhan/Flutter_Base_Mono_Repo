@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/managers/navigation_manager/guards.dart';
-import 'view/register_screen.dart';
+import 'view/login_screen.dart';
 
-final class RegisterCoordinator {
-  const RegisterCoordinator(this.navigatorKey);
+final class LoginNavigator {
+  const LoginNavigator(this.navigatorKey);
 
   final GlobalKey<NavigatorState> navigatorKey;
 
-  static const String path = '/register';
+  static const String path = '/login';
 
   void show() => navigatorKey.currentState?.context.go(path);
 
@@ -17,7 +17,7 @@ final class RegisterCoordinator {
         parentNavigatorKey: navigatorKey,
         pageBuilder: (context, state) => fadeTransitionPage(
           key: state.pageKey,
-          child: const RegisterScreen(),
+          child: const LoginScreen(),
         ),
       );
 }

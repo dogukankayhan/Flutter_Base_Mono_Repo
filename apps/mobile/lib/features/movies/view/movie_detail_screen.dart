@@ -13,7 +13,7 @@ import '../cubit/favorites_cubit.dart';
 import '../cubit/favorites_state.dart';
 import '../cubit/movie_detail_cubit.dart';
 import '../cubit/movie_detail_state.dart';
-import '../movie_detail_coordinator.dart';
+import '../movie_detail_navigator.dart';
 
 /// Movie detail screen.
 ///
@@ -227,7 +227,7 @@ class _FavoritePosterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => MovieDetailCoordinator.showFromMovies(context, movie),
+      onTap: () => MovieDetailNavigator.showFromMovies(context, movie),
       child: Container(
         width: 90.w,
         margin: EdgeInsets.only(right: 10.w),

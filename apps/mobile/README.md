@@ -12,7 +12,7 @@ apps/mobile/lib/
 │   ├── data/          ← Repository impls, DTO'lar, remote datasource'lar
 │   ├── di/            ← GetIt modülleri (NetworkModule, AuthModule, NavigationModule)
 │   ├── domain/        ← Entity'ler, repository interface'leri, use case'ler
-│   └── managers/      ← AppCoordinator, AppRouter, DeepLinkManager
+│   └── managers/      ← AppNavigator, AppRouter, DeepLinkManager
 ├── features/
 │   ├── login/
 │   ├── register/
@@ -87,10 +87,10 @@ features/<name>/
 │   └── <name>_state.dart         # extends BaseState, copyWith
 ├── view/
 │   └── <name>_screen.dart        # UI katmanı
-└── <name>_coordinator.dart       # GoRoute + show() metodu
+└── <name>_navigator.dart       # GoRoute + show() metodu
 ```
 
-`<name>_coordinator.dart` dosyası `AppCoordinator`'a route'u kaydeder. Tüm navigation bu koordinatörler üzerinden akar.
+`<name>_navigator.dart` dosyası `AppNavigator`'a route'u kaydeder. Tüm navigation bu koordinatörler üzerinden akar.
 
 ---
 

@@ -66,8 +66,8 @@ apps/mobile/lib/
 │   ├── localization/       # slang_flutter i18n files
 │   ├── managers/
 │   │   ├── device_info_manager/
-│   │   └── navigation_manager/ # AppCoordinator, GoRouter, auth guard
-│   └── splash/             # SplashScreen, SplashCoordinator
+│   │   └── navigation_manager/ # AppNavigator, GoRouter, auth guard
+│   └── splash/             # SplashScreen, SplashNavigator
 └── features/
     ├── login/
     ├── register/
@@ -179,7 +179,7 @@ SplashScreen (shown)
             ├── setupNotifications()
             └── JailbreakDetector.isDeviceCompromised()
                     ├── compromised → JailbreakBlockApp
-                    └── safe       → AppCoordinator route
+                    └── safe       → AppNavigator route
 ```
 
 ---
@@ -194,7 +194,7 @@ Module registration order is **mandatory**:
 1. setupNetworkModule   → FlutterSecureStorage, TokenStore, ApiManager
 2. setupAuthModule      → AuthRemoteDataSource, AuthRepository, AuthManager, AuthBloc
                           (requires ApiManager and TokenStore)
-3. setupNavigationModule → GoRouter, AppCoordinator
+3. setupNavigationModule → GoRouter, AppNavigator
                            (requires AuthBloc)
 ```
 
@@ -282,7 +282,7 @@ All methods return `Result<T, ApiError>`:
 ```dart
 final result = await auth.login(email, password);
 result.when(
-  ok: (_) => HomeCoordinator.show(context),
+  ok: (_) => HomeNavigator.show(context),
   err: (e) => showSnackbar(e.message),
 );
 ```
@@ -419,13 +419,13 @@ Without a key, `_default_ProfileCubit` is used — assumes a single instance of 
 
 ---
 
-## Navigation — Coordinator Pattern
+## Navigation — Navigator Pattern
 
-GoRouter is used. Every feature owns a coordinator file that is the single source of truth for its route path.
+GoRouter is used. Every feature owns a navigator file that is the single source of truth for its route path.
 
 ```dart
-// feature_coordinator.dart
-class DashboardCoordinator {
+// feature_navigator.dart
+class DashboardNavigator {
   static const path = '/dashboard';
 
   static GoRoute route() => GoRoute(
@@ -437,15 +437,15 @@ class DashboardCoordinator {
 }
 ```
 
-All coordinators are registered with `AppCoordinator`, which assembles the `GoRouter` and manages the auth redirect guard.
+All navigators are registered with `AppNavigator`, which assembles the `GoRouter` and manages the auth redirect guard.
 
-**Rule: never call `context.go('/some-path')` directly. Always use the coordinator:**
+**Rule: never call `context.go('/some-path')` directly. Always use the navigator:**
 
 ```dart
 // Correct
-DashboardCoordinator.show(context);
+DashboardNavigator.show(context);
 
-// Wrong — path strings must live only in the coordinator
+// Wrong — path strings must live only in the navigator
 context.go('/dashboard');
 ```
 
@@ -577,7 +577,7 @@ Update the `com.base.project/security` channel ID with your own bundle ID on the
 dart run scripts/gen_feature.dart
 ```
 
-The interactive script prompts for a feature name, asks whether it needs pagination, and generates all files (bloc, event, state, screen, coordinator, use case stubs, repository interface + impl).
+The interactive script prompts for a feature name, asks whether it needs pagination, and generates all files (bloc, event, state, screen, navigator, use case stubs, repository interface + impl).
 
 ### 2. Folder structure (generated)
 
@@ -596,7 +596,7 @@ apps/mobile/lib/features/my_feature/
 │   ├── repositories/
 │   └── usecases/
 └── view/
-    ├── my_feature_coordinator.dart
+    ├── my_feature_navigator.dart
     └── my_feature_screen.dart
 ```
 
@@ -612,14 +612,14 @@ getIt.registerLazySingleton<MyRepository>(
 ### 4. Register the route
 
 ```dart
-// In AppCoordinator (or equivalent router file)
-MyFeatureCoordinator.route(),
+// In AppNavigator (or equivalent router file)
+MyFeatureNavigator.route(),
 ```
 
-Navigation is always done through the coordinator:
+Navigation is always done through the navigator:
 
 ```dart
-MyFeatureCoordinator.show(context);
+MyFeatureNavigator.show(context);
 ```
 
 ---

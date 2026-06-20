@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'view/movies_screen.dart';
 
-final class MoviesCoordinator {
+final class MoviesNavigator {
   static const String path = '/movies';
 
   static GoRoute get route => GoRoute(

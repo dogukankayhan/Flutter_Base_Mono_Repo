@@ -29,22 +29,22 @@ apps/mobile             (5 paketin hepsine bağımlı)
 
 ---
 
-## Kritik Pattern 1: Coordinator
+## Kritik Pattern 1: Navigator
 
-Her feature, `<feature>_coordinator.dart` dosyasına sahiptir. Bu dosya:
+Her feature, `<feature>_navigator.dart` dosyasına sahiptir. Bu dosya:
 - `GoRoute` tanımını içerir
 - `show()` static metoduyla navigation API'si sunar
-- `AppCoordinator.instance`'a kaydedilir
+- `AppNavigator.instance`'a kaydedilir
 
 ```dart
 // Kullanım — feature'ı açmak için:
-DashboardCoordinator.show(context);
+DashboardNavigator.show(context);
 
 // Asla doğrudan context.go('/dashboard') çağırma —
-// path string'i tek bir yerde (coordinator'da) yaşamalı.
+// path string'i tek bir yerde (navigator'da) yaşamalı.
 ```
 
-`AppCoordinator` (singleton): tüm coordinator'ları toplar ve GoRouter'a route listesini verir. `redirect()` metodu auth guard'ı yönetir.
+`AppNavigator` (singleton): tüm navigator'ları toplar ve GoRouter'a route listesini verir. `redirect()` metodu auth guard'ı yönetir.
 
 ---
 
@@ -231,7 +231,7 @@ dart run build_runner build --delete-conflicting-outputs
 | Event | `feature_event.dart` |
 | State | `feature_state.dart` |
 | Screen | `feature_screen.dart` |
-| Coordinator | `feature_coordinator.dart` |
+| Navigator | `feature_navigator.dart` |
 | Test | `feature_bloc_test.dart` |
 | Mocks | `feature_bloc_test.mocks.dart` (auto-generated) |
 
@@ -253,7 +253,7 @@ melos format:check    # Format kontrolü (CI'da kullanılır, dosya değiştirme
 
 | Yasak | Neden |
 |-------|-------|
-| `context.go('/dashboard')` doğrudan çağırma | Path string'i dağılır — `DashboardCoordinator.show(context)` kullan |
+| `context.go('/dashboard')` doğrudan çağırma | Path string'i dağılır — `DashboardNavigator.show(context)` kullan |
 | Widget içinde `Bloc()` construct etme | `BaseBlocView` lifecycle'ı yönetir — her zaman onu kullan |
 | `ApiManager` veya `AuthManager`'ı `BaseBloc`'a field eklemek | Paket izolasyonunu bozar — use case inject et |
 | Repository impl'e path string hard-code etmek | Test edilemez ve ortama göre değişemez — constructor'a default param ekle |

@@ -91,13 +91,13 @@ apps/mobile/lib/features/<feature_name>/
 │   └── <feature>_state.dart     # extends BaseState, copyWith pattern
 ├── view/
 │   └── <feature>_screen.dart    # extends StatelessWidget, BaseBlocView ile sarılır
-└── <feature>_coordinator.dart   # GoRoute tanımı + show() metodu
+└── <feature>_navigator.dart   # GoRoute tanımı + show() metodu
 ```
 
 **Adımlar:**
 1. `feat/<feature>` branch açın
 2. Yukarıdaki yapıya göre dosyaları oluşturun
-3. `AppCoordinator`'a yeni coordinator'ı kaydedin
+3. `AppNavigator`'a yeni navigator'ı kaydedin
 4. Gerekli use case / repository / datasource'u `apps/mobile/lib/core/` altına ekleyin
 5. DI modülüne kayıt ekleyin (gerekiyorsa)
 6. `apps/mobile/test/features/<feature>/` altına test dosyası ekleyin

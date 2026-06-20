@@ -3,9 +3,9 @@ import 'package:flutter_kit_firebase/notification/notification_manager.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/shell/shell_coordinator.dart';
+import '../../features/shell/shell_navigator.dart';
 import '../initialize/initialize.dart';
-import '../managers/navigation_manager/app_coordinator.dart';
+import '../managers/navigation_manager/app_navigator.dart';
 import 'splash_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
 
-    rootKey.currentContext?.go(ShellCoordinator.dashboardPath);
+    rootKey.currentContext?.go(ShellNavigator.dashboardPath);
   }
 
   @override

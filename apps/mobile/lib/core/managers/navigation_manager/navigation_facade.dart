@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'app_coordinator.dart' show rootKey;
+import 'app_navigator.dart' show rootKey;
 
 /// Low-level navigator helpers.
 ///
 /// Used to access root navigator without context or post-frame.
-/// used. For feature coordination use AppCoordinator.instance.
+/// used. For feature coordination use AppNavigator.instance.
 final class Nav {
   Nav._();
 
