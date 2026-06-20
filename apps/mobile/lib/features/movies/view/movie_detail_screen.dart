@@ -20,18 +20,65 @@ import '../movie_detail_navigator.dart';
 /// activeKey = movie.id — multiple MovieDetailCubit instances
 /// MovieDetailCubit instance is registered uniquely.
 /// Externally accessible via `getActive<MovieDetailCubit>(key: id)`.
-class MovieDetailScreen extends StatelessWidget {
+class MovieDetailScreen extends StatefulWidget {
   const MovieDetailScreen({super.key, required this.movie});
   final Movie movie;
+
+  @override
+  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
+}
+
+class _MovieDetailScreenState extends State<MovieDetailScreen> {
+  bool _isTransitionComplete = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final route = ModalRoute.of(context);
+      if (route != null && route.animation != null) {
+        if (route.animation!.isCompleted) {
+          setState(() {
+            _isTransitionComplete = true;
+          });
+        } else {
+          route.animation!.addStatusListener(_onAnimationStatusChanged);
+        }
+      } else {
+        setState(() {
+          _isTransitionComplete = true;
+        });
+      }
+    });
+  }
+
+  void _onAnimationStatusChanged(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      final route = ModalRoute.of(context);
+      route?.animation?.removeStatusListener(_onAnimationStatusChanged);
+      if (mounted) {
+        setState(() {
+          _isTransitionComplete = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    final route = ModalRoute.of(context);
+    route?.animation?.removeStatusListener(_onAnimationStatusChanged);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FavoritesCubit>.value(
       value: getIt<FavoritesCubit>(),
       child: BaseBlocView<MovieDetailCubit, MovieDetailState>(
-        activeKey: movie.id.toString(),
+        activeKey: widget.movie.id.toString(),
         create: () => MovieDetailCubit(
-          movie: movie,
+          movie: widget.movie,
           favoritesCubit: getIt<FavoritesCubit>(),
         ),
         builder: (context, state, cubit) => Scaffold(
@@ -39,19 +86,26 @@ class MovieDetailScreen extends StatelessWidget {
           body: CustomScrollView(
             slivers: [
               _DetailAppBar(
-                movie: movie,
+                movie: widget.movie,
                 isFavorite: state.isFavorite,
                 onToggleFavorite: cubit.toggleFavorite,
               ),
               SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _InfoSection(movie: movie),
-                    _FavoritesSection(currentMovieId: movie.id),
-                    SizedBox(height: 32.h),
-                  ],
-                ),
+                child: _isTransitionComplete
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _InfoSection(movie: widget.movie),
+                          _FavoritesSection(currentMovieId: widget.movie.id),
+                          SizedBox(height: 32.h),
+                        ],
+                      )
+                    : SizedBox(
+                        height: 200.h,
+                        child: const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        ),
+                      ),
               ),
             ],
           ),
@@ -106,6 +160,7 @@ class _DetailAppBar extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: movie.posterUrl!,
                   fit: BoxFit.fill,
+                  memCacheWidth: 600,
                   placeholder: (_, _) => _posterPlaceholder(),
                   errorWidget: (_, _, _) => _posterPlaceholder(),
                 ),
@@ -266,12 +321,14 @@ class _FavoritePosterCard extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
+                clipBehavior: Clip.hardEdge,
                 borderRadius: BorderRadius.circular(8.r),
                 child: movie.posterUrl != null
                     ? CachedNetworkImage(
                         imageUrl: movie.posterUrl!,
                         width: 90.w,
                         fit: BoxFit.cover,
+                        memCacheWidth: 150,
                         placeholder: (_, _) => _placeholder(),
                         errorWidget: (_, _, _) => _placeholder(),
                       )

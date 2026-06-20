@@ -126,6 +126,7 @@ class _MovieCard extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   ClipRRect(
+                    clipBehavior: Clip.hardEdge,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(12.r),
                     ),
@@ -135,6 +136,7 @@ class _MovieCard extends StatelessWidget {
                             child: CachedNetworkImage(
                               imageUrl: movie.posterUrl!,
                               fit: BoxFit.cover,
+                              memCacheWidth: 250,
                               placeholder: (_, _) => _posterPlaceholder(),
                               errorWidget: (_, _, _) => _posterPlaceholder(),
                             ),
