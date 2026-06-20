@@ -27,13 +27,13 @@ jobs:
         run: melos bootstrap
 
       - name: Check formatting
-        run: melos format:check
+        run: melos run format:check
 
       - name: Analyze all packages
-        run: melos analyze
+        run: melos run analyze
 
       - name: Run all tests
-        run: melos test
+        run: melos run test
 
       - name: Generate combined coverage
         run: chmod +x scripts/coverage.sh && ./scripts/coverage.sh
