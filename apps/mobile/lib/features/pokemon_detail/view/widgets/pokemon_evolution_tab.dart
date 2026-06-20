@@ -124,7 +124,7 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
         final newPath = currentPath.contains('appointments')
             ? '/appointments/pokemon/${node.speciesId}'
             : '/pokemon/pokemon/${node.speciesId}';
-        context.pushReplacement(newPath);
+        context.push(newPath);
       },
       child: Column(
         children: [
