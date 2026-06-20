@@ -78,7 +78,9 @@ void main() {
       when(
         mockDs.listPokemon(limit: 20, offset: 0),
       ).thenAnswer((_) async => List.filled(20, _kBrief));
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+      ).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -99,7 +101,9 @@ void main() {
         when(
           mockDs.listPokemon(limit: 20, offset: 0),
         ).thenAnswer((_) async => [_kBrief]);
-        when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+        when(
+          mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+        ).thenAnswer((_) async => _kPokemon);
 
         final result = await repo.pageWithSize(20, 0);
 
@@ -171,7 +175,9 @@ void main() {
       when(
         mockDs.listPokemon(limit: 20, offset: 0),
       ).thenAnswer((_) async => [_kBrief]);
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+      ).thenAnswer((_) async => _kPokemon);
 
       await repo.page(0);
 
@@ -185,7 +191,9 @@ void main() {
     test('returns first slice with hasMore=true when more exist', () async {
       final briefs = List.filled(3, _kBrief);
       when(mockDs.filterByType('grass')).thenAnswer((_) async => briefs);
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+      ).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageByType('grass', 2, 0);
 
@@ -204,7 +212,9 @@ void main() {
       when(
         mockDs.filterByType('grass'),
       ).thenAnswer((_) async => [_kBrief, _kBrief]);
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+      ).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageByType('grass', 5, 0);
 
@@ -231,7 +241,9 @@ void main() {
   group('pageSearch', () {
     test('returns matching results with correct pagination', () async {
       when(mockDs.searchPokemon('bulb')).thenAnswer((_) async => [_kBrief]);
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
+      ).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageSearch('bulb', 20, 0);
 

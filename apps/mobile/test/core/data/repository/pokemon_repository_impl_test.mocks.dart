@@ -74,21 +74,49 @@ class MockPokemonRemoteDataSource extends _i1.Mock
           as _i6.Future<List<_i7.PokemonBrief>>);
 
   @override
-  _i6.Future<_i2.Pokemon> getDetailByName(String? name) =>
+  _i6.Future<_i2.Pokemon> getDetailByName(
+    String? name, {
+    bool? includeMoves = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getDetailByName, [name]),
+            Invocation.method(
+              #getDetailByName,
+              [name],
+              {#includeMoves: includeMoves},
+            ),
             returnValue: _i6.Future<_i2.Pokemon>.value(
-              _FakePokemon_0(this, Invocation.method(#getDetailByName, [name])),
+              _FakePokemon_0(
+                this,
+                Invocation.method(
+                  #getDetailByName,
+                  [name],
+                  {#includeMoves: includeMoves},
+                ),
+              ),
             ),
           )
           as _i6.Future<_i2.Pokemon>);
 
   @override
-  _i6.Future<_i2.Pokemon> getDetailByUrl(String? url) =>
+  _i6.Future<_i2.Pokemon> getDetailByUrl(
+    String? url, {
+    bool? includeMoves = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getDetailByUrl, [url]),
+            Invocation.method(
+              #getDetailByUrl,
+              [url],
+              {#includeMoves: includeMoves},
+            ),
             returnValue: _i6.Future<_i2.Pokemon>.value(
-              _FakePokemon_0(this, Invocation.method(#getDetailByUrl, [url])),
+              _FakePokemon_0(
+                this,
+                Invocation.method(
+                  #getDetailByUrl,
+                  [url],
+                  {#includeMoves: includeMoves},
+                ),
+              ),
             ),
           )
           as _i6.Future<_i2.Pokemon>);

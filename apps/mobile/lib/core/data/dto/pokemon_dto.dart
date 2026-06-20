@@ -1,9 +1,9 @@
 import '../../domain/entity/pokemon_entity.dart';
-import 'pokemon_type_dto.dart';
 import 'pokemon_ability_dto.dart';
-import 'pokemon_stats_dto.dart';
-import 'pokemon_sprites_dto.dart';
 import 'pokemon_move_dto.dart';
+import 'pokemon_sprites_dto.dart';
+import 'pokemon_stats_dto.dart';
+import 'pokemon_type_dto.dart';
 
 class PokemonDto {
   final int id;
@@ -34,7 +34,10 @@ class PokemonDto {
     required this.speciesUrl,
   });
 
-  factory PokemonDto.fromJson(Map<String, dynamic> json) {
+  factory PokemonDto.fromJson(
+    Map<String, dynamic> json, {
+    bool includeMoves = true,
+  }) {
     final statsData = json['stats'] as List<dynamic>?;
     final stats = statsData != null
         ? PokemonStatsDto.fromStatsList(statsData)
@@ -67,11 +70,14 @@ class PokemonDto {
       ),
       speciesName: species['name'] as String,
       speciesUrl: species['url'] as String,
-      moves:
-          (json['moves'] as List<dynamic>?)
-              ?.map((e) => PokemonMoveDto.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+      moves: includeMoves
+          ? (json['moves'] as List<dynamic>?)
+                    ?.map(
+                      (e) => PokemonMoveDto.fromJson(e as Map<String, dynamic>),
+                    )
+                    .toList() ??
+                []
+          : [],
     );
   }
 

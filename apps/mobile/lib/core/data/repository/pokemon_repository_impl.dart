@@ -129,7 +129,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
     for (var i = 0; i < briefs.length; i += concurrency) {
       final batch = briefs.skip(i).take(concurrency).toList();
       final batchDetails = await Future.wait(
-        batch.map((b) => _datasource.getDetailByUrl(b.url)),
+        batch.map(
+          (b) => _datasource.getDetailByUrl(b.url, includeMoves: false),
+        ),
         eagerError: true,
       );
       results.addAll(batchDetails);
