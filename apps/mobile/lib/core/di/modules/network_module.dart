@@ -27,7 +27,9 @@ Future<void> setupNetworkModule(
   await network_di.setupNetworking(
     config: config,
     tokenProvider: () => getIt<TokenStore>().readAccess(),
-    refreshTokenProvider: isDev ? null : () => getIt<TokenStore>().readRefresh(),
+    refreshTokenProvider: isDev
+        ? null
+        : () => getIt<TokenStore>().readRefresh(),
     refreshTokenFunction: isDev
         ? null
         : (_) async {

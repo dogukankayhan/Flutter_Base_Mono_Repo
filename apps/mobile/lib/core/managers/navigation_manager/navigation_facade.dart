@@ -20,7 +20,11 @@ final class Nav {
     });
   }
 
-  static void pushPostFrame(BuildContext context, String path, {Object? extra}) {
+  static void pushPostFrame(
+    BuildContext context,
+    String path, {
+    Object? extra,
+  }) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) context.push(path, extra: extra);
     });

@@ -45,10 +45,14 @@ void main() {
 
   group('MoviesStarted', () {
     test('loads popular movies successfully', () async {
-      when(mockUseCase(offset: 0, pageSize: 20)).thenAnswer((_) async => ([tMovie], true, 20));
+      when(
+        mockUseCase(offset: 0, pageSize: 20),
+      ).thenAnswer((_) async => ([tMovie], true, 20));
 
       final loadingStates = <bool>[];
-      final subscription = bloc.stream.listen((s) => loadingStates.add(s.isLoading));
+      final subscription = bloc.stream.listen(
+        (s) => loadingStates.add(s.isLoading),
+      );
 
       bloc.add(const MoviesStarted());
       await Future.delayed(const Duration(milliseconds: 50));
@@ -62,7 +66,9 @@ void main() {
     });
 
     test('emits error state when loading popular movies fails', () async {
-      when(mockUseCase(offset: 0, pageSize: 20)).thenThrow(Exception('Server error'));
+      when(
+        mockUseCase(offset: 0, pageSize: 20),
+      ).thenThrow(Exception('Server error'));
 
       bloc.add(const MoviesStarted());
       await Future.delayed(const Duration(milliseconds: 50));

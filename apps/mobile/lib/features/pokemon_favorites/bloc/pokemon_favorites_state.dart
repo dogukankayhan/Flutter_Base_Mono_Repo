@@ -29,10 +29,5 @@ class PokemonFavoritesState extends BaseState {
   static const empty = PokemonFavoritesState();
 
   @override
-  List<Object?> get props => [
-        isLoading,
-        isValid,
-        errorMessage,
-        favorites,
-      ];
+  List<Object?> get props => [isLoading, isValid, errorMessage, favorites];
 }

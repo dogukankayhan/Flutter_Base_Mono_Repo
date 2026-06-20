@@ -79,11 +79,11 @@ class OfflineQueue {
   }
 
   void _listenToConnectivity() {
-    _connectivitySubscription = networkInfo.onConnectivityChanged.listen(
-      (isConnected) {
-        if (isConnected) processQueue();
-      },
-    );
+    _connectivitySubscription = networkInfo.onConnectivityChanged.listen((
+      isConnected,
+    ) {
+      if (isConnected) processQueue();
+    });
   }
 
   Future<void> _loadQueue() async {
@@ -119,13 +119,13 @@ class OfflineQueue {
   bool get isEmpty => _queue.isEmpty;
 
   OfflineQueueStatus get status => OfflineQueueStatus(
-        queueSize: _queue.length,
-        oldestRequest: _queue.isEmpty
-            ? null
-            : _queue
-                .reduce((a, b) => a.timestamp.isBefore(b.timestamp) ? a : b)
-                .timestamp,
-      );
+    queueSize: _queue.length,
+    oldestRequest: _queue.isEmpty
+        ? null
+        : _queue
+              .reduce((a, b) => a.timestamp.isBefore(b.timestamp) ? a : b)
+              .timestamp,
+  );
 }
 
 /// Queued request model
@@ -153,34 +153,31 @@ class QueuedRequest {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'method': method,
-        'url': url,
-        'body': body,
-        'headers': headers,
-        'timestamp': timestamp.toIso8601String(),
-        'retryCount': retryCount,
-      };
+    'id': id,
+    'method': method,
+    'url': url,
+    'body': body,
+    'headers': headers,
+    'timestamp': timestamp.toIso8601String(),
+    'retryCount': retryCount,
+  };
 
   factory QueuedRequest.fromJson(Map<String, dynamic> json) => QueuedRequest(
-        id: json['id'] as String,
-        method: json['method'] as String,
-        url: json['url'] as String,
-        body: json['body'] as Map<String, dynamic>?,
-        headers: json['headers'] as Map<String, dynamic>?,
-        timestamp: DateTime.parse(json['timestamp'] as String),
-        retryCount: json['retryCount'] as int? ?? 0,
-      );
+    id: json['id'] as String,
+    method: json['method'] as String,
+    url: json['url'] as String,
+    body: json['body'] as Map<String, dynamic>?,
+    headers: json['headers'] as Map<String, dynamic>?,
+    timestamp: DateTime.parse(json['timestamp'] as String),
+    retryCount: json['retryCount'] as int? ?? 0,
+  );
 }
 
 class OfflineQueueStatus {
   final int queueSize;
   final DateTime? oldestRequest;
 
-  OfflineQueueStatus({
-    required this.queueSize,
-    this.oldestRequest,
-  });
+  OfflineQueueStatus({required this.queueSize, this.oldestRequest});
 
   @override
   String toString() =>

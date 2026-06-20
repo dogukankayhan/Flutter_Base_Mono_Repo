@@ -18,7 +18,8 @@ class PokemonSpecies {
     required this.genderRate,
     required this.evolutionChainUrl,
   });
-  double get malePercentage => genderRate == -1 ? 0 : (100 - (genderRate / 8 * 100));
+  double get malePercentage =>
+      genderRate == -1 ? 0 : (100 - (genderRate / 8 * 100));
   double get femalePercentage => genderRate == -1 ? 0 : (genderRate / 8 * 100);
   bool get isGenderless => genderRate == -1;
 }

@@ -11,8 +11,14 @@ void main() {
     test('empty string fails', () => expect(v.validate(''), isNotNull));
     test('whitespace-only fails', () => expect(v.validate('   '), isNotNull));
     test('valid string passes', () => expect(v.validate('hello'), isNull));
-    test('isValid returns false for null', () => expect(v.isValid(null), false));
-    test('isValid returns true for valid', () => expect(v.isValid('hello'), true));
+    test(
+      'isValid returns false for null',
+      () => expect(v.isValid(null), false),
+    );
+    test(
+      'isValid returns true for valid',
+      () => expect(v.isValid('hello'), true),
+    );
   });
 
   group('EmailValidator', () {
@@ -26,7 +32,11 @@ void main() {
 
     test('invalid emails fail', () {
       for (final email in ['notanemail', '@nodomain', 'no@']) {
-        expect(v.validate(email), isNotNull, reason: '$email should be invalid');
+        expect(
+          v.validate(email),
+          isNotNull,
+          reason: '$email should be invalid',
+        );
       }
     });
   });
@@ -54,7 +64,10 @@ void main() {
 
     test('no uppercase fails', () => expect(v.validate('alllower'), isNotNull));
     test('has uppercase passes', () => expect(v.validate('hasUpper'), isNull));
-    test('custom message returned', () => expect(v.validate('lower'), equals('Needs uppercase')));
+    test(
+      'custom message returned',
+      () => expect(v.validate('lower'), equals('Needs uppercase')),
+    );
   });
 
   group('EqualsValidator', () {
@@ -63,17 +76,28 @@ void main() {
       Validators.equals(() => expected, message: 'Must match'),
     ]);
 
-    test('non-matching value fails', () => expect(v.validate('other'), isNotNull));
+    test(
+      'non-matching value fails',
+      () => expect(v.validate('other'), isNotNull),
+    );
     test('matching value passes', () => expect(v.validate('secret'), isNull));
-    test('custom message returned', () => expect(v.validate('wrong'), equals('Must match')));
+    test(
+      'custom message returned',
+      () => expect(v.validate('wrong'), equals('Must match')),
+    );
   });
 
   group('CustomValidator', () {
     final v = FieldValidator<String>([
-      Validators.custom((value) => value == 'forbidden' ? 'Forbidden value' : null),
+      Validators.custom(
+        (value) => value == 'forbidden' ? 'Forbidden value' : null,
+      ),
     ]);
 
-    test('forbidden value fails with message', () => expect(v.validate('forbidden'), equals('Forbidden value')));
+    test(
+      'forbidden value fails with message',
+      () => expect(v.validate('forbidden'), equals('Forbidden value')),
+    );
     test('allowed value passes', () => expect(v.validate('ok'), isNull));
   });
 
@@ -85,10 +109,19 @@ void main() {
     ]);
 
     test('null fails required', () => expect(v.validate(null), isNotNull));
-    test('non-email fails email', () => expect(v.validate('notanemail'), isNotNull));
-    test('valid short email passes all', () => expect(v.validate('user@example.com'), isNull));
+    test(
+      'non-email fails email',
+      () => expect(v.validate('notanemail'), isNotNull),
+    );
+    test(
+      'valid short email passes all',
+      () => expect(v.validate('user@example.com'), isNull),
+    );
     test('valid but too-long email fails maxLength', () {
-      expect(v.validate('averylongemailaddressthatexceedsfiftychars@example.com'), isNotNull);
+      expect(
+        v.validate('averylongemailaddressthatexceedsfiftychars@example.com'),
+        isNotNull,
+      );
     });
   });
 
@@ -116,17 +149,32 @@ void main() {
     final base = FieldValidator<String>([Validators.required()]);
     final extended = base.and([Validators.email()]);
 
-    test('null fails required in base', () => expect(extended.validate(null), isNotNull));
-    test('non-email fails email added via and', () => expect(extended.validate('notanemail'), isNotNull));
-    test('valid email passes both', () => expect(extended.validate('a@b.com'), isNull));
+    test(
+      'null fails required in base',
+      () => expect(extended.validate(null), isNotNull),
+    );
+    test(
+      'non-email fails email added via and',
+      () => expect(extended.validate('notanemail'), isNotNull),
+    );
+    test(
+      'valid email passes both',
+      () => expect(extended.validate('a@b.com'), isNull),
+    );
   });
 
   group('FormValidator', () {
     String email = '';
     String password = '';
 
-    final emailValidator = FieldValidator<String>([Validators.required(), Validators.email()]);
-    final passwordValidator = FieldValidator<String>([Validators.required(), Validators.minLength(8)]);
+    final emailValidator = FieldValidator<String>([
+      Validators.required(),
+      Validators.email(),
+    ]);
+    final passwordValidator = FieldValidator<String>([
+      Validators.required(),
+      Validators.minLength(8),
+    ]);
 
     FormValidator form() => FormValidator({
       'email': () => emailValidator.validate(email),

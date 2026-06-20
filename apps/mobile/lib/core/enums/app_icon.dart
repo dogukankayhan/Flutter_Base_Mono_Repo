@@ -90,9 +90,7 @@ enum SvgIcon {
 /// Usage:
 ///   PngAsset.appIcon()
 ///   PngAsset.appIcon(width: 80, fit: BoxFit.contain)
-enum PngAsset {
-  appIcon,
-}
+enum PngAsset { appIcon }
 
 // ─── Camel → kebab-case helper ──────────────────────────────────────
 String _toKebab(String name) => name
@@ -115,8 +113,9 @@ extension SvgIconX on SvgIcon {
       width: width ?? 24.w,
       height: height ?? 24.w,
       fit: fit,
-      colorFilter:
-          color != null ? ColorFilter.mode(color, BlendMode.srcATop) : null,
+      colorFilter: color != null
+          ? ColorFilter.mode(color, BlendMode.srcATop)
+          : null,
     );
   }
 }

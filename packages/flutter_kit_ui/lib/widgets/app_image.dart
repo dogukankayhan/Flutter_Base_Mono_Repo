@@ -54,7 +54,7 @@ class AppImage extends StatelessWidget {
 
   /// Custom error builder. Overrides default error widget.
   final Widget Function(BuildContext context, String url, Object error)?
-      errorBuilder;
+  errorBuilder;
 
   /// Optional color filter applied over the image (e.g. tint).
   final Color? colorFilter;
@@ -98,12 +98,12 @@ class AppImage extends StatelessWidget {
     this.errorBuilder,
     this.colorFilter,
     this.colorBlendMode = BlendMode.srcATop,
-  })  : fit = BoxFit.cover,
-        width = size,
-        height = size,
-        borderRadius = null,
-        shape = BoxShape.circle,
-        overlayGradient = null;
+  }) : fit = BoxFit.cover,
+       width = size,
+       height = size,
+       borderRadius = null,
+       shape = BoxShape.circle,
+       overlayGradient = null;
 
   /// Rounded rectangle thumbnail.
   AppImage.rounded({
@@ -123,12 +123,14 @@ class AppImage extends StatelessWidget {
     this.errorBuilder,
     this.colorFilter,
     this.colorBlendMode = BlendMode.srcATop,
-  })  : borderRadius = BorderRadius.all(Radius.circular(radius)),
-        shape = BoxShape.rectangle;
+  }) : borderRadius = BorderRadius.all(Radius.circular(radius)),
+       shape = BoxShape.rectangle;
 
   @override
   Widget build(BuildContext context) {
-    final bg = backgroundColor ?? Theme.of(context).colorScheme.surfaceContainerHighest;
+    final bg =
+        backgroundColor ??
+        Theme.of(context).colorScheme.surfaceContainerHighest;
 
     Widget content;
 
@@ -260,8 +262,9 @@ class _ShimmerBlockState extends State<_ShimmerBlock>
   @override
   Widget build(BuildContext context) {
     final baseColor = Theme.of(context).colorScheme.surfaceContainerHighest;
-    final highlightColor =
-        Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4);
+    final highlightColor = Theme.of(
+      context,
+    ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4);
 
     return AnimatedBuilder(
       animation: _animation,

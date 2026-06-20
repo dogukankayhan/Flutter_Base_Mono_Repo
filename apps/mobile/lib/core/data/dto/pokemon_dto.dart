@@ -62,10 +62,13 @@ class PokemonDto {
           .map((e) => PokemonAbilityDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       stats: stats,
-      sprites: PokemonSpritesDto.fromJson(json['sprites'] as Map<String, dynamic>),
+      sprites: PokemonSpritesDto.fromJson(
+        json['sprites'] as Map<String, dynamic>,
+      ),
       speciesName: species['name'] as String,
       speciesUrl: species['url'] as String,
-      moves: (json['moves'] as List<dynamic>?)
+      moves:
+          (json['moves'] as List<dynamic>?)
               ?.map((e) => PokemonMoveDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

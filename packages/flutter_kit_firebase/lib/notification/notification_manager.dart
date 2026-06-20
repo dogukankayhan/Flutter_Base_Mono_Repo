@@ -61,7 +61,8 @@ class NotificationManager {
     if (Platform.isAndroid) {
       await _plugin
           .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin
+          >()
           ?.requestNotificationsPermission();
     }
   }
@@ -104,8 +105,10 @@ class NotificationManager {
   }
 
   Future<void> _setupChannels() async {
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (android == null) return;
 
     for (final channel in AppNotificationChannel.values) {
@@ -259,19 +262,19 @@ class NotificationManager {
   }
 
   List<AndroidNotificationAction> _androidApprovalActions() => [
-        const AndroidNotificationAction(
-          NotificationActionId.approve,
-          'Onayla',
-          showsUserInterface: false,
-          cancelNotification: true,
-        ),
-        const AndroidNotificationAction(
-          NotificationActionId.reject,
-          'Reddet',
-          showsUserInterface: false,
-          cancelNotification: true,
-        ),
-      ];
+    const AndroidNotificationAction(
+      NotificationActionId.approve,
+      'Onayla',
+      showsUserInterface: false,
+      cancelNotification: true,
+    ),
+    const AndroidNotificationAction(
+      NotificationActionId.reject,
+      'Reddet',
+      showsUserInterface: false,
+      cancelNotification: true,
+    ),
+  ];
 
   Future<Uint8List> _downloadImage(String url) async {
     final response = await http.get(Uri.parse(url));
@@ -288,7 +291,9 @@ class NotificationManager {
     // Action button pressed (Approve / Reject)
     if (actionId != null && rawPayload != null) {
       final isApproved = actionId == NotificationActionId.approve;
-      debugPrint('[Notification] Foreground ${isApproved ? "APPROVE" : "REJECT"}: $rawPayload');
+      debugPrint(
+        '[Notification] Foreground ${isApproved ? "APPROVE" : "REJECT"}: $rawPayload',
+      );
       onApprovalAction?.call(rawPayload, isApproved);
       return;
     }

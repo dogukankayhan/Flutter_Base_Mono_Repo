@@ -13,7 +13,8 @@ import 'base_state.dart';
 /// - GetIt ile bloc/cubit'leri publish/unpublish eder
 /// - Hem BaseBloc hem BaseCubit destekler
 ///
-final class BaseBlocView<C extends LifecycleBloc, S extends BaseState> extends StatefulWidget {
+final class BaseBlocView<C extends LifecycleBloc, S extends BaseState>
+    extends StatefulWidget {
   /// Builder that draws screen content
   /// [bloc] parameter added - now you can access the bloc directly inside builder
   final Widget Function(BuildContext context, S state, C bloc) builder;
@@ -53,7 +54,8 @@ final class BaseBlocView<C extends LifecycleBloc, S extends BaseState> extends S
   State<BaseBlocView<C, S>> createState() => _BaseBlocViewState<C, S>();
 }
 
-final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState> extends State<BaseBlocView<C, S>>
+final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState>
+    extends State<BaseBlocView<C, S>>
     with WidgetsBindingObserver {
   late final C bloc;
 
@@ -119,7 +121,9 @@ final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState> ext
                 widget.loadingOverlay ??
                     ColoredBox(
                       color: Colors.black26,
-                      child: Center(child: CircularProgressIndicator.adaptive()),
+                      child: Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
                     ),
             ],
           );

@@ -17,13 +17,12 @@ class MovieDetailState extends BaseState {
     bool? isFavorite,
     bool? isLoading,
     String? errorMessage,
-  }) =>
-      MovieDetailState(
-        movie: movie,
-        isFavorite: isFavorite ?? this.isFavorite,
-        isLoading: isLoading ?? this.isLoading,
-        errorMessage: errorMessage ?? this.errorMessage,
-      );
+  }) => MovieDetailState(
+    movie: movie,
+    isFavorite: isFavorite ?? this.isFavorite,
+    isLoading: isLoading ?? this.isLoading,
+    errorMessage: errorMessage ?? this.errorMessage,
+  );
 
   @override
   List<Object?> get props => [...super.props, movie.id, isFavorite];

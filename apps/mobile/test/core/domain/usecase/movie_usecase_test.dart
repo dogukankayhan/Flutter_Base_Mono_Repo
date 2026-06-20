@@ -39,11 +39,11 @@ void main() {
 
   group('GetPopularMoviesUseCase', () {
     test('returns page data on ok', () async {
-      when(mockRepo.getPopularMovies(offset: 0, pageSize: 20))
-          .thenAnswer((_) async => Ok(([_kMovie], true, 20)));
+      when(
+        mockRepo.getPopularMovies(offset: 0, pageSize: 20),
+      ).thenAnswer((_) async => Ok(([_kMovie], true, 20)));
 
-      final (movies, hasMore, offset) =
-          await useCase(offset: 0, pageSize: 20);
+      final (movies, hasMore, offset) = await useCase(offset: 0, pageSize: 20);
 
       expect(movies, [_kMovie]);
       expect(hasMore, true);
@@ -51,8 +51,9 @@ void main() {
     });
 
     test('forwards correct arguments to repository', () async {
-      when(mockRepo.getPopularMovies(offset: 40, pageSize: 10))
-          .thenAnswer((_) async => const Ok(([], false, 40)));
+      when(
+        mockRepo.getPopularMovies(offset: 40, pageSize: 10),
+      ).thenAnswer((_) async => const Ok(([], false, 40)));
 
       await useCase(offset: 40, pageSize: 10);
 
@@ -60,12 +61,18 @@ void main() {
     });
 
     test('throws ApiError on err', () {
-      when(mockRepo.getPopularMovies(offset: anyNamed('offset'), pageSize: anyNamed('pageSize')))
-          .thenAnswer((_) async => Err(_kError));
+      when(
+        mockRepo.getPopularMovies(
+          offset: anyNamed('offset'),
+          pageSize: anyNamed('pageSize'),
+        ),
+      ).thenAnswer((_) async => Err(_kError));
 
       expect(
         () => useCase(offset: 0, pageSize: 20),
-        throwsA(isA<ApiError>().having((e) => e.message, 'message', 'not found')),
+        throwsA(
+          isA<ApiError>().having((e) => e.message, 'message', 'not found'),
+        ),
       );
     });
   });

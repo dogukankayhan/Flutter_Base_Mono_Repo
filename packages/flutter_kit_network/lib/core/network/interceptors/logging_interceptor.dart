@@ -12,7 +12,9 @@ class LoggingInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    _log('[HTTP][REQ] ${options.method} ${options.uri} headers=${options.headers}');
+    _log(
+      '[HTTP][REQ] ${options.method} ${options.uri} headers=${options.headers}',
+    );
     if (options.data != null) {
       _log('[HTTP][REQ][BODY] ${options.data}');
     }
@@ -27,7 +29,9 @@ class LoggingInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    _log('[HTTP][ERR] ${err.type} ${err.message} url=${err.requestOptions.uri}');
+    _log(
+      '[HTTP][ERR] ${err.type} ${err.message} url=${err.requestOptions.uri}',
+    );
     if (err.response?.data != null) {
       _log('[HTTP][ERR][BODY] ${err.response?.data}');
     }

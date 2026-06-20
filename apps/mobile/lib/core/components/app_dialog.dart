@@ -54,7 +54,8 @@ class AppDialog extends StatelessWidget {
                     child: AppButton(
                       label: secondaryLabel!,
                       variant: ButtonVariant.tertiary,
-                      onPressed: onSecondary ?? () => Navigator.of(context).pop(),
+                      onPressed:
+                          onSecondary ?? () => Navigator.of(context).pop(),
                       fullWidth: true,
                     ),
                   ),

@@ -15,16 +15,14 @@ void notificationActionBackgroundHandler(NotificationResponse response) {
   switch (actionId) {
     case NotificationActionId.approve:
       debugPrint('[Notification] Background APPROVE: $approvalId');
-      // TODO: backend'e HTTP POST /approvals/$approvalId/approve
+    // TODO: backend'e HTTP POST /approvals/$approvalId/approve
     case NotificationActionId.reject:
       debugPrint('[Notification] Background REJECT: $approvalId');
-      // TODO: backend'e HTTP POST /approvals/$approvalId/reject
+    // TODO: backend'e HTTP POST /approvals/$approvalId/reject
   }
 }
 
 /// Called when action button is clicked while App is open.
 /// DI and navigator can be used.
-typedef ApprovalCallback = Future<void> Function(
-  String approvalId,
-  bool isApproved,
-);
+typedef ApprovalCallback =
+    Future<void> Function(String approvalId, bool isApproved);

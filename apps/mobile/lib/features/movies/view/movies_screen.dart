@@ -36,7 +36,9 @@ class MoviesScreen extends StatelessWidget {
             ),
             automaticallyImplyLeading: false,
           ),
-          body: RepaintBoundary(child: _Body(state: state, bloc: bloc)),
+          body: RepaintBoundary(
+            child: _Body(state: state, bloc: bloc),
+          ),
         ),
       ),
     );
@@ -125,7 +127,8 @@ class _MovieCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12.r)),
+                      top: Radius.circular(12.r),
+                    ),
                     child: movie.posterUrl != null
                         ? Hero(
                             tag: 'movie-poster-${movie.id}',
@@ -153,9 +156,7 @@ class _MovieCard extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
                             color: isFavorite
                                 ? AppBrandColors.error
                                 : Colors.white,
@@ -183,21 +184,27 @@ class _MovieCard extends StatelessWidget {
                   Row(
                     spacing: 3,
                     children: [
-                      Icon(Icons.star_rounded,
-                          size: 11.w, color: AppBrandColors.gold),
+                      Icon(
+                        Icons.star_rounded,
+                        size: 11.w,
+                        color: AppBrandColors.gold,
+                      ),
                       Text(
                         movie.voteAverage.toStringAsFixed(1),
-                        style: context.textStyle.paragraph12Regular
-                            .copyWith(color: colors.secondaryTextColor),
+                        style: context.textStyle.paragraph12Regular.copyWith(
+                          color: colors.secondaryTextColor,
+                        ),
                       ),
                       if (movie.releaseYear.isNotEmpty) ...[
-                        Text('·',
-                            style: TextStyle(
-                                color: colors.secondaryTextColor)),
+                        Text(
+                          '·',
+                          style: TextStyle(color: colors.secondaryTextColor),
+                        ),
                         Text(
                           movie.releaseYear,
-                          style: context.textStyle.paragraph12Regular
-                              .copyWith(color: colors.secondaryTextColor),
+                          style: context.textStyle.paragraph12Regular.copyWith(
+                            color: colors.secondaryTextColor,
+                          ),
                         ),
                       ],
                     ],
@@ -212,12 +219,15 @@ class _MovieCard extends StatelessWidget {
   }
 
   Widget _posterPlaceholder() => Container(
-        color: AppBrandColors.tertiaryContainer,
-        child: Center(
-          child: Icon(Icons.movie_outlined,
-              size: 32.w, color: AppBrandColors.tertiary),
-        ),
-      );
+    color: AppBrandColors.tertiaryContainer,
+    child: Center(
+      child: Icon(
+        Icons.movie_outlined,
+        size: 32.w,
+        color: AppBrandColors.tertiary,
+      ),
+    ),
+  );
 }
 
 // ─── Error View ──────────────────────────────────────────────────────────────
@@ -235,12 +245,17 @@ class _ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.wifi_off_outlined,
-                size: 48.w, color: Theme.of(context).colorScheme.error),
+            Icon(
+              Icons.wifi_off_outlined,
+              size: 48.w,
+              color: Theme.of(context).colorScheme.error,
+            ),
             SizedBox(height: 12.h),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             SizedBox(height: 16.h),
             ElevatedButton.icon(
               onPressed: onRetry,

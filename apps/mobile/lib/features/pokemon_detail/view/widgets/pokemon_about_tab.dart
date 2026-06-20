@@ -14,7 +14,8 @@ class PokemonAboutTab extends StatefulWidget {
   State<PokemonAboutTab> createState() => _PokemonAboutTabState();
 }
 
-class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAliveClientMixin {
+class _PokemonAboutTabState extends State<PokemonAboutTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -24,13 +25,18 @@ class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAli
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
       slivers: [
-        SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverPadding(
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               if (widget.species != null) ...[
-                Text(widget.species!.description, style: const TextStyle(height: 1.5, fontSize: 16)),
+                Text(
+                  widget.species!.description,
+                  style: const TextStyle(height: 1.5, fontSize: 16),
+                ),
                 const SizedBox(height: 24),
               ],
               _buildInfoSection(context),
@@ -50,19 +56,39 @@ class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAli
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withAlpha(12), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(12),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          _buildRow(t.species, widget.species?.genus ?? context.translations.common.unknown),
-          _buildRow(t.height, '${(widget.pokemon.height / 10).toStringAsFixed(1)} m'),
-          _buildRow(t.weight, '${(widget.pokemon.weight / 10).toStringAsFixed(1)} kg'),
+          _buildRow(
+            t.species,
+            widget.species?.genus ?? context.translations.common.unknown,
+          ),
+          _buildRow(
+            t.height,
+            '${(widget.pokemon.height / 10).toStringAsFixed(1)} m',
+          ),
+          _buildRow(
+            t.weight,
+            '${(widget.pokemon.weight / 10).toStringAsFixed(1)} kg',
+          ),
           _buildRow(
             t.abilities,
-            widget.pokemon.abilities.map((e) => PokemonUtils.capitalize(e.ability.name)).join(', '),
+            widget.pokemon.abilities
+                .map((e) => PokemonUtils.capitalize(e.ability.name))
+                .join(', '),
           ),
           if (widget.species?.habitat != null)
-            _buildRow(t.habitat, PokemonUtils.capitalize(widget.species!.habitat!)),
+            _buildRow(
+              t.habitat,
+              PokemonUtils.capitalize(widget.species!.habitat!),
+            ),
         ],
       ),
     );
@@ -75,11 +101,17 @@ class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAli
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.translations.pokemon.detail.about.breeding,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          context.translations.pokemon.detail.about.breeding,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
-        _buildRow(t.eggGroups,
-            widget.species!.eggGroups.map((e) => PokemonUtils.capitalize(e)).join(', ')),
+        _buildRow(
+          t.eggGroups,
+          widget.species!.eggGroups
+              .map((e) => PokemonUtils.capitalize(e))
+              .join(', '),
+        ),
         if (!widget.species!.isGenderless)
           _buildRow(
             t.gender,
@@ -90,7 +122,9 @@ class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAli
                 Text(' ${widget.species!.malePercentage.toStringAsFixed(1)}%'),
                 const SizedBox(width: 16),
                 const Icon(Icons.female, color: Colors.pink, size: 18),
-                Text(' ${widget.species!.femalePercentage.toStringAsFixed(1)}%'),
+                Text(
+                  ' ${widget.species!.femalePercentage.toStringAsFixed(1)}%',
+                ),
               ],
             ),
           ),
@@ -109,11 +143,19 @@ class _PokemonAboutTabState extends State<PokemonAboutTab> with AutomaticKeepAli
             width: 100,
             child: Text(
               label,
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Expanded(
-            child: customValue ?? Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+            child:
+                customValue ??
+                Text(
+                  value,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
           ),
         ],
       ),

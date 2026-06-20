@@ -85,12 +85,12 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
   static const _scrollThrottleDuration = Duration(milliseconds: 300);
 
   PokemonHomeBloc.create()
-      : this(
-          GetPokemonPageUseCase(getIt<PokemonRepository>()),
-          FilterPokemonByTypeUseCase(getIt<PokemonRepository>()),
-          SearchPokemonUseCase(getIt<PokemonRepository>()),
-          getIt<FavoritesRepository>(),
-        );
+    : this(
+        GetPokemonPageUseCase(getIt<PokemonRepository>()),
+        FilterPokemonByTypeUseCase(getIt<PokemonRepository>()),
+        SearchPokemonUseCase(getIt<PokemonRepository>()),
+        getIt<FavoritesRepository>(),
+      );
 
   PokemonHomeBloc(
     this._getPokemonPageUseCase,
@@ -150,7 +150,14 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
     });
 
     on<PokemonHomeClearFilters>((event, emit) {
-      emit(state.copyWith(searchQuery: null, selectedType: null, clearSearch: true, clearFilter: true));
+      emit(
+        state.copyWith(
+          searchQuery: null,
+          selectedType: null,
+          clearSearch: true,
+          clearFilter: true,
+        ),
+      );
       add(PokemonHomeStarted());
     });
 
@@ -169,7 +176,8 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
       final threshold = event.maxScrollExtent * 0.7;
       if (event.pixels >= threshold) {
         final now = DateTime.now();
-        if (_lastScrollLoadTime == null || now.difference(_lastScrollLoadTime!) > _scrollThrottleDuration) {
+        if (_lastScrollLoadTime == null ||
+            now.difference(_lastScrollLoadTime!) > _scrollThrottleDuration) {
           if (state.hasMore && !state.isLoading) {
             _lastScrollLoadTime = now;
             add(PokemonHomeLoadMore());
@@ -214,10 +222,18 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
   @override
   Future<(List<Pokemon>, bool, int)> fetchPage(int offset, int size) {
     if (state.selectedType != null) {
-      return _filterPokemonByTypeUseCase(type: state.selectedType!, size: size, offset: offset);
+      return _filterPokemonByTypeUseCase(
+        type: state.selectedType!,
+        size: size,
+        offset: offset,
+      );
     }
     if (state.searchQuery != null && state.searchQuery!.isNotEmpty) {
-      return _searchPokemonUseCase(query: state.searchQuery!, size: size, offset: offset);
+      return _searchPokemonUseCase(
+        query: state.searchQuery!,
+        size: size,
+        offset: offset,
+      );
     }
     return _getPokemonPageUseCase(size: size, offset: offset);
   }

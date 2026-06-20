@@ -2,21 +2,14 @@ class PokemonMove {
   final MoveInfo move;
   final List<VersionGroupDetail> versionGroupDetails;
 
-  const PokemonMove({
-    required this.move,
-    required this.versionGroupDetails,
-  });
-
+  const PokemonMove({required this.move, required this.versionGroupDetails});
 }
 
 class MoveInfo {
   final String name;
   final String url;
 
-  const MoveInfo({
-    required this.name,
-    required this.url,
-  });
+  const MoveInfo({required this.name, required this.url});
 }
 
 class VersionGroupDetail {
@@ -35,18 +28,12 @@ class MoveLearnMethod {
   final String name;
   final String url;
 
-  const MoveLearnMethod({
-    required this.name,
-    required this.url,
-  });
+  const MoveLearnMethod({required this.name, required this.url});
 }
 
 class VersionGroup {
   final String name;
   final String url;
 
-  const VersionGroup({
-    required this.name,
-    required this.url,
-  });
+  const VersionGroup({required this.name, required this.url});
 }

@@ -15,7 +15,12 @@ import 'package:mockito/mockito.dart';
 
 import 'pokemon_favorites_bloc_test.mocks.dart';
 
-@GenerateMocks([GetFavoritesUseCase, RemoveFavoriteUseCase, ClearFavoritesUseCase, FavoritesRepository])
+@GenerateMocks([
+  GetFavoritesUseCase,
+  RemoveFavoriteUseCase,
+  ClearFavoritesUseCase,
+  FavoritesRepository,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -44,7 +49,14 @@ void main() {
         ability: AbilityInfo(name: 'overgrow', url: ''),
       ),
     ],
-    stats: PokemonStats(hp: 45, attack: 49, defense: 49, specialAttack: 65, specialDefense: 65, speed: 45),
+    stats: PokemonStats(
+      hp: 45,
+      attack: 49,
+      defense: 49,
+      specialAttack: 65,
+      specialDefense: 65,
+      speed: 45,
+    ),
     sprites: PokemonSprites(frontDefault: 'sprite_url'),
     speciesName: 'bulbasaur',
     speciesUrl: 'species_url',
@@ -56,7 +68,9 @@ void main() {
     mockClearFavoritesUseCase = MockClearFavoritesUseCase();
     mockFavoritesRepo = MockFavoritesRepository();
 
-    when(mockFavoritesRepo.favoriteIdsStream).thenAnswer((_) => Stream.value({}));
+    when(
+      mockFavoritesRepo.favoriteIdsStream,
+    ).thenAnswer((_) => Stream.value({}));
 
     bloc = PokemonFavoritesBloc(
       mockGetFavoritesUseCase,

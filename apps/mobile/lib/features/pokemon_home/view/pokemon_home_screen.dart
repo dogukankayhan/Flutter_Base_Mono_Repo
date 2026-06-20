@@ -54,7 +54,18 @@ class PokemonHomeScreen extends StatelessWidget {
   }
 
   Widget _buildTypeFilterChips(PokemonHomeBloc bloc, PokemonHomeState state) {
-    final types = ['fire', 'water', 'grass', 'electric', 'psychic', 'ice', 'dragon', 'dark', 'fairy', 'fighting'];
+    final types = [
+      'fire',
+      'water',
+      'grass',
+      'electric',
+      'psychic',
+      'ice',
+      'dragon',
+      'dark',
+      'fairy',
+      'fighting',
+    ];
 
     return Container(
       height: 60,
@@ -72,7 +83,11 @@ class PokemonHomeScreen extends StatelessWidget {
             child: FilterChip(
               label: Text(
                 type.toUpperCase(),
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : null),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? Colors.white : null,
+                ),
               ),
               selected: isSelected,
               onSelected: (selected) {
@@ -91,7 +106,11 @@ class PokemonHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPokemonGrid(BuildContext context, PokemonHomeState state, PokemonHomeBloc bloc) {
+  Widget _buildPokemonGrid(
+    BuildContext context,
+    PokemonHomeState state,
+    PokemonHomeBloc bloc,
+  ) {
     if (state.isLoading && state.items.isEmpty) {
       return const Center(child: CircularProgressIndicator.adaptive());
     }
@@ -103,7 +122,11 @@ class PokemonHomeScreen extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
-            Text(state.errorMessage!, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16)),
+            Text(
+              state.errorMessage!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => bloc.add(PokemonHomeStarted()),
@@ -118,7 +141,12 @@ class PokemonHomeScreen extends StatelessWidget {
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
           final metrics = notification.metrics;
-          bloc.add(PokemonHomeScrollPositionChanged(metrics.pixels, metrics.maxScrollExtent));
+          bloc.add(
+            PokemonHomeScrollPositionChanged(
+              metrics.pixels,
+              metrics.maxScrollExtent,
+            ),
+          );
         }
         return false;
       },
@@ -136,7 +164,9 @@ class PokemonHomeScreen extends StatelessWidget {
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
-          itemCount: state.hasMore ? state.items.length + 2 : state.items.length,
+          itemCount: state.hasMore
+              ? state.items.length + 2
+              : state.items.length,
           itemBuilder: (context, index) {
             if (index >= state.items.length) {
               return const Center(child: CircularProgressIndicator.adaptive());
@@ -147,8 +177,12 @@ class PokemonHomeScreen extends StatelessWidget {
               key: ValueKey(pokemon.id),
               pokemon: pokemon,
               isFavorite: state.favoriteIds.contains(pokemon.id),
-              onTap: () => context.push('/pokemon/pokemon/${pokemon.id}', extra: pokemon),
-              onFavoriteToggle: () => bloc.add(PokemonHomeToggleFavorite(pokemon.id)),
+              onTap: () => context.push(
+                '/pokemon/pokemon/${pokemon.id}',
+                extra: pokemon,
+              ),
+              onFavoriteToggle: () =>
+                  bloc.add(PokemonHomeToggleFavorite(pokemon.id)),
             );
           },
         ),

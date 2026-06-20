@@ -52,7 +52,7 @@ void main() {
   const testLastName = 'Doe';
   const testAccessToken = 'test_access_token';
   const testRefreshToken = 'test_refresh_token';
-  
+
   final testTokens = AuthTokens(
     accessToken: testAccessToken,
     refreshToken: testRefreshToken,
@@ -65,19 +65,14 @@ void main() {
     lastName: testLastName,
   );
 
-  final testApiError = ApiError(
-    statusCode: 401,
-    message: 'Unauthorized',
-  );
+  final testApiError = ApiError(statusCode: 401, message: 'Unauthorized');
 
   setUp(() {
     // To allow Mockito to generate the Result<T,E> type as dummy
     provideDummy<Result<AuthTokens, ApiError>>(
       Ok(AuthTokens(accessToken: '', refreshToken: null)),
     );
-    provideDummy<Result<Profile, ApiError>>(
-      Ok(Profile(id: '')),
-    );
+    provideDummy<Result<Profile, ApiError>>(Ok(Profile(id: '')));
     provideDummy<Result<void, ApiError>>(const Ok(null));
     provideDummy<Result<AuthTokens?, ApiError>>(const Ok(null));
 
@@ -168,8 +163,9 @@ void main() {
 
     test('should login successfully', () async {
       // Arrange
-      when(mockLoginUseCase(email: testEmail, password: testPassword))
-          .thenAnswer((_) async => Ok(testTokens));
+      when(
+        mockLoginUseCase(email: testEmail, password: testPassword),
+      ).thenAnswer((_) async => Ok(testTokens));
       when(mockMeUseCase()).thenAnswer((_) async => Ok(testProfile));
       when(mockTokenStore.write(testTokens)).thenAnswer((_) async {});
 
@@ -182,15 +178,18 @@ void main() {
       expect(authManager.tokens, testTokens);
       expect(authManager.profile, testProfile);
       expect(authManager.isBusy, false);
-      verify(mockLoginUseCase(email: testEmail, password: testPassword)).called(1);
+      verify(
+        mockLoginUseCase(email: testEmail, password: testPassword),
+      ).called(1);
       verify(mockTokenStore.write(testTokens)).called(1);
       verify(mockMeUseCase()).called(1);
     });
 
     test('should handle login failure', () async {
       // Arrange
-      when(mockLoginUseCase(email: testEmail, password: testPassword))
-          .thenAnswer((_) async => Err(testApiError));
+      when(
+        mockLoginUseCase(email: testEmail, password: testPassword),
+      ).thenAnswer((_) async => Err(testApiError));
 
       // Act
       final result = await authManager.login(testEmail, testPassword);
@@ -200,7 +199,9 @@ void main() {
       expect(authManager.isLoggedIn, false);
       expect(authManager.tokens, null);
       expect(authManager.isBusy, false);
-      verify(mockLoginUseCase(email: testEmail, password: testPassword)).called(1);
+      verify(
+        mockLoginUseCase(email: testEmail, password: testPassword),
+      ).called(1);
       verifyNever(mockTokenStore.write(any));
       verifyNever(mockMeUseCase());
     });
@@ -208,8 +209,9 @@ void main() {
     test('should set and unset busy state during login', () async {
       // Arrange
       bool busyDuringLogin = false;
-      when(mockLoginUseCase(email: testEmail, password: testPassword))
-          .thenAnswer((_) async {
+      when(
+        mockLoginUseCase(email: testEmail, password: testPassword),
+      ).thenAnswer((_) async {
         busyDuringLogin = authManager.isBusy;
         return Ok(testTokens);
       });
@@ -244,12 +246,14 @@ void main() {
 
     test('should register successfully', () async {
       // Arrange
-      when(mockRegisterUseCase(
-        email: testEmail,
-        password: testPassword,
-        firstName: testFirstName,
-        lastName: testLastName,
-      )).thenAnswer((_) async => Ok(testTokens));
+      when(
+        mockRegisterUseCase(
+          email: testEmail,
+          password: testPassword,
+          firstName: testFirstName,
+          lastName: testLastName,
+        ),
+      ).thenAnswer((_) async => Ok(testTokens));
       when(mockMeUseCase()).thenAnswer((_) async => Ok(testProfile));
       when(mockTokenStore.write(testTokens)).thenAnswer((_) async {});
 
@@ -266,22 +270,23 @@ void main() {
       expect(authManager.isLoggedIn, true);
       expect(authManager.tokens, testTokens);
       expect(authManager.profile, testProfile);
-      verify(mockRegisterUseCase(
-        email: testEmail,
-        password: testPassword,
-        firstName: testFirstName,
-        lastName: testLastName,
-      )).called(1);
+      verify(
+        mockRegisterUseCase(
+          email: testEmail,
+          password: testPassword,
+          firstName: testFirstName,
+          lastName: testLastName,
+        ),
+      ).called(1);
       verify(mockTokenStore.write(testTokens)).called(1);
       verify(mockMeUseCase()).called(1);
     });
 
     test('should handle register failure', () async {
       // Arrange
-      when(mockRegisterUseCase(
-        email: testEmail,
-        password: testPassword,
-      )).thenAnswer((_) async => Err(testApiError));
+      when(
+        mockRegisterUseCase(email: testEmail, password: testPassword),
+      ).thenAnswer((_) async => Err(testApiError));
 
       // Act
       final result = await authManager.register(
@@ -342,8 +347,9 @@ void main() {
         lastName: testProfile.lastName,
       );
       final patch = {'firstName': 'UpdatedFirstName'};
-      when(mockUpdateProfileUseCase(patch))
-          .thenAnswer((_) async => Ok(updatedProfile));
+      when(
+        mockUpdateProfileUseCase(patch),
+      ).thenAnswer((_) async => Ok(updatedProfile));
 
       // Act
       final result = await authManager.updateProfile(patch);
@@ -358,15 +364,19 @@ void main() {
     test('should handle profile update failure', () async {
       // Arrange
       final patch = {'firstName': 'UpdatedFirstName'};
-      when(mockUpdateProfileUseCase(patch))
-          .thenAnswer((_) async => Err(testApiError));
+      when(
+        mockUpdateProfileUseCase(patch),
+      ).thenAnswer((_) async => Err(testApiError));
 
       // Act
       final result = await authManager.updateProfile(patch);
 
       // Assert
       expect(result.isErr, true);
-      expect(authManager.profile, testProfile); // Profile should remain unchanged
+      expect(
+        authManager.profile,
+        testProfile,
+      ); // Profile should remain unchanged
     });
   });
 
@@ -448,10 +458,12 @@ void main() {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
       );
-      when(mockTokenStore.readRefresh())
-          .thenAnswer((_) async => testRefreshToken);
-      when(mockRefreshUseCase(testRefreshToken))
-          .thenAnswer((_) async => Ok(newTokens));
+      when(
+        mockTokenStore.readRefresh(),
+      ).thenAnswer((_) async => testRefreshToken);
+      when(
+        mockRefreshUseCase(testRefreshToken),
+      ).thenAnswer((_) async => Ok(newTokens));
       when(mockTokenStore.write(newTokens)).thenAnswer((_) async {});
 
       // Act
@@ -480,10 +492,12 @@ void main() {
 
     test('should handle refresh failure gracefully', () async {
       // Arrange
-      when(mockTokenStore.readRefresh())
-          .thenAnswer((_) async => testRefreshToken);
-      when(mockRefreshUseCase(testRefreshToken))
-          .thenAnswer((_) async => Err(testApiError));
+      when(
+        mockTokenStore.readRefresh(),
+      ).thenAnswer((_) async => testRefreshToken);
+      when(
+        mockRefreshUseCase(testRefreshToken),
+      ).thenAnswer((_) async => Err(testApiError));
       when(mockTokenStore.clear()).thenAnswer((_) async {});
 
       // Act

@@ -7,6 +7,5 @@ abstract final class UpdateUserProfileEndpoint {
   static Map<String, dynamic> body({
     required String firstName,
     required String lastName,
-  }) =>
-      {'firstName': firstName, 'lastName': lastName};
+  }) => {'firstName': firstName, 'lastName': lastName};
 }

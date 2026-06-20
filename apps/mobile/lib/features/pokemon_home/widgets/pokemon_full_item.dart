@@ -48,7 +48,8 @@ class PokemonFullItem extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(32, 60, 32, 100),
               child: AppImage(
-                imageUrl: data.sprites.other?.officialArtwork?.frontDefault ??
+                imageUrl:
+                    data.sprites.other?.officialArtwork?.frontDefault ??
                     data.sprites.frontDefault,
                 fit: BoxFit.contain,
                 fallbackIcon: Icons.catching_pokemon,

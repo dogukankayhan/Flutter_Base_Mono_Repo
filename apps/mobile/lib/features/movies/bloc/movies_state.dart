@@ -27,16 +27,14 @@ final class MoviesState extends PaginatedState<Movie> {
     bool? isLoading,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      MoviesState(
-        items: items ?? this.items,
-        hasMore: hasMore ?? this.hasMore,
-        nextOffset: nextOffset ?? this.nextOffset,
-        isLoading: isLoading ?? this.isLoading,
-        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      );
+  }) => MoviesState(
+    items: items ?? this.items,
+    hasMore: hasMore ?? this.hasMore,
+    nextOffset: nextOffset ?? this.nextOffset,
+    isLoading: isLoading ?? this.isLoading,
+    errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+  );
 
   @override
-  List<Object?> get props =>
-      [...super.props, items, hasMore, nextOffset];
+  List<Object?> get props => [...super.props, items, hasMore, nextOffset];
 }

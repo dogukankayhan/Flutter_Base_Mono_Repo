@@ -54,13 +54,19 @@ void main() {
     test('successful division returns Ok', () {
       final result = divide(10, 2);
       expect(result.isOk, true);
-      result.when(ok: (v) => expect(v, 5), err: (_) => fail('should not be err'));
+      result.when(
+        ok: (v) => expect(v, 5),
+        err: (_) => fail('should not be err'),
+      );
     });
 
     test('division by zero returns Err', () {
       final result = divide(10, 0);
       expect(result.isErr, true);
-      result.when(ok: (_) => fail('should not be ok'), err: (e) => expect(e, 'division by zero'));
+      result.when(
+        ok: (_) => fail('should not be ok'),
+        err: (e) => expect(e, 'division by zero'),
+      );
     });
   });
 }

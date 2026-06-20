@@ -28,10 +28,7 @@ void main() {
     when(mockStore.favoriteIds).thenReturn({});
 
     favoritesCubit = FavoritesCubit(mockStore);
-    cubit = MovieDetailCubit(
-      movie: tMovie,
-      favoritesCubit: favoritesCubit,
-    );
+    cubit = MovieDetailCubit(movie: tMovie, favoritesCubit: favoritesCubit);
   });
 
   tearDown(() async {

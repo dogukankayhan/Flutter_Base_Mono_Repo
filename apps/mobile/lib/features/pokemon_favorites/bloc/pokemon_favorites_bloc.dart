@@ -21,7 +21,8 @@ class PokemonFavoritesRemove extends PokemonFavoritesEvent {
 
 class PokemonFavoritesClearAll extends PokemonFavoritesEvent {}
 
-class PokemonFavoritesBloc extends BaseBloc<PokemonFavoritesEvent, PokemonFavoritesState> {
+class PokemonFavoritesBloc
+    extends BaseBloc<PokemonFavoritesEvent, PokemonFavoritesState> {
   final GetFavoritesUseCase _getFavoritesUseCase;
   final RemoveFavoriteUseCase _removeFavoriteUseCase;
   final ClearFavoritesUseCase _clearFavoritesUseCase;
@@ -29,12 +30,12 @@ class PokemonFavoritesBloc extends BaseBloc<PokemonFavoritesEvent, PokemonFavori
   StreamSubscription? _favoritesSubscription;
 
   PokemonFavoritesBloc.create()
-      : this(
-          GetFavoritesUseCase(getIt<FavoritesRepository>()),
-          RemoveFavoriteUseCase(getIt<FavoritesRepository>()),
-          ClearFavoritesUseCase(getIt<FavoritesRepository>()),
-          getIt<FavoritesRepository>(),
-        );
+    : this(
+        GetFavoritesUseCase(getIt<FavoritesRepository>()),
+        RemoveFavoriteUseCase(getIt<FavoritesRepository>()),
+        ClearFavoritesUseCase(getIt<FavoritesRepository>()),
+        getIt<FavoritesRepository>(),
+      );
 
   PokemonFavoritesBloc(
     this._getFavoritesUseCase,
@@ -42,7 +43,9 @@ class PokemonFavoritesBloc extends BaseBloc<PokemonFavoritesEvent, PokemonFavori
     this._clearFavoritesUseCase,
     this._repository,
   ) : super(const PokemonFavoritesState()) {
-    _favoritesSubscription = _repository.favoriteIdsStream.listen((_) => add(PokemonFavoritesRefresh()));
+    _favoritesSubscription = _repository.favoriteIdsStream.listen(
+      (_) => add(PokemonFavoritesRefresh()),
+    );
     on<PokemonFavoritesLoad>(_onLoad);
     on<PokemonFavoritesRefresh>((_, _) => add(PokemonFavoritesLoad()));
     on<PokemonFavoritesRemove>(_onRemove);
@@ -52,27 +55,45 @@ class PokemonFavoritesBloc extends BaseBloc<PokemonFavoritesEvent, PokemonFavori
   @override
   void onReady() => add(PokemonFavoritesLoad());
 
-  Future<void> _onLoad(PokemonFavoritesLoad event, Emitter<PokemonFavoritesState> emit) async {
+  Future<void> _onLoad(
+    PokemonFavoritesLoad event,
+    Emitter<PokemonFavoritesState> emit,
+  ) async {
     emit(state.copyWith(isLoading: true, clearError: true));
     try {
       final favorites = await _getFavoritesUseCase();
-      emit(state.copyWith(favorites: favorites, isLoading: false, isValid: true));
+      emit(
+        state.copyWith(favorites: favorites, isLoading: false, isValid: true),
+      );
     } catch (e) {
-      emit(state.copyWith(isLoading: false, errorMessage: 'Failed to load favorites: $e'));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: 'Failed to load favorites: $e',
+        ),
+      );
     }
   }
 
-  Future<void> _onRemove(PokemonFavoritesRemove event, Emitter<PokemonFavoritesState> emit) async {
+  Future<void> _onRemove(
+    PokemonFavoritesRemove event,
+    Emitter<PokemonFavoritesState> emit,
+  ) async {
     try {
       await _removeFavoriteUseCase(event.pokemonId);
-      final updated = state.favorites.where((p) => p.id != event.pokemonId).toList();
+      final updated = state.favorites
+          .where((p) => p.id != event.pokemonId)
+          .toList();
       emit(state.copyWith(favorites: updated, clearError: true));
     } catch (e) {
       emit(state.copyWith(errorMessage: 'Failed to remove favorite: $e'));
     }
   }
 
-  Future<void> _onClearAll(PokemonFavoritesClearAll event, Emitter<PokemonFavoritesState> emit) async {
+  Future<void> _onClearAll(
+    PokemonFavoritesClearAll event,
+    Emitter<PokemonFavoritesState> emit,
+  ) async {
     try {
       await _clearFavoritesUseCase();
       emit(state.copyWith(favorites: [], clearError: true));

@@ -59,7 +59,9 @@ void main() {
     mockGuest = MockGuestSignInUseCase();
     mockTokenStore = MockTokenStore();
 
-    provideDummy<Result<AuthTokens, ApiError>>(Ok(AuthTokens(accessToken: '', refreshToken: null)));
+    provideDummy<Result<AuthTokens, ApiError>>(
+      Ok(AuthTokens(accessToken: '', refreshToken: null)),
+    );
     provideDummy<Result<Profile, ApiError>>(Ok(Profile(id: '')));
     provideDummy<Result<void, ApiError>>(const Ok(null));
     provideDummy<Result<AuthTokens?, ApiError>>(const Ok(null));
@@ -96,8 +98,9 @@ void main() {
       final auth = await buildManager();
       final bloc = AuthBloc(auth);
 
-      when(mockLogin(email: 'a@b.com', password: 'pass'))
-          .thenAnswer((_) async => Ok(tokens));
+      when(
+        mockLogin(email: 'a@b.com', password: 'pass'),
+      ).thenAnswer((_) async => Ok(tokens));
       when(mockMe()).thenAnswer((_) async => Ok(profile));
       when(mockTokenStore.write(tokens)).thenAnswer((_) async {});
 

@@ -17,7 +17,12 @@ import 'package:mockito/mockito.dart';
 
 import 'detail_bloc_test.mocks.dart';
 
-@GenerateMocks([GetPokemonByIdUseCase, GetPokemonSpeciesUseCase, GetEvolutionChainUseCase, FavoritesRepository])
+@GenerateMocks([
+  GetPokemonByIdUseCase,
+  GetPokemonSpeciesUseCase,
+  GetEvolutionChainUseCase,
+  FavoritesRepository,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -46,7 +51,14 @@ void main() {
         ability: AbilityInfo(name: 'overgrow', url: ''),
       ),
     ],
-    stats: PokemonStats(hp: 45, attack: 49, defense: 49, specialAttack: 65, specialDefense: 65, speed: 45),
+    stats: PokemonStats(
+      hp: 45,
+      attack: 49,
+      defense: 49,
+      specialAttack: 65,
+      specialDefense: 65,
+      speed: 45,
+    ),
     sprites: PokemonSprites(frontDefault: 'sprite_url'),
     speciesName: 'bulbasaur',
     speciesUrl: 'species_url',
@@ -73,7 +85,9 @@ void main() {
     mockGetEvolutionChainUseCase = MockGetEvolutionChainUseCase();
     mockFavoritesRepo = MockFavoritesRepository();
 
-    when(mockFavoritesRepo.favoriteIdsStream).thenAnswer((_) => Stream.value({}));
+    when(
+      mockFavoritesRepo.favoriteIdsStream,
+    ).thenAnswer((_) => Stream.value({}));
 
     bloc = DetailBloc(
       getPokemonByIdUseCase: mockGetPokemonByIdUseCase,
@@ -101,8 +115,12 @@ void main() {
     test('loads details successfully', () async {
       when(mockGetPokemonByIdUseCase(1)).thenAnswer((_) async => tPokemon);
       when(mockFavoritesRepo.isFavorite(1)).thenAnswer((_) async => true);
-      when(mockGetPokemonSpeciesUseCase('species_url')).thenAnswer((_) async => tSpecies);
-      when(mockGetEvolutionChainUseCase('evolution_url')).thenAnswer((_) async => tEvolutionChain);
+      when(
+        mockGetPokemonSpeciesUseCase('species_url'),
+      ).thenAnswer((_) async => tSpecies);
+      when(
+        mockGetEvolutionChainUseCase('evolution_url'),
+      ).thenAnswer((_) async => tEvolutionChain);
 
       bloc.add(DetailLoad(1));
       await Future.delayed(const Duration(milliseconds: 50));

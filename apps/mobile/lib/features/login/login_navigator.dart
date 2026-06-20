@@ -13,11 +13,9 @@ final class LoginNavigator {
   void show() => navigatorKey.currentState?.context.go(path);
 
   GoRoute get route => GoRoute(
-        path: path,
-        parentNavigatorKey: navigatorKey,
-        pageBuilder: (context, state) => fadeTransitionPage(
-          key: state.pageKey,
-          child: const LoginScreen(),
-        ),
-      );
+    path: path,
+    parentNavigatorKey: navigatorKey,
+    pageBuilder: (context, state) =>
+        fadeTransitionPage(key: state.pageKey, child: const LoginScreen()),
+  );
 }

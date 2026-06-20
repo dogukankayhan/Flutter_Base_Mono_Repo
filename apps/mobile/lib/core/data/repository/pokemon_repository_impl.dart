@@ -22,7 +22,10 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
-  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageWithSize(int size, int offset) async {
+  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageWithSize(
+    int size,
+    int offset,
+  ) async {
     try {
       final briefs = await _datasource.listPokemon(limit: size, offset: offset);
       final details = await _batchFetchDetails(briefs, concurrency: 5);
@@ -36,7 +39,11 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
-  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageByType(String type, int size, int offset) async {
+  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageByType(
+    String type,
+    int size,
+    int offset,
+  ) async {
     try {
       final briefs = await _datasource.filterByType(type);
       final batch = briefs.skip(offset).take(size).toList();
@@ -51,7 +58,11 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
-  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageSearch(String query, int size, int offset) async {
+  Future<Result<(List<Pokemon>, bool, int), ApiError>> pageSearch(
+    String query,
+    int size,
+    int offset,
+  ) async {
     try {
       final briefs = await _datasource.searchPokemon(query);
       final batch = briefs.skip(offset).take(size).toList();
@@ -110,7 +121,10 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   // Batch fetch with concurrency limit to prevent network congestion
-  Future<List<Pokemon>> _batchFetchDetails(List briefs, {int concurrency = 5}) async {
+  Future<List<Pokemon>> _batchFetchDetails(
+    List briefs, {
+    int concurrency = 5,
+  }) async {
     final results = <Pokemon>[];
     for (var i = 0; i < briefs.length; i += concurrency) {
       final batch = briefs.skip(i).take(concurrency).toList();

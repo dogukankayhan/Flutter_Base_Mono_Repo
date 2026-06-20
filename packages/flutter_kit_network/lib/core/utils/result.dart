@@ -10,7 +10,10 @@ class Ok<T, E> extends Result<T, E> {
   const Ok(this.value);
 
   @override
-  R when<R>({required R Function(T data) ok, required R Function(E error) err}) => ok(value);
+  R when<R>({
+    required R Function(T data) ok,
+    required R Function(E error) err,
+  }) => ok(value);
 }
 
 class Err<T, E> extends Result<T, E> {
@@ -18,5 +21,8 @@ class Err<T, E> extends Result<T, E> {
   const Err(this.error);
 
   @override
-  R when<R>({required R Function(T data) ok, required R Function(E error) err}) => err(error);
+  R when<R>({
+    required R Function(T data) ok,
+    required R Function(E error) err,
+  }) => err(error);
 }

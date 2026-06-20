@@ -18,10 +18,7 @@ class CertificatePinningInterceptor extends Interceptor {
   const CertificatePinningInterceptor({required this.allowedSHAs});
 
   @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.extra['certificatePinning'] = true;
     handler.next(options);
   }

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart' as netapi;
+import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart'
+    as netapi;
 import 'package:flutter_kit_auth/flutter_kit_auth.dart';
 
 Future<void> setupAuthModule(GetIt getIt) async {

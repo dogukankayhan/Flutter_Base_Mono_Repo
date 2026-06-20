@@ -33,9 +33,9 @@ enum AppNotificationChannel {
   final Importance importance;
 
   AndroidNotificationChannel get androidChannel => AndroidNotificationChannel(
-        id,
-        name,
-        description: description,
-        importance: importance,
-      );
+    id,
+    name,
+    description: description,
+    importance: importance,
+  );
 }

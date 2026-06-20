@@ -25,9 +25,7 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -49,15 +47,13 @@ class AppBottomSheet extends StatelessWidget {
             if (title != null) ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
-                child: Text(
-                  title!,
-                  style: context.textStyle.display18Bold,
-                ),
+                child: Text(title!, style: context.textStyle.display18Bold),
               ),
               Divider(height: 1.h),
             ],
             Padding(
-              padding: padding ??
+              padding:
+                  padding ??
                   EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: child,
             ),
@@ -75,19 +71,18 @@ extension AppBottomSheetExtension on BuildContext {
     bool showDragHandle = true,
     bool isScrollControlled = true,
     EdgeInsetsGeometry? padding,
-  }) =>
-      showModalBottomSheet<T>(
-        context: this,
-        isScrollControlled: isScrollControlled,
-        backgroundColor: appColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-        ),
-        builder: (_) => AppBottomSheet(
-          title: title,
-          showDragHandle: showDragHandle,
-          padding: padding,
-          child: child,
-        ),
-      );
+  }) => showModalBottomSheet<T>(
+    context: this,
+    isScrollControlled: isScrollControlled,
+    backgroundColor: appColors.surface,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+    ),
+    builder: (_) => AppBottomSheet(
+      title: title,
+      showDragHandle: showDragHandle,
+      padding: padding,
+      child: child,
+    ),
+  );
 }

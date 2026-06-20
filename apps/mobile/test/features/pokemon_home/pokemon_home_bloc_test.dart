@@ -15,7 +15,12 @@ import 'package:mockito/mockito.dart';
 
 import 'pokemon_home_bloc_test.mocks.dart';
 
-@GenerateMocks([GetPokemonPageUseCase, FilterPokemonByTypeUseCase, SearchPokemonUseCase, FavoritesRepository])
+@GenerateMocks([
+  GetPokemonPageUseCase,
+  FilterPokemonByTypeUseCase,
+  SearchPokemonUseCase,
+  FavoritesRepository,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -44,7 +49,14 @@ void main() {
         ability: AbilityInfo(name: 'overgrow', url: ''),
       ),
     ],
-    stats: PokemonStats(hp: 45, attack: 49, defense: 49, specialAttack: 65, specialDefense: 65, speed: 45),
+    stats: PokemonStats(
+      hp: 45,
+      attack: 49,
+      defense: 49,
+      specialAttack: 65,
+      specialDefense: 65,
+      speed: 45,
+    ),
     sprites: PokemonSprites(frontDefault: 'sprite_url'),
     speciesName: 'bulbasaur',
     speciesUrl: 'species_url',
@@ -56,9 +68,16 @@ void main() {
     mockSearchUseCase = MockSearchPokemonUseCase();
     mockFavoritesRepo = MockFavoritesRepository();
 
-    when(mockFavoritesRepo.favoriteIdsStream).thenAnswer((_) => Stream.value({}));
+    when(
+      mockFavoritesRepo.favoriteIdsStream,
+    ).thenAnswer((_) => Stream.value({}));
 
-    bloc = PokemonHomeBloc(mockGetPageUseCase, mockFilterUseCase, mockSearchUseCase, mockFavoritesRepo);
+    bloc = PokemonHomeBloc(
+      mockGetPageUseCase,
+      mockFilterUseCase,
+      mockSearchUseCase,
+      mockFavoritesRepo,
+    );
   });
 
   tearDown(() async {
@@ -78,10 +97,14 @@ void main() {
 
   group('PokemonHomeStarted', () {
     test('loads initial page of pokemons successfully', () async {
-      when(mockGetPageUseCase(size: 20, offset: 0)).thenAnswer((_) async => ([tPokemon], true, 20));
+      when(
+        mockGetPageUseCase(size: 20, offset: 0),
+      ).thenAnswer((_) async => ([tPokemon], true, 20));
 
       final loadingStates = <bool>[];
-      final subscription = bloc.stream.listen((s) => loadingStates.add(s.isLoading));
+      final subscription = bloc.stream.listen(
+        (s) => loadingStates.add(s.isLoading),
+      );
 
       bloc.add(PokemonHomeStarted());
       await Future.delayed(const Duration(milliseconds: 50));
@@ -95,7 +118,9 @@ void main() {
     });
 
     test('emits error state when loading page fails', () async {
-      when(mockGetPageUseCase(size: 20, offset: 0)).thenThrow(Exception('Network error'));
+      when(
+        mockGetPageUseCase(size: 20, offset: 0),
+      ).thenThrow(Exception('Network error'));
 
       bloc.add(PokemonHomeStarted());
       await Future.delayed(const Duration(milliseconds: 50));
@@ -107,7 +132,9 @@ void main() {
 
   group('PokemonHomeFilterByType', () {
     test('loads pokemons filtered by type', () async {
-      when(mockFilterUseCase(type: 'grass', size: 20, offset: 0)).thenAnswer((_) async => ([tPokemon], false, 1));
+      when(
+        mockFilterUseCase(type: 'grass', size: 20, offset: 0),
+      ).thenAnswer((_) async => ([tPokemon], false, 1));
 
       bloc.add(PokemonHomeFilterByType('grass'));
       await Future.delayed(const Duration(milliseconds: 50));
@@ -120,7 +147,9 @@ void main() {
 
   group('PokemonHomeSearch', () {
     test('loads searched pokemons', () async {
-      when(mockSearchUseCase(query: 'bulb', size: 20, offset: 0)).thenAnswer((_) async => ([tPokemon], false, 1));
+      when(
+        mockSearchUseCase(query: 'bulb', size: 20, offset: 0),
+      ).thenAnswer((_) async => ([tPokemon], false, 1));
 
       bloc.add(PokemonHomeSearch('bulb'));
       await Future.delayed(const Duration(milliseconds: 50));

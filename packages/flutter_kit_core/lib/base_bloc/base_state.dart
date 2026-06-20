@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Base state class - all cubit states should inherit from this
-/// 
+///
 /// Uses immutable state pattern.
 /// Provides performance optimization with Equatable.
 abstract class BaseState extends Equatable {

@@ -24,7 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initialize() async {
-    await Future.wait([Initialize.run(), Future.delayed(const Duration(seconds: 2))]);
+    await Future.wait([
+      Initialize.run(),
+      Future.delayed(const Duration(seconds: 2)),
+    ]);
 
     if (!mounted) return;
 

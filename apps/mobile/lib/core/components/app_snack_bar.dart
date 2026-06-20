@@ -34,8 +34,9 @@ abstract final class AppSnackBar {
               Expanded(
                 child: Text(
                   message,
-                  style: context.textStyle.paragraph14Regular
-                      .copyWith(color: Colors.white),
+                  style: context.textStyle.paragraph14Regular.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -58,16 +59,16 @@ abstract final class AppSnackBar {
   }
 
   static IconData _icon(SnackBarType type) => switch (type) {
-        SnackBarType.success => Icons.check_circle_outline,
-        SnackBarType.error => Icons.error_outline,
-        SnackBarType.info => Icons.info_outline,
-        SnackBarType.warning => Icons.warning_amber_outlined,
-      };
+    SnackBarType.success => Icons.check_circle_outline,
+    SnackBarType.error => Icons.error_outline,
+    SnackBarType.info => Icons.info_outline,
+    SnackBarType.warning => Icons.warning_amber_outlined,
+  };
 
   static Color _bgColor(SnackBarType type) => switch (type) {
-        SnackBarType.success => AppBrandColors.success,
-        SnackBarType.error => AppBrandColors.error,
-        SnackBarType.info => AppBrandColors.primary,
-        SnackBarType.warning => AppBrandColors.warn,
-      };
+    SnackBarType.success => AppBrandColors.success,
+    SnackBarType.error => AppBrandColors.error,
+    SnackBarType.info => AppBrandColors.primary,
+    SnackBarType.warning => AppBrandColors.warn,
+  };
 }

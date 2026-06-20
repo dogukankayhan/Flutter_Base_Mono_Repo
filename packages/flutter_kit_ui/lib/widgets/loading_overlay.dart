@@ -8,7 +8,12 @@ class LoadingOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColoredBox(
       color: Color(0x99000000),
-      child: Center(child: SpinKitSpinningLines(color: Theme.of(context).colorScheme.error, size: 60)),
+      child: Center(
+        child: SpinKitSpinningLines(
+          color: Theme.of(context).colorScheme.error,
+          size: 60,
+        ),
+      ),
     );
   }
 }

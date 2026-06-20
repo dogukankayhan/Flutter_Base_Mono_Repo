@@ -14,5 +14,6 @@ class ApiError {
   });
 
   @override
-  String toString() => 'ApiError(statusCode: $statusCode, code: $code, key: $key, message: $message)';
+  String toString() =>
+      'ApiError(statusCode: $statusCode, code: $code, key: $key, message: $message)';
 }

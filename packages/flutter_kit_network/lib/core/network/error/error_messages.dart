@@ -1,5 +1,5 @@
 /// Internationalization support for error messages
-/// 
+///
 /// Usage:
 /// ```dart
 /// final errorMessages = ErrorMessages(locale: 'tr_TR');
@@ -169,7 +169,7 @@ class DefaultErrorMessageProvider implements ErrorMessageProvider {
   @override
   String getMessage(String key, String locale) {
     final messages = ErrorMessages(locale: locale);
-    
+
     switch (key) {
       case 'network_error':
         return messages.networkError;

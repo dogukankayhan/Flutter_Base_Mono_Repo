@@ -30,12 +30,19 @@ class MovieDetailScreen extends StatelessWidget {
       value: getIt<FavoritesCubit>(),
       child: BaseBlocView<MovieDetailCubit, MovieDetailState>(
         activeKey: movie.id.toString(),
-        create: () => MovieDetailCubit(movie: movie, favoritesCubit: getIt<FavoritesCubit>()),
+        create: () => MovieDetailCubit(
+          movie: movie,
+          favoritesCubit: getIt<FavoritesCubit>(),
+        ),
         builder: (context, state, cubit) => Scaffold(
           backgroundColor: context.appColors.background,
           body: CustomScrollView(
             slivers: [
-              _DetailAppBar(movie: movie, isFavorite: state.isFavorite, onToggleFavorite: cubit.toggleFavorite),
+              _DetailAppBar(
+                movie: movie,
+                isFavorite: state.isFavorite,
+                onToggleFavorite: cubit.toggleFavorite,
+              ),
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +64,11 @@ class MovieDetailScreen extends StatelessWidget {
 // ─── Collapsing AppBar with poster ────────────────────────────────────────────
 
 class _DetailAppBar extends StatelessWidget {
-  const _DetailAppBar({required this.movie, required this.isFavorite, required this.onToggleFavorite});
+  const _DetailAppBar({
+    required this.movie,
+    required this.isFavorite,
+    required this.onToggleFavorite,
+  });
   final Movie movie;
   final bool isFavorite;
   final VoidCallback onToggleFavorite;
@@ -108,7 +119,11 @@ class _DetailAppBar extends StatelessWidget {
   Widget _posterPlaceholder() => Container(
     color: AppBrandColors.tertiaryContainer,
     child: Center(
-      child: Icon(Icons.movie_outlined, size: 64.w, color: AppBrandColors.tertiary),
+      child: Icon(
+        Icons.movie_outlined,
+        size: 64.w,
+        color: AppBrandColors.tertiary,
+      ),
     ),
   );
 }
@@ -132,7 +147,8 @@ class _InfoSection extends StatelessWidget {
           Row(
             spacing: 16,
             children: [
-              if (movie.releaseYear.isNotEmpty) _Chip(label: movie.releaseYear, icon: Icons.calendar_today),
+              if (movie.releaseYear.isNotEmpty)
+                _Chip(label: movie.releaseYear, icon: Icons.calendar_today),
               _Chip(
                 label: movie.voteAverage.toStringAsFixed(1),
                 icon: Icons.star_rounded,
@@ -144,7 +160,10 @@ class _InfoSection extends StatelessWidget {
             Text('Özet', style: context.textStyle.title16Bold),
             Text(
               movie.overview,
-              style: context.textStyle.paragraph14Regular.copyWith(color: colors.secondaryTextColor, height: 1.6),
+              style: context.textStyle.paragraph14Regular.copyWith(
+                color: colors.secondaryTextColor,
+                height: 1.6,
+              ),
             ),
           ],
         ],
@@ -164,15 +183,24 @@ class _Chip extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-      decoration: BoxDecoration(color: cs.surfaceContainerHighest, borderRadius: BorderRadius.circular(20.r)),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 4,
         children: [
-          Icon(icon, size: 14.w, color: iconColor ?? cs.onSurface.withValues(alpha: 0.6)),
+          Icon(
+            icon,
+            size: 14.w,
+            color: iconColor ?? cs.onSurface.withValues(alpha: 0.6),
+          ),
           Text(
             label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: cs.onSurface.withValues(alpha: 0.8),
+            ),
           ),
         ],
       ),
@@ -193,7 +221,9 @@ class _FavoritesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
-        final others = state.favorites.where((m) => m.id != currentMovieId).toList();
+        final others = state.favorites
+            .where((m) => m.id != currentMovieId)
+            .toList();
         if (others.isEmpty) return const SizedBox.shrink();
 
         return Column(
@@ -249,7 +279,12 @@ class _FavoritePosterCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 4.h),
-            Text(movie.title, style: context.textStyle.paragraph12Medium, maxLines: 2, overflow: TextOverflow.ellipsis),
+            Text(
+              movie.title,
+              style: context.textStyle.paragraph12Medium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
@@ -259,7 +294,11 @@ class _FavoritePosterCard extends StatelessWidget {
   Widget _placeholder() => Container(
     color: AppBrandColors.tertiaryContainer,
     child: Center(
-      child: Icon(Icons.movie_outlined, size: 24.w, color: AppBrandColors.tertiary),
+      child: Icon(
+        Icons.movie_outlined,
+        size: 24.w,
+        color: AppBrandColors.tertiary,
+      ),
     ),
   );
 }

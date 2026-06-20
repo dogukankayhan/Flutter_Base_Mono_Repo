@@ -8,7 +8,10 @@ class GetPokemonPageUseCase {
 
   const GetPokemonPageUseCase(this._repository);
 
-  Future<(List<Pokemon>, bool, int)> call({required int size, required int offset}) async {
+  Future<(List<Pokemon>, bool, int)> call({
+    required int size,
+    required int offset,
+  }) async {
     final result = await _repository.pageWithSize(size, offset);
     return result.when(
       ok: (data) => data,

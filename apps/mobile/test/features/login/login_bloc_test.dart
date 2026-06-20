@@ -98,16 +98,19 @@ void main() {
   });
 
   group('LoginSubmitted — validation', () {
-    test('empty email emits emailError, does NOT call authManager.login', () async {
-      loginBloc.add(const LoginPasswordChanged('password123'));
-      await Future.delayed(Duration.zero);
+    test(
+      'empty email emits emailError, does NOT call authManager.login',
+      () async {
+        loginBloc.add(const LoginPasswordChanged('password123'));
+        await Future.delayed(Duration.zero);
 
-      loginBloc.add(const LoginSubmitted());
-      await Future.delayed(Duration.zero);
+        loginBloc.add(const LoginSubmitted());
+        await Future.delayed(Duration.zero);
 
-      expect(loginBloc.state.emailError, isNotNull);
-      verifyNever(mockAuthManager.login(any, any));
-    });
+        expect(loginBloc.state.emailError, isNotNull);
+        verifyNever(mockAuthManager.login(any, any));
+      },
+    );
 
     test('invalid email format emits emailError', () async {
       loginBloc.add(const LoginEmailChanged('not-an-email'));
@@ -144,8 +147,9 @@ void main() {
 
   group('LoginSubmitted — success', () {
     test('calls authManager.login with trimmed email', () async {
-      when(mockAuthManager.login(any, any))
-          .thenAnswer((_) async => const Ok(null));
+      when(
+        mockAuthManager.login(any, any),
+      ).thenAnswer((_) async => const Ok(null));
 
       loginBloc.add(const LoginEmailChanged('test@example.com'));
       loginBloc.add(const LoginPasswordChanged('password123'));
@@ -154,12 +158,15 @@ void main() {
       loginBloc.add(const LoginSubmitted());
       await Future.delayed(const Duration(milliseconds: 50));
 
-      verify(mockAuthManager.login('test@example.com', 'password123')).called(1);
+      verify(
+        mockAuthManager.login('test@example.com', 'password123'),
+      ).called(1);
     });
 
     test('emits isSuccess: true on successful login', () async {
-      when(mockAuthManager.login(any, any))
-          .thenAnswer((_) async => const Ok(null));
+      when(
+        mockAuthManager.login(any, any),
+      ).thenAnswer((_) async => const Ok(null));
 
       loginBloc.add(const LoginEmailChanged('test@example.com'));
       loginBloc.add(const LoginPasswordChanged('password123'));

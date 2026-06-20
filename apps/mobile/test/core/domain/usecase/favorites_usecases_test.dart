@@ -16,11 +16,20 @@ import 'favorites_usecases_test.mocks.dart';
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
 const _kPokemon = Pokemon(
-  id: 1, name: 'bulbasaur', height: 7, weight: 69,
-  types: [], abilities: [], moves: [],
+  id: 1,
+  name: 'bulbasaur',
+  height: 7,
+  weight: 69,
+  types: [],
+  abilities: [],
+  moves: [],
   stats: PokemonStats(
-    hp: 45, attack: 49, defense: 49,
-    specialAttack: 65, specialDefense: 65, speed: 45,
+    hp: 45,
+    attack: 49,
+    defense: 49,
+    specialAttack: 65,
+    specialDefense: 65,
+    speed: 45,
   ),
   sprites: PokemonSprites(),
   speciesName: 'bulbasaur',

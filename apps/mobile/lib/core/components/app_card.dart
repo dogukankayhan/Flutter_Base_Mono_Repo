@@ -43,11 +43,7 @@ class AppCard extends StatelessWidget {
       elevation: elev,
       shadowColor: AppBrandColors.shadow,
       child: onTap != null
-          ? InkWell(
-              onTap: onTap,
-              borderRadius: radius,
-              child: content,
-            )
+          ? InkWell(onTap: onTap, borderRadius: radius, child: content)
           : content,
     );
   }

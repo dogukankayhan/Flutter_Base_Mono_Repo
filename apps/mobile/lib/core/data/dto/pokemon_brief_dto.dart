@@ -14,9 +14,6 @@ class PokemonBriefDto {
   }
 
   PokemonBrief toDomain() {
-    return PokemonBrief(
-      name: name,
-      url: url,
-    );
+    return PokemonBrief(name: name, url: url);
   }
 }

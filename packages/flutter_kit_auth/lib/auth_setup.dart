@@ -22,7 +22,9 @@ Future<void> setupAuth({
   required ApiManager apiManager,
   required TokenStore tokenStore,
 }) async {
-  final authRepository = AuthRepositoryImpl(AuthRemoteDataSourceImpl(apiManager));
+  final authRepository = AuthRepositoryImpl(
+    AuthRemoteDataSourceImpl(apiManager),
+  );
 
   final authManager = await AuthManager.create(
     loginUseCase: LoginUseCase(authRepository),

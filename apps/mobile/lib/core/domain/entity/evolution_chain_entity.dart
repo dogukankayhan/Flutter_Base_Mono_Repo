@@ -2,11 +2,7 @@ class EvolutionChain {
   final int id;
   final EvolutionNode root;
 
-  const EvolutionChain({
-    required this.id,
-    required this.root,
-  });
-
+  const EvolutionChain({required this.id, required this.root});
 
   List<List<EvolutionNode>> get allPaths {
     final paths = <List<EvolutionNode>>[];
@@ -14,7 +10,11 @@ class EvolutionChain {
     return paths;
   }
 
-  void _findPaths(EvolutionNode node, List<EvolutionNode> currentPath, List<List<EvolutionNode>> paths) {
+  void _findPaths(
+    EvolutionNode node,
+    List<EvolutionNode> currentPath,
+    List<List<EvolutionNode>> paths,
+  ) {
     final nextPath = List<EvolutionNode>.from(currentPath)..add(node);
     if (node.evolvesTo.isEmpty) {
       paths.add(nextPath);

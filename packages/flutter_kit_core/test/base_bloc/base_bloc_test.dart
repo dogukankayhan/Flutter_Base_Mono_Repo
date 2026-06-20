@@ -13,12 +13,11 @@ class _State extends BaseState {
     bool? isValid,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      _State(
-        isLoading: isLoading ?? this.isLoading,
-        isValid: isValid ?? this.isValid,
-        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      );
+  }) => _State(
+    isLoading: isLoading ?? this.isLoading,
+    isValid: isValid ?? this.isValid,
+    errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+  );
 
   @override
   List<Object?> get props => [isLoading, isValid, errorMessage];

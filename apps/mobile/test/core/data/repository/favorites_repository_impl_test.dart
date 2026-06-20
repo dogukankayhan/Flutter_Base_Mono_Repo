@@ -17,11 +17,19 @@ import 'favorites_repository_impl_test.mocks.dart';
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
 const _kPokemon = Pokemon(
-  id: 1, name: 'bulbasaur', height: 7, weight: 69,
-  types: [], abilities: [],
+  id: 1,
+  name: 'bulbasaur',
+  height: 7,
+  weight: 69,
+  types: [],
+  abilities: [],
   stats: PokemonStats(
-    hp: 45, attack: 49, defense: 49,
-    specialAttack: 65, specialDefense: 65, speed: 45,
+    hp: 45,
+    attack: 49,
+    defense: 49,
+    specialAttack: 65,
+    specialDefense: 65,
+    speed: 45,
   ),
   sprites: PokemonSprites(),
   speciesName: 'bulbasaur',
@@ -95,8 +103,9 @@ void main() {
 
     test('fetches pokemon for each stored id', () async {
       when(mockDs.getFavoriteIds()).thenAnswer((_) async => {1});
-      when(mockPokemonRepo.getById(1))
-          .thenAnswer((_) async => const Ok(_kPokemon));
+      when(
+        mockPokemonRepo.getById(1),
+      ).thenAnswer((_) async => const Ok(_kPokemon));
 
       final result = await repo.getFavorites();
 

@@ -16,11 +16,13 @@ class MovieDetailCubit extends BaseCubit<MovieDetailState> {
   MovieDetailCubit({
     required Movie movie,
     required FavoritesCubit favoritesCubit,
-  })  : _favoritesCubit = favoritesCubit,
-        super(MovieDetailState(
-          movie: movie,
-          isFavorite: favoritesCubit.state.isFavorite(movie.id),
-        )) {
+  }) : _favoritesCubit = favoritesCubit,
+       super(
+         MovieDetailState(
+           movie: movie,
+           isFavorite: favoritesCubit.state.isFavorite(movie.id),
+         ),
+       ) {
     _sub = favoritesCubit.stream.listen((favState) {
       safeEmit(state.copyWith(isFavorite: favState.isFavorite(movie.id)));
     });

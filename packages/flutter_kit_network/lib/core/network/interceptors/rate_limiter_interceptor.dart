@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 /// Rate limiter interceptor
-/// 
+///
 /// Features:
 /// - Per-endpoint rate limiting
 /// - Global rate limiting
@@ -30,7 +30,7 @@ class RateLimiterInterceptor extends Interceptor {
       if (autoRetry) {
         // Calculate wait time
         final waitTime = bucket.getWaitTime();
-        
+
         // Delay and retry
         Future.delayed(waitTime, () {
           handler.next(options);
@@ -62,7 +62,7 @@ class RateLimiterInterceptor extends Interceptor {
     if (remaining != null && resetTime != null) {
       final key = _getEndpointKey(response.requestOptions);
       final bucket = _getBucket(key);
-      
+
       bucket.updateFromHeaders(
         remaining: int.tryParse(remaining) ?? 0,
         resetTime: int.tryParse(resetTime),
@@ -80,10 +80,7 @@ class RateLimiterInterceptor extends Interceptor {
   _RateLimitBucket _getBucket(String key) {
     return _buckets.putIfAbsent(
       key,
-      () => _RateLimitBucket(
-        limit: globalLimit ?? 100,
-        window: window,
-      ),
+      () => _RateLimitBucket(limit: globalLimit ?? 100, window: window),
     );
   }
 
@@ -118,10 +115,7 @@ class _RateLimitBucket {
   int? _remainingFromServer;
   DateTime? _resetTimeFromServer;
 
-  _RateLimitBucket({
-    required this.limit,
-    required this.window,
-  });
+  _RateLimitBucket({required this.limit, required this.window});
 
   bool tryConsume() {
     _cleanup();
@@ -149,7 +143,7 @@ class _RateLimitBucket {
     if (_remainingFromServer != null) {
       _remainingFromServer = _remainingFromServer! - 1;
     }
-    
+
     return true;
   }
 
@@ -171,15 +165,13 @@ class _RateLimitBucket {
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
-  void updateFromHeaders({
-    required int remaining,
-    int? resetTime,
-  }) {
+  void updateFromHeaders({required int remaining, int? resetTime}) {
     _remainingFromServer = remaining;
-    
+
     if (resetTime != null) {
-      _resetTimeFromServer =
-          DateTime.fromMillisecondsSinceEpoch(resetTime * 1000);
+      _resetTimeFromServer = DateTime.fromMillisecondsSinceEpoch(
+        resetTime * 1000,
+      );
     }
   }
 
@@ -190,7 +182,7 @@ class _RateLimitBucket {
 
   RateLimitStatus getStatus() {
     _cleanup();
-    
+
     return RateLimitStatus(
       limit: limit,
       remaining: limit - _requests.length,
@@ -216,7 +208,8 @@ class RateLimitStatus {
   });
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 RateLimitStatus(
   limit: $limit,
   remaining: $remaining,

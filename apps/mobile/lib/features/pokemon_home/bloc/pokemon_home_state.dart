@@ -55,14 +55,14 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
 
   @override
   List<Object?> get props => [
-        isLoading,
-        isValid,
-        errorMessage,
-        nextOffset,
-        hasMore,
-        items,
-        searchQuery,
-        selectedType,
-        favoriteIds,
-      ];
+    isLoading,
+    isValid,
+    errorMessage,
+    nextOffset,
+    hasMore,
+    items,
+    searchQuery,
+    selectedType,
+    favoriteIds,
+  ];
 }

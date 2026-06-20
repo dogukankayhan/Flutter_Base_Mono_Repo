@@ -62,7 +62,9 @@ class CacheManager implements LocalDataSource<Map<String, dynamic>> {
 
   @override
   Future<Map<String, Map<String, dynamic>>> getAll() async {
-    final keys = _prefs.getKeys().where((key) => !key.startsWith(_expiryPrefix));
+    final keys = _prefs.getKeys().where(
+      (key) => !key.startsWith(_expiryPrefix),
+    );
     final result = <String, Map<String, dynamic>>{};
 
     for (final key in keys) {
@@ -100,7 +102,9 @@ class CacheManager implements LocalDataSource<Map<String, dynamic>> {
 
   /// Remove expired items
   Future<void> clearExpired() async {
-    final keys = _prefs.getKeys().where((key) => !key.startsWith(_expiryPrefix));
+    final keys = _prefs.getKeys().where(
+      (key) => !key.startsWith(_expiryPrefix),
+    );
     for (final key in keys) {
       if (await isExpired(key)) {
         await delete(key);

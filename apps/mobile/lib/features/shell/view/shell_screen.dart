@@ -70,8 +70,16 @@ class _BottomNavState extends State<_BottomNav> {
     _items ??= [
       for (final tab in _tabs)
         BottomNavigationBarItem(
-          icon: tab.$1.call(width: 24.w, height: 24.w, color: AppBrandColors.unSelectedTabIconColor),
-          activeIcon: tab.$2.call(width: 24.w, height: 24.w, color: AppBrandColors.selectedTabIconColor),
+          icon: tab.$1.call(
+            width: 24.w,
+            height: 24.w,
+            color: AppBrandColors.unSelectedTabIconColor,
+          ),
+          activeIcon: tab.$2.call(
+            width: 24.w,
+            height: 24.w,
+            color: AppBrandColors.selectedTabIconColor,
+          ),
           label: tab.$3,
         ),
     ];
@@ -82,7 +90,10 @@ class _BottomNavState extends State<_BottomNav> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       selectedItemColor: AppBrandColors.selectedTabIconColor,
       unselectedItemColor: AppBrandColors.unSelectedTabIconColor,
-      selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+      selectedLabelStyle: const TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+      ),
       unselectedLabelStyle: const TextStyle(fontSize: 10),
       elevation: 8,
       items: _items!,

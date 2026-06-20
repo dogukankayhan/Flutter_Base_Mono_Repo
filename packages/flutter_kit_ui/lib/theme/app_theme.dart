@@ -40,8 +40,8 @@ sealed class AppTheme {
       onTertiaryContainer: AppBrandColors.onTertiaryContainer,
       error: AppBrandColors.error,
       onError: AppBrandColors.onPrimary,
-      errorContainer: Palette.fourth[10]!,       // fourth[10]
-      onErrorContainer: Palette.fourth[100]!,     // fourth[100]
+      errorContainer: Palette.fourth[10]!, // fourth[10]
+      onErrorContainer: Palette.fourth[100]!, // fourth[100]
       surface: c.surface,
       onSurface: c.onSurface,
       surfaceContainer: c.container,
@@ -50,11 +50,11 @@ sealed class AppTheme {
       outlineVariant: c.borderSecondary,
       shadow: AppBrandColors.shadow,
       inverseSurface: brightness == Brightness.light
-          ? Palette.colorGray[100]!               // colorGray[100]
-          : Palette.white[10]!,                   // white[10]
+          ? Palette.colorGray[100]! // colorGray[100]
+          : Palette.white[10]!, // white[10]
       onInverseSurface: brightness == Brightness.light
-          ? Palette.white[10]!                    // white[10]
-          : Palette.colorGray[100]!,              // colorGray[100]
+          ? Palette.white[10]! // white[10]
+          : Palette.colorGray[100]!, // colorGray[100]
       inversePrimary: AppBrandColors.inversePrimary,
       scrim: Colors.black,
     );
@@ -62,7 +62,10 @@ sealed class AppTheme {
 
   // ─── ThemeData builder ────────────────────────────────
   static ThemeData _buildTheme(
-      ColorScheme colorScheme, AppColors appColors, Brightness brightness) {
+    ColorScheme colorScheme,
+    AppColors appColors,
+    Brightness brightness,
+  ) {
     final isLight = brightness == Brightness.light;
     final textTheme = AppTextTheme.textTheme.apply(
       bodyColor: colorScheme.onSurface,
@@ -140,8 +143,10 @@ sealed class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -189,16 +194,12 @@ sealed class AppTheme {
 
       // ─── Chip ───────────────────────────────────────
       chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
 
       // ─── Dialog ─────────────────────────────────────
       dialogTheme: DialogThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: colorScheme.surface,
       ),
 
@@ -214,9 +215,7 @@ sealed class AppTheme {
       // ─── SnackBar ───────────────────────────────────
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
 
       // ─── Switch ─────────────────────────────────────
@@ -232,9 +231,7 @@ sealed class AppTheme {
 
       // ─── ListTile ───────────────────────────────────
       listTileTheme: ListTileThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       ),
     );

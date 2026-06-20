@@ -83,10 +83,10 @@ class SocialAuthRequestDto {
   });
 
   Map<String, dynamic> toJson() => {
-        'provider': provider,
-        if (idToken != null) 'idToken': idToken,
-        if (accessToken != null) 'accessToken': accessToken,
-      };
+    'provider': provider,
+    if (idToken != null) 'idToken': idToken,
+    if (accessToken != null) 'accessToken': accessToken,
+  };
 }
 
 // Extensions map DTO -> Entity

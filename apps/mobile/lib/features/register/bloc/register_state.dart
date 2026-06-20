@@ -45,10 +45,18 @@ class RegisterState extends BaseState {
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       password: password ?? this.password,
-      firstNameError: identical(firstNameError, _omit) ? this.firstNameError : firstNameError as String?,
-      lastNameError: identical(lastNameError, _omit) ? this.lastNameError : lastNameError as String?,
-      emailError: identical(emailError, _omit) ? this.emailError : emailError as String?,
-      passwordError: identical(passwordError, _omit) ? this.passwordError : passwordError as String?,
+      firstNameError: identical(firstNameError, _omit)
+          ? this.firstNameError
+          : firstNameError as String?,
+      lastNameError: identical(lastNameError, _omit)
+          ? this.lastNameError
+          : lastNameError as String?,
+      emailError: identical(emailError, _omit)
+          ? this.emailError
+          : emailError as String?,
+      passwordError: identical(passwordError, _omit)
+          ? this.passwordError
+          : passwordError as String?,
       isSuccess: isSuccess ?? this.isSuccess,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -57,9 +65,15 @@ class RegisterState extends BaseState {
 
   @override
   List<Object?> get props => [
-        ...super.props,
-        firstName, lastName, email, password,
-        firstNameError, lastNameError, emailError, passwordError,
-        isSuccess,
-      ];
+    ...super.props,
+    firstName,
+    lastName,
+    email,
+    password,
+    firstNameError,
+    lastNameError,
+    emailError,
+    passwordError,
+    isSuccess,
+  ];
 }

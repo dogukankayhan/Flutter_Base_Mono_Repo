@@ -4,7 +4,6 @@ import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart'
 import 'package:flutter_kit_network/core/network/api/api_response.dart';
 import 'package:flutter_kit_network/core/network/error/api_error.dart';
 import 'package:flutter_kit_network/core/network/error/api_exception.dart';
-import 'package:flutter_kit_network/core/utils/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -44,10 +43,12 @@ void main() {
 
   group('login', () {
     test('returns Ok(TokensDto) on successful POST', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.login(
         LoginRequestDto(email: 'a@b.com', password: 'pw'),
@@ -63,24 +64,30 @@ void main() {
     });
 
     test('posts to /Account/Login endpoint', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       await ds.login(LoginRequestDto(email: 'a@b.com', password: 'pw'));
 
-      verify(mockApi.post<Map<String, dynamic>>(
-        path: '/Account/Login',
-        body: anyNamed('body'),
-      )).called(1);
+      verify(
+        mockApi.post<Map<String, dynamic>>(
+          path: '/Account/Login',
+          body: anyNamed('body'),
+        ),
+      ).called(1);
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('invalid credentials'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('invalid credentials'));
 
       final result = await ds.login(
         LoginRequestDto(email: 'bad@b.com', password: 'wrong'),
@@ -93,10 +100,12 @@ void main() {
     });
 
     test('wraps generic exception as Err(ApiError)', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(Exception('network timeout'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('network timeout'));
 
       final result = await ds.login(
         LoginRequestDto(email: 'a@b.com', password: 'pw'),
@@ -113,10 +122,12 @@ void main() {
 
   group('register', () {
     test('returns Ok(TokensDto) on success', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.register(
         RegisterRequestDto(email: 'new@test.com', password: 'pw'),
@@ -129,10 +140,12 @@ void main() {
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('email taken'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('email taken'));
 
       final result = await ds.register(
         RegisterRequestDto(email: 'taken@test.com', password: 'pw'),
@@ -149,10 +162,12 @@ void main() {
 
   group('refresh', () {
     test('returns Ok(TokensDto) on success', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.refresh('old-refresh');
 
@@ -163,10 +178,12 @@ void main() {
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('token expired'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('token expired'));
 
       final result = await ds.refresh('expired');
 
@@ -181,9 +198,9 @@ void main() {
 
   group('me', () {
     test('returns Ok(ProfileDto) on successful GET', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-      )).thenAnswer((_) async => ApiResponse(data: _kProfileJson));
+      when(
+        mockApi.get<Map<String, dynamic>>(path: anyNamed('path')),
+      ).thenAnswer((_) async => ApiResponse(data: _kProfileJson));
 
       final result = await ds.me();
 
@@ -198,9 +215,9 @@ void main() {
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-      )).thenThrow(_makeException('unauthorized'));
+      when(
+        mockApi.get<Map<String, dynamic>>(path: anyNamed('path')),
+      ).thenThrow(_makeException('unauthorized'));
 
       final result = await ds.me();
 
@@ -215,10 +232,12 @@ void main() {
 
   group('updateProfile', () {
     test('returns Ok(ProfileDto) on successful PATCH', () async {
-      when(mockApi.patch<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kProfileJson));
+      when(
+        mockApi.patch<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kProfileJson));
 
       final result = await ds.updateProfile({'firstName': 'Jane'});
 
@@ -226,17 +245,21 @@ void main() {
         ok: (dto) => expect(dto.firstName, 'John'),
         err: (_) => fail('expected ok'),
       );
-      verify(mockApi.patch<Map<String, dynamic>>(
-        path: '/auth/me',
-        body: anyNamed('body'),
-      )).called(1);
+      verify(
+        mockApi.patch<Map<String, dynamic>>(
+          path: '/auth/me',
+          body: anyNamed('body'),
+        ),
+      ).called(1);
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.patch<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('validation error'));
+      when(
+        mockApi.patch<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('validation error'));
 
       final result = await ds.updateProfile({'firstName': 'B@d'});
 
@@ -251,10 +274,9 @@ void main() {
 
   group('logout', () {
     test('returns Ok(null) on success', () async {
-      when(mockApi.post(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: null));
+      when(
+        mockApi.post(path: anyNamed('path'), body: anyNamed('body')),
+      ).thenAnswer((_) async => ApiResponse(data: null));
 
       final result = await ds.logout();
 
@@ -262,10 +284,9 @@ void main() {
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('session not found'));
+      when(
+        mockApi.post(path: anyNamed('path'), body: anyNamed('body')),
+      ).thenThrow(_makeException('session not found'));
 
       final result = await ds.logout();
 
@@ -280,10 +301,12 @@ void main() {
 
   group('appleSignIn', () {
     test('returns Ok(TokensDto) on success', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.appleSignIn(
         SocialAuthRequestDto(provider: 'apple', idToken: 'apple-jwt'),
@@ -293,17 +316,21 @@ void main() {
         ok: (dto) => expect(dto.accessToken, 'access'),
         err: (_) => fail('expected ok'),
       );
-      verify(mockApi.post<Map<String, dynamic>>(
-        path: '/auth/apple',
-        body: anyNamed('body'),
-      )).called(1);
+      verify(
+        mockApi.post<Map<String, dynamic>>(
+          path: '/auth/apple',
+          body: anyNamed('body'),
+        ),
+      ).called(1);
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('invalid token'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('invalid token'));
 
       final result = await ds.appleSignIn(
         SocialAuthRequestDto(provider: 'apple', idToken: 'bad'),
@@ -317,10 +344,12 @@ void main() {
 
   group('googleSignIn', () {
     test('returns Ok(TokensDto) on success', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.googleSignIn(
         SocialAuthRequestDto(provider: 'google', idToken: 'google-jwt'),
@@ -330,17 +359,21 @@ void main() {
         ok: (dto) => expect(dto.accessToken, 'access'),
         err: (_) => fail('expected ok'),
       );
-      verify(mockApi.post<Map<String, dynamic>>(
-        path: '/auth/google',
-        body: anyNamed('body'),
-      )).called(1);
+      verify(
+        mockApi.post<Map<String, dynamic>>(
+          path: '/auth/google',
+          body: anyNamed('body'),
+        ),
+      ).called(1);
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('invalid token'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('invalid token'));
 
       final result = await ds.googleSignIn(
         SocialAuthRequestDto(provider: 'google', idToken: 'bad'),
@@ -354,10 +387,12 @@ void main() {
 
   group('guestSignIn', () {
     test('returns Ok(TokensDto) on success', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kTokensJson));
 
       final result = await ds.guestSignIn();
 
@@ -365,17 +400,21 @@ void main() {
         ok: (dto) => expect(dto.accessToken, 'access'),
         err: (_) => fail('expected ok'),
       );
-      verify(mockApi.post<Map<String, dynamic>>(
-        path: '/auth/guest',
-        body: anyNamed('body'),
-      )).called(1);
+      verify(
+        mockApi.post<Map<String, dynamic>>(
+          path: '/auth/guest',
+          body: anyNamed('body'),
+        ),
+      ).called(1);
     });
 
     test('returns Err on ApiException', () async {
-      when(mockApi.post<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        body: anyNamed('body'),
-      )).thenThrow(_makeException('guest disabled'));
+      when(
+        mockApi.post<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(_makeException('guest disabled'));
 
       final result = await ds.guestSignIn();
 

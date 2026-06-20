@@ -43,12 +43,15 @@ class FavoritesScreen extends StatelessWidget {
                     AnimatedBuilder(
                       animation: DefaultTabController.of(context),
                       builder: (context, _) {
-                        final isPokeTab = DefaultTabController.of(context).index == 1;
+                        final isPokeTab =
+                            DefaultTabController.of(context).index == 1;
                         if (isPokeTab && pokemonState.favorites.isNotEmpty) {
                           return IconButton(
                             icon: const Icon(Icons.delete_outline),
-                            tooltip: context.translations.favorites.clearTooltip,
-                            onPressed: () => _showClearAllDialog(context, pokemonBloc),
+                            tooltip:
+                                context.translations.favorites.clearTooltip,
+                            onPressed: () =>
+                                _showClearAllDialog(context, pokemonBloc),
                           );
                         }
                         return const SizedBox.shrink();
@@ -79,7 +82,10 @@ class FavoritesScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _showClearAllDialog(BuildContext context, PokemonFavoritesBloc bloc) {
+  Future<void> _showClearAllDialog(
+    BuildContext context,
+    PokemonFavoritesBloc bloc,
+  ) {
     final t = context.translations;
     return showDialog(
       context: context,
@@ -151,7 +157,11 @@ class _FavoriteCard extends StatelessWidget {
           color: colors.surface,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
-            BoxShadow(color: AppBrandColors.shadow, blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(
+              color: AppBrandColors.shadow,
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: Row(
@@ -182,7 +192,11 @@ class _FavoriteCard extends StatelessWidget {
                     Row(
                       spacing: 4,
                       children: [
-                        Icon(Icons.star_rounded, size: 14.w, color: AppBrandColors.gold),
+                        Icon(
+                          Icons.star_rounded,
+                          size: 14.w,
+                          color: AppBrandColors.gold,
+                        ),
                         Text(
                           movie.voteAverage.toStringAsFixed(1),
                           style: context.textStyle.paragraph12Medium.copyWith(
@@ -205,7 +219,11 @@ class _FavoriteCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.favorite, color: AppBrandColors.error, size: 20.w),
+              icon: Icon(
+                Icons.favorite,
+                color: AppBrandColors.error,
+                size: 20.w,
+              ),
               tooltip: context.translations.favorites.removeTooltip,
               onPressed: () => context.read<FavoritesCubit>().toggle(movie),
             ),
@@ -243,11 +261,15 @@ class _Poster extends StatelessWidget {
   }
 
   Widget _placeholder() => Container(
-        width: 90.w,
-        height: 140.h,
-        color: AppBrandColors.tertiaryContainer,
-        child: Icon(Icons.movie_outlined, size: 32.w, color: AppBrandColors.tertiary),
-      );
+    width: 90.w,
+    height: 140.h,
+    color: AppBrandColors.tertiaryContainer,
+    child: Icon(
+      Icons.movie_outlined,
+      size: 32.w,
+      color: AppBrandColors.tertiary,
+    ),
+  );
 }
 
 // ─── Empty Views ──────────────────────────────────────────────────────────────
@@ -263,20 +285,24 @@ class _EmptyMoviesView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.favorite_border, size: 64.w, color: cs.onSurface.withValues(alpha: 0.25)),
+          Icon(
+            Icons.favorite_border,
+            size: 64.w,
+            color: cs.onSurface.withValues(alpha: 0.25),
+          ),
           SizedBox(height: 16.h),
           Text(
             t.favorites.emptyMovies,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: cs.onSurface.withValues(alpha: 0.5),
-                ),
+              color: cs.onSurface.withValues(alpha: 0.5),
+            ),
           ),
           SizedBox(height: 8.h),
           Text(
             t.favorites.emptyMoviesHint,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: cs.onSurface.withValues(alpha: 0.35),
-                ),
+              color: cs.onSurface.withValues(alpha: 0.35),
+            ),
           ),
         ],
       ),

@@ -34,9 +34,7 @@ abstract class AuthRemoteDataSource {
     SocialAuthRequestDto dto, {
     CancelToken? cancelToken,
   });
-  Future<Result<TokensDto, ApiError>> guestSignIn({
-    CancelToken? cancelToken,
-  });
+  Future<Result<TokensDto, ApiError>> guestSignIn({CancelToken? cancelToken});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {

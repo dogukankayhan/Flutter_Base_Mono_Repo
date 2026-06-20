@@ -3,7 +3,7 @@ import 'dart:collection';
 import '../api/api_manager_interface.dart';
 
 /// Request queue with priority management
-/// 
+///
 /// Features:
 /// - Priority-based execution
 /// - Concurrent request limiting
@@ -81,9 +81,7 @@ class RequestQueue {
   void cancelAll() {
     while (_queue.isNotEmpty) {
       final request = _queue.removeFirst();
-      request.completer.completeError(
-        Exception('Request cancelled'),
-      );
+      request.completer.completeError(Exception('Request cancelled'));
     }
   }
 
@@ -97,19 +95,17 @@ class RequestQueue {
     _queue.clear();
     _queue.addAll(list);
 
-    request.completer.completeError(
-      Exception('Request cancelled'),
-    );
+    request.completer.completeError(Exception('Request cancelled'));
 
     return true;
   }
 
   /// Get queue status
   QueueStatus get status => QueueStatus(
-        pending: _queue.length,
-        active: _activeRequests,
-        isPaused: _isPaused,
-      );
+    pending: _queue.length,
+    active: _activeRequests,
+    isPaused: _isPaused,
+  );
 
   /// Clear queue and reset
   void clear() {

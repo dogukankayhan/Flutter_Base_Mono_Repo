@@ -12,14 +12,11 @@ class UserDto {
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) => UserDto(
-        firstName: json['firstName'] as String? ?? '',
-        lastName: json['lastName'] as String? ?? '',
-        email: json['email'] as String? ?? '',
-      );
+    firstName: json['firstName'] as String? ?? '',
+    lastName: json['lastName'] as String? ?? '',
+    email: json['email'] as String? ?? '',
+  );
 
-  UserProfile toDomain() => UserProfile(
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-      );
+  UserProfile toDomain() =>
+      UserProfile(firstName: firstName, lastName: lastName, email: email);
 }

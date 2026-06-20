@@ -26,13 +26,22 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
   PokemonRemoteDataSourceImpl({required ApiManager api}) : _api = api;
 
   @override
-  Future<List<PokemonBrief>> listPokemon({int limit = 20, int offset = 0}) async {
+  Future<List<PokemonBrief>> listPokemon({
+    int limit = 20,
+    int offset = 0,
+  }) async {
     final response = await _api.get<List<PokemonBrief>>(
       path: 'pokemon',
       query: {'limit': limit, 'offset': offset},
       extractor: (data) {
         final results = (data as Map<String, dynamic>)['results'] as List;
-        return results.map((e) => PokemonBriefDto.fromJson((e as Map).cast<String, dynamic>()).toDomain()).toList();
+        return results
+            .map(
+              (e) => PokemonBriefDto.fromJson(
+                (e as Map).cast<String, dynamic>(),
+              ).toDomain(),
+            )
+            .toList();
       },
     );
 
@@ -78,12 +87,20 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
       query: {'limit': 1000},
       extractor: (data) {
         final results = (data as Map<String, dynamic>)['results'] as List;
-        return results.map((e) => PokemonBriefDto.fromJson((e as Map).cast<String, dynamic>()).toDomain()).toList();
+        return results
+            .map(
+              (e) => PokemonBriefDto.fromJson(
+                (e as Map).cast<String, dynamic>(),
+              ).toDomain(),
+            )
+            .toList();
       },
       priority: RequestPriority.high,
     );
 
-    return response.data.where((p) => p.name.toLowerCase().contains(query.toLowerCase())).toList();
+    return response.data
+        .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 
   @override

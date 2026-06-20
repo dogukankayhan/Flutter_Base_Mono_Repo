@@ -29,19 +29,24 @@ class _State extends PaginatedState<String> {
     bool? isValid,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      _State(
-        items: items ?? this.items,
-        hasMore: hasMore ?? this.hasMore,
-        nextOffset: nextOffset ?? this.nextOffset,
-        isLoading: isLoading ?? this.isLoading,
-        isValid: isValid ?? this.isValid,
-        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      );
+  }) => _State(
+    items: items ?? this.items,
+    hasMore: hasMore ?? this.hasMore,
+    nextOffset: nextOffset ?? this.nextOffset,
+    isLoading: isLoading ?? this.isLoading,
+    isValid: isValid ?? this.isValid,
+    errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+  );
 
   @override
-  List<Object?> get props =>
-      [isLoading, isValid, errorMessage, items, hasMore, nextOffset];
+  List<Object?> get props => [
+    isLoading,
+    isValid,
+    errorMessage,
+    items,
+    hasMore,
+    nextOffset,
+  ];
 }
 
 sealed class _Event {}
@@ -63,7 +68,7 @@ class _RemoveWhere extends _Event {
 class _TestBloc extends BaseBloc<_Event, _State>
     with PaginatedBloc<String, _Event, _State> {
   final Future<(List<String>, bool, int)> Function(int offset, int size)
-      fetcher;
+  fetcher;
 
   _TestBloc({required this.fetcher}) : super(const _State()) {
     on<_Load>((_, emit) => handleLoadInitial(emit));
@@ -84,15 +89,14 @@ class _TestBloc extends BaseBloc<_Event, _State>
     bool? isLoading,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      state.copyWith(
-        items: items,
-        hasMore: hasMore,
-        nextOffset: nextOffset,
-        isLoading: isLoading,
-        errorMessage: errorMessage,
-        clearError: clearError,
-      );
+  }) => state.copyWith(
+    items: items,
+    hasMore: hasMore,
+    nextOffset: nextOffset,
+    isLoading: isLoading,
+    errorMessage: errorMessage,
+    clearError: clearError,
+  );
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -121,16 +125,17 @@ void main() {
       await bloc.close();
     });
 
-    test('sets hasMore false when fewer items than pageSize returned', () async {
-      final bloc = _TestBloc(
-        fetcher: (_, _) async => (['only'], false, 1),
-      );
-      bloc.add(_Load());
-      await Future.delayed(Duration.zero);
+    test(
+      'sets hasMore false when fewer items than pageSize returned',
+      () async {
+        final bloc = _TestBloc(fetcher: (_, _) async => (['only'], false, 1));
+        bloc.add(_Load());
+        await Future.delayed(Duration.zero);
 
-      expect(bloc.state.hasMore, false);
-      await bloc.close();
-    });
+        expect(bloc.state.hasMore, false);
+        await bloc.close();
+      },
+    );
 
     test('clears previous error on reload', () async {
       var fail = true;
@@ -154,9 +159,7 @@ void main() {
     });
 
     test('sets errorMessage on fetch failure', () async {
-      final bloc = _TestBloc(
-        fetcher: (_, _) async => throw Exception('boom'),
-      );
+      final bloc = _TestBloc(fetcher: (_, _) async => throw Exception('boom'));
       bloc.add(_Load());
       await Future.delayed(Duration.zero);
 

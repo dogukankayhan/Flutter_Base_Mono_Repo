@@ -14,10 +14,13 @@ final class ShellNavigator {
   static const String pokemonPath = '/pokemon';
 
   StatefulShellRoute get route => StatefulShellRoute.indexedStack(
-    builder: (_, _, navigationShell) => ShellScreen(navigationShell: navigationShell),
+    builder: (_, _, navigationShell) =>
+        ShellScreen(navigationShell: navigationShell),
     branches: [
       StatefulShellBranch(
-        routes: [GoRoute(path: dashboardPath, builder: (_, _) => const MoviesScreen())],
+        routes: [
+          GoRoute(path: dashboardPath, builder: (_, _) => const MoviesScreen()),
+        ],
       ),
       StatefulShellBranch(
         routes: [

@@ -9,12 +9,11 @@ class _State extends BaseState {
     bool? isValid,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      _State(
-        isLoading: isLoading ?? this.isLoading,
-        isValid: isValid ?? this.isValid,
-        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      );
+  }) => _State(
+    isLoading: isLoading ?? this.isLoading,
+    isValid: isValid ?? this.isValid,
+    errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+  );
 
   @override
   List<Object?> get props => [isLoading, isValid, errorMessage];
@@ -26,7 +25,10 @@ void main() {
 
     test('isLoading defaults to false', () => expect(state.isLoading, false));
     test('isValid defaults to false', () => expect(state.isValid, false));
-    test('errorMessage defaults to null', () => expect(state.errorMessage, isNull));
+    test(
+      'errorMessage defaults to null',
+      () => expect(state.errorMessage, isNull),
+    );
   });
 
   group('BaseState — copyWith', () {

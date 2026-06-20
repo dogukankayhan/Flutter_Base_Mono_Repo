@@ -15,7 +15,9 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     on<AuthStatusChanged>(_onStatusChanged);
     on<AuthLogoutRequested>(_onLogout);
 
-    _sub = _authManager.statusStream.listen((_) => add(const AuthStatusChanged()));
+    _sub = _authManager.statusStream.listen(
+      (_) => add(const AuthStatusChanged()),
+    );
 
     if (_authManager.isLoggedIn) {
       add(const AuthStatusChanged());
@@ -29,10 +31,7 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
       emit(const AuthState());
       return;
     }
-    emit(state.copyWith(
-      isAuthenticated: true,
-      profile: _authManager.profile,
-    ));
+    emit(state.copyWith(isAuthenticated: true, profile: _authManager.profile));
   }
 
   Future<void> _onLogout(

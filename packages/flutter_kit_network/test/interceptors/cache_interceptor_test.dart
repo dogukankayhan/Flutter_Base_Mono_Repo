@@ -42,26 +42,29 @@ void main() {
       expect(getReqHandler.resolvedResponse, isNull);
     });
 
-    test('caches successful GET response and hits cache on subsequent request', () async {
-      final reqOptions = RequestOptions(method: 'GET', path: '/test');
-      final resHandler = MockResponseInterceptorHandler();
-      final response = Response(
-        requestOptions: reqOptions,
-        statusCode: 200,
-        data: 'cached_data',
-      );
+    test(
+      'caches successful GET response and hits cache on subsequent request',
+      () async {
+        final reqOptions = RequestOptions(method: 'GET', path: '/test');
+        final resHandler = MockResponseInterceptorHandler();
+        final response = Response(
+          requestOptions: reqOptions,
+          statusCode: 200,
+          data: 'cached_data',
+        );
 
-      cacheInterceptor.onResponse(response, resHandler);
-      await resHandler.completer.future;
-      expect(resHandler.nextResponse, isNotNull);
+        cacheInterceptor.onResponse(response, resHandler);
+        await resHandler.completer.future;
+        expect(resHandler.nextResponse, isNotNull);
 
-      final nextReqHandler = MockRequestInterceptorHandler();
-      cacheInterceptor.onRequest(reqOptions, nextReqHandler);
-      await nextReqHandler.completer.future;
+        final nextReqHandler = MockRequestInterceptorHandler();
+        cacheInterceptor.onRequest(reqOptions, nextReqHandler);
+        await nextReqHandler.completer.future;
 
-      expect(nextReqHandler.resolvedResponse, isNotNull);
-      expect(nextReqHandler.resolvedResponse!.data, 'cached_data');
-    });
+        expect(nextReqHandler.resolvedResponse, isNotNull);
+        expect(nextReqHandler.resolvedResponse!.data, 'cached_data');
+      },
+    );
 
     test('respects max-age in cache-control header', () async {
       final reqOptions = RequestOptions(method: 'GET', path: '/test');
@@ -96,7 +99,11 @@ void main() {
       // Add 4 entries to cache capacity of 3
       for (int i = 0; i < 4; i++) {
         final opt = RequestOptions(method: 'GET', path: '/test$i');
-        final res = Response(requestOptions: opt, statusCode: 200, data: 'data$i');
+        final res = Response(
+          requestOptions: opt,
+          statusCode: 200,
+          data: 'data$i',
+        );
         final resHandler = MockResponseInterceptorHandler();
         cacheInterceptor.onResponse(res, resHandler);
         await resHandler.completer.future;

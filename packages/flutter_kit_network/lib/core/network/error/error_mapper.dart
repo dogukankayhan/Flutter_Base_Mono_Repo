@@ -26,30 +26,30 @@ class ErrorMapper {
         message = messages.requestCancelled;
         code = 'REQUEST_CANCELLED';
         break;
-        
+
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         message = messages.connectionTimeout;
         code = 'TIMEOUT';
         break;
-        
+
       case DioExceptionType.connectionError:
         message = messages.networkError;
         code = 'CONNECTION_ERROR';
         break;
-        
+
       case DioExceptionType.badResponse:
         if (status != null) {
           message = _getLocalizedMessageForStatus(status, messages) ?? message;
         }
         break;
-        
+
       case DioExceptionType.badCertificate:
         message = 'Bad certificate'; // Could add to i18n
         code = 'BAD_CERTIFICATE';
         break;
-        
+
       case DioExceptionType.unknown:
         if (e.error != null && e.error.toString().contains('SocketException')) {
           message = messages.noInternetConnection;
@@ -88,10 +88,7 @@ class ErrorMapper {
   }
 
   /// Map generic exception to API error
-  static ApiError fromException(
-    Exception e, {
-    String locale = 'en_US',
-  }) {
+  static ApiError fromException(Exception e, {String locale = 'en_US'}) {
     return ApiError(
       statusCode: null,
       message: e.toString(),

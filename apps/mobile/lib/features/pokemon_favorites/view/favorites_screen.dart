@@ -83,7 +83,9 @@ class PokemonFavoritesTab extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    context.translations.favorites.removeSuccess(name: pokemon.name),
+                    context.translations.favorites.removeSuccess(
+                      name: pokemon.name,
+                    ),
                   ),
                   duration: const Duration(seconds: 2),
                 ),
@@ -92,8 +94,10 @@ class PokemonFavoritesTab extends StatelessWidget {
             child: PokemonCard(
               pokemon: pokemon,
               isFavorite: true,
-              onFavoriteToggle: () => bloc.add(PokemonFavoritesRemove(pokemon.id)),
-              onTap: () => PokemonFavoritesNavigator.showDetail(context, pokemon),
+              onFavoriteToggle: () =>
+                  bloc.add(PokemonFavoritesRemove(pokemon.id)),
+              onTap: () =>
+                  PokemonFavoritesNavigator.showDetail(context, pokemon),
             ),
           );
         },
@@ -132,20 +136,24 @@ class _EmptyView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.favorite_border, size: 64.w, color: cs.onSurface.withValues(alpha: 0.25)),
+          Icon(
+            Icons.favorite_border,
+            size: 64.w,
+            color: cs.onSurface.withValues(alpha: 0.25),
+          ),
           SizedBox(height: 16.h),
           Text(
             t.favorites.emptyPokemon,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: cs.onSurface.withValues(alpha: 0.5),
-                ),
+              color: cs.onSurface.withValues(alpha: 0.5),
+            ),
           ),
           SizedBox(height: 8.h),
           Text(
             t.favorites.emptyPokemonHint,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: cs.onSurface.withValues(alpha: 0.35),
-                ),
+              color: cs.onSurface.withValues(alpha: 0.35),
+            ),
           ),
         ],
       ),

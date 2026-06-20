@@ -16,8 +16,7 @@ class MoviesBloc extends BaseBloc<MoviesEvent, MoviesState>
     on<MoviesRefreshed>((_, emit) => handleLoadInitial(emit));
   }
 
-  MoviesBloc.create()
-      : this(GetPopularMoviesUseCase(getIt<MovieRepository>()));
+  MoviesBloc.create() : this(GetPopularMoviesUseCase(getIt<MovieRepository>()));
 
   final GetPopularMoviesUseCase _useCase;
 
@@ -36,13 +35,12 @@ class MoviesBloc extends BaseBloc<MoviesEvent, MoviesState>
     bool? isLoading,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      state.copyWith(
-        items: items,
-        hasMore: hasMore,
-        nextOffset: nextOffset,
-        isLoading: isLoading,
-        errorMessage: errorMessage,
-        clearError: clearError,
-      );
+  }) => state.copyWith(
+    items: items,
+    hasMore: hasMore,
+    nextOffset: nextOffset,
+    isLoading: isLoading,
+    errorMessage: errorMessage,
+    clearError: clearError,
+  );
 }

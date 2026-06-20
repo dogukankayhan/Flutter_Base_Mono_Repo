@@ -6,18 +6,22 @@ import 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   FavoritesCubit(this._store)
-      : super(FavoritesState(
+    : super(
+        FavoritesState(
           favorites: _store.favorites,
           favoriteIds: _store.favoriteIds,
-        ));
+        ),
+      );
 
   final FavoritesStore _store;
 
   void toggle(Movie movie) {
     _store.toggle(movie);
-    emit(FavoritesState(
-      favorites: _store.favorites,
-      favoriteIds: _store.favoriteIds,
-    ));
+    emit(
+      FavoritesState(
+        favorites: _store.favorites,
+        favoriteIds: _store.favoriteIds,
+      ),
+    );
   }
 }

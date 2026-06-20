@@ -27,10 +27,7 @@ final class AppRouter {
           path: state.uri.path,
         );
       },
-      routes: [
-        SplashNavigator.route(rootKey),
-        ...navigator.routes,
-      ],
+      routes: [SplashNavigator.route(rootKey), ...navigator.routes],
     );
   }
 }

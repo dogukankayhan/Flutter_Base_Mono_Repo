@@ -98,8 +98,12 @@ class _AppTextFieldState extends State<AppTextField> {
           minLines: _isPassword ? 1 : widget.maxLines,
           enabled: widget.isEnabled,
           onChanged: widget.onChanged,
-          style: context.textStyle.paragraph16Regular.copyWith(color: colors.textColor),
-          validator: widget.validator ?? (widget.isRequired ? _requiredValidator : null),
+          style: context.textStyle.paragraph16Regular.copyWith(
+            color: colors.textColor,
+          ),
+          validator:
+              widget.validator ??
+              (widget.isRequired ? _requiredValidator : null),
           onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           decoration: _decoration(context, colors),
         );
@@ -125,10 +129,7 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 
   // ─── Decoration ─────────────────────────────────────────
-  InputDecoration _decoration(
-    BuildContext context,
-    AppColors colors,
-  ) {
+  InputDecoration _decoration(BuildContext context, AppColors colors) {
     return InputDecoration(
       hintText: widget.hintText,
       hintStyle: context.textStyle.paragraph16Regular.copyWith(
@@ -140,14 +141,13 @@ class _AppTextFieldState extends State<AppTextField> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       label: _label(context),
       prefixIcon: widget.prefixIcon != null
-          ? Padding(
-              padding: EdgeInsets.all(12.w),
-              child: widget.prefixIcon,
-            )
+          ? Padding(padding: EdgeInsets.all(12.w), child: widget.prefixIcon)
           : null,
       suffixIcon: _suffixIcon(colors),
       errorText: widget.validationMessage,
-      errorStyle: context.textStyle.paragraph14Regular.copyWith(color: AppBrandColors.error),
+      errorStyle: context.textStyle.paragraph14Regular.copyWith(
+        color: AppBrandColors.error,
+      ),
       border: _border(AppBrandColors.textFieldUnFocusBorder),
       enabledBorder: _border(AppBrandColors.textFieldUnFocusBorder),
       focusedBorder: _border(AppBrandColors.textFieldFocusBorder),
@@ -166,7 +166,9 @@ class _AppTextFieldState extends State<AppTextField> {
           if (widget.isRequired)
             TextSpan(
               text: ' *',
-              style: context.textStyle.paragraph16Regular.copyWith(color: AppBrandColors.error),
+              style: context.textStyle.paragraph16Regular.copyWith(
+                color: AppBrandColors.error,
+              ),
             ),
         ],
       ),
@@ -209,24 +211,24 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 
   OutlineInputBorder _border(Color color) => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.r),
-        borderSide: BorderSide(color: color, width: 1.5.w),
-      );
+    borderRadius: BorderRadius.circular(12.r),
+    borderSide: BorderSide(color: color, width: 1.5.w),
+  );
 
   // ─── Keyboard / Formatter ───────────────────────────────
   TextInputType get _keyboardType => switch (widget.type) {
-        InputType.text     => TextInputType.text,
-        InputType.password => TextInputType.visiblePassword,
-        InputType.numeric  => TextInputType.number,
-        InputType.email    => TextInputType.emailAddress,
-        InputType.phone    => TextInputType.phone,
-      };
+    InputType.text => TextInputType.text,
+    InputType.password => TextInputType.visiblePassword,
+    InputType.numeric => TextInputType.number,
+    InputType.email => TextInputType.emailAddress,
+    InputType.phone => TextInputType.phone,
+  };
 
   List<TextInputFormatter>? get _inputFormatters => switch (widget.type) {
-        InputType.numeric || InputType.phone =>
-          [FilteringTextInputFormatter.digitsOnly],
-        _ => null,
-      };
+    InputType.numeric ||
+    InputType.phone => [FilteringTextInputFormatter.digitsOnly],
+    _ => null,
+  };
 
   // ─── Default validator ──────────────────────────────────
   String? _requiredValidator(String? value) {

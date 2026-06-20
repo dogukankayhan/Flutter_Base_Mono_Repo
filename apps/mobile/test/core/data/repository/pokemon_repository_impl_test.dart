@@ -21,21 +21,34 @@ const _kBrief = PokemonBrief(
 );
 
 const _kStats = PokemonStats(
-  hp: 45, attack: 49, defense: 49,
-  specialAttack: 65, specialDefense: 65, speed: 45,
+  hp: 45,
+  attack: 49,
+  defense: 49,
+  specialAttack: 65,
+  specialDefense: 65,
+  speed: 45,
 );
 
 const _kPokemon = Pokemon(
-  id: 1, name: 'bulbasaur', height: 7, weight: 69,
-  types: [], abilities: [],
-  stats: _kStats, sprites: PokemonSprites(),
+  id: 1,
+  name: 'bulbasaur',
+  height: 7,
+  weight: 69,
+  types: [],
+  abilities: [],
+  stats: _kStats,
+  sprites: PokemonSprites(),
   speciesName: 'bulbasaur',
   speciesUrl: 'https://pokeapi.co/api/v2/pokemon-species/1/',
 );
 
 const _kSpecies = PokemonSpecies(
-  id: 1, name: 'bulbasaur', description: 'A strange seed',
-  genus: 'Seed Pokémon', eggGroups: [], genderRate: 1,
+  id: 1,
+  name: 'bulbasaur',
+  description: 'A strange seed',
+  genus: 'Seed Pokémon',
+  eggGroups: [],
+  genderRate: 1,
   evolutionChainUrl: 'https://pokeapi.co/api/v2/evolution-chain/1/',
 );
 
@@ -62,8 +75,9 @@ void main() {
 
   group('pageWithSize', () {
     test('returns Ok with correct items and offset on full page', () async {
-      when(mockDs.listPokemon(limit: 20, offset: 0))
-          .thenAnswer((_) async => List.filled(20, _kBrief));
+      when(
+        mockDs.listPokemon(limit: 20, offset: 0),
+      ).thenAnswer((_) async => List.filled(20, _kBrief));
       when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageWithSize(20, 0);
@@ -79,22 +93,30 @@ void main() {
       );
     });
 
-    test('hasMore=false when returned list is smaller than requested size', () async {
-      when(mockDs.listPokemon(limit: 20, offset: 0))
-          .thenAnswer((_) async => [_kBrief]);
-      when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
+    test(
+      'hasMore=false when returned list is smaller than requested size',
+      () async {
+        when(
+          mockDs.listPokemon(limit: 20, offset: 0),
+        ).thenAnswer((_) async => [_kBrief]);
+        when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
 
-      final result = await repo.pageWithSize(20, 0);
+        final result = await repo.pageWithSize(20, 0);
 
-      result.when(
-        ok: (data) => expect(data.$2, false),
-        err: (_) => fail('expected ok'),
-      );
-    });
+        result.when(
+          ok: (data) => expect(data.$2, false),
+          err: (_) => fail('expected ok'),
+        );
+      },
+    );
 
     test('hasMore=false on empty list', () async {
-      when(mockDs.listPokemon(limit: anyNamed('limit'), offset: anyNamed('offset')))
-          .thenAnswer((_) async => []);
+      when(
+        mockDs.listPokemon(
+          limit: anyNamed('limit'),
+          offset: anyNamed('offset'),
+        ),
+      ).thenAnswer((_) async => []);
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -110,10 +132,12 @@ void main() {
     });
 
     test('returns Err wrapping ApiError from datasource', () async {
-      when(mockDs.listPokemon(
-        limit: anyNamed('limit'),
-        offset: anyNamed('offset'),
-      )).thenThrow(_kError);
+      when(
+        mockDs.listPokemon(
+          limit: anyNamed('limit'),
+          offset: anyNamed('offset'),
+        ),
+      ).thenThrow(_kError);
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -124,10 +148,12 @@ void main() {
     });
 
     test('wraps generic exception as Err(ApiError)', () async {
-      when(mockDs.listPokemon(
-        limit: anyNamed('limit'),
-        offset: anyNamed('offset'),
-      )).thenThrow(Exception('timeout'));
+      when(
+        mockDs.listPokemon(
+          limit: anyNamed('limit'),
+          offset: anyNamed('offset'),
+        ),
+      ).thenThrow(Exception('timeout'));
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -142,8 +168,9 @@ void main() {
 
   group('page', () {
     test('delegates to pageWithSize with default pageSize=20', () async {
-      when(mockDs.listPokemon(limit: 20, offset: 0))
-          .thenAnswer((_) async => [_kBrief]);
+      when(
+        mockDs.listPokemon(limit: 20, offset: 0),
+      ).thenAnswer((_) async => [_kBrief]);
       when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
 
       await repo.page(0);
@@ -174,7 +201,9 @@ void main() {
     });
 
     test('hasMore=false on last slice', () async {
-      when(mockDs.filterByType('grass')).thenAnswer((_) async => [_kBrief, _kBrief]);
+      when(
+        mockDs.filterByType('grass'),
+      ).thenAnswer((_) async => [_kBrief, _kBrief]);
       when(mockDs.getDetailByUrl(any)).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.pageByType('grass', 5, 0);
@@ -237,10 +266,7 @@ void main() {
 
       final result = await repo.getById(1);
 
-      result.when(
-        ok: (p) => expect(p.id, 1),
-        err: (_) => fail('expected ok'),
-      );
+      result.when(ok: (p) => expect(p.id, 1), err: (_) => fail('expected ok'));
       verify(mockDs.getDetailByName('1')).called(1);
     });
 
@@ -260,8 +286,9 @@ void main() {
 
   group('getByName', () {
     test('returns Ok with pokemon on success', () async {
-      when(mockDs.getDetailByName('bulbasaur'))
-          .thenAnswer((_) async => _kPokemon);
+      when(
+        mockDs.getDetailByName('bulbasaur'),
+      ).thenAnswer((_) async => _kPokemon);
 
       final result = await repo.getByName('bulbasaur');
 

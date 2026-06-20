@@ -3,66 +3,42 @@ import '../utils/result.dart';
 extension ResultExtension<T, E> on Result<T, E> {
   /// Get value or null
   T? getOrNull() {
-    return when(
-      ok: (data) => data,
-      err: (_) => null,
-    );
+    return when(ok: (data) => data, err: (_) => null);
   }
 
   /// Get error or null
   E? getErrorOrNull() {
-    return when(
-      ok: (_) => null,
-      err: (error) => error,
-    );
+    return when(ok: (_) => null, err: (error) => error);
   }
 
   /// Get value or default
   T getOrElse(T defaultValue) {
-    return when(
-      ok: (data) => data,
-      err: (_) => defaultValue,
-    );
+    return when(ok: (data) => data, err: (_) => defaultValue);
   }
 
   /// Get value or compute default
   T getOrElseCompute(T Function() defaultValue) {
-    return when(
-      ok: (data) => data,
-      err: (_) => defaultValue(),
-    );
+    return when(ok: (data) => data, err: (_) => defaultValue());
   }
 
   /// Map success value
   Result<R, E> map<R>(R Function(T data) mapper) {
-    return when(
-      ok: (data) => Ok(mapper(data)),
-      err: (error) => Err(error),
-    );
+    return when(ok: (data) => Ok(mapper(data)), err: (error) => Err(error));
   }
 
   /// Map error value
   Result<T, F> mapError<F>(F Function(E error) mapper) {
-    return when(
-      ok: (data) => Ok(data),
-      err: (error) => Err(mapper(error)),
-    );
+    return when(ok: (data) => Ok(data), err: (error) => Err(mapper(error)));
   }
 
   /// FlatMap for chaining operations
   Result<R, E> flatMap<R>(Result<R, E> Function(T data) mapper) {
-    return when(
-      ok: (data) => mapper(data),
-      err: (error) => Err(error),
-    );
+    return when(ok: (data) => mapper(data), err: (error) => Err(error));
   }
 
   /// Convert to Future
   Future<T> toFuture() async {
-    return when(
-      ok: (data) => data,
-      err: (error) => throw error as Object,
-    );
+    return when(ok: (data) => data, err: (error) => throw error as Object);
   }
 
   /// Fold into a single type
@@ -90,10 +66,7 @@ extension ResultExtension<T, E> on Result<T, E> {
 
   /// Swap Ok and Err
   Result<E, T> swap() {
-    return when(
-      ok: (data) => Err(data),
-      err: (error) => Ok(error),
-    );
+    return when(ok: (data) => Err(data), err: (error) => Ok(error));
   }
 }
 
@@ -112,10 +85,7 @@ extension FutureResultExtension<T, E> on Future<Result<T, E>> {
     Future<Result<R, E>> Function(T data) mapper,
   ) async {
     final result = await this;
-    return result.when(
-      ok: (data) => mapper(data),
-      err: (error) => Err(error),
-    );
+    return result.when(ok: (data) => mapper(data), err: (error) => Err(error));
   }
 
   /// Get value or null async

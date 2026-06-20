@@ -29,14 +29,28 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   }
 
   void _onEmailChanged(LoginEmailChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(email: event.email, emailError: null, errorMessage: null));
+    emit(
+      state.copyWith(email: event.email, emailError: null, errorMessage: null),
+    );
   }
 
-  void _onPasswordChanged(LoginPasswordChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(password: event.password, passwordError: null, errorMessage: null));
+  void _onPasswordChanged(
+    LoginPasswordChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        password: event.password,
+        passwordError: null,
+        errorMessage: null,
+      ),
+    );
   }
 
-  void _onDemoFillRequested(LoginDemoFillRequested event, Emitter<LoginState> emit) {
+  void _onDemoFillRequested(
+    LoginDemoFillRequested event,
+    Emitter<LoginState> emit,
+  ) {
     emit(
       state.copyWith(
         email: 'john.doe@example.com',
@@ -48,21 +62,30 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     );
   }
 
-  Future<void> _onSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
+  Future<void> _onSubmitted(
+    LoginSubmitted event,
+    Emitter<LoginState> emit,
+  ) async {
     final emailError = _emailValidator.validate(state.email);
     final passwordError = _passwordValidator.validate(state.password);
 
     if (emailError != null || passwordError != null) {
-      emit(state.copyWith(emailError: emailError, passwordError: passwordError));
+      emit(
+        state.copyWith(emailError: emailError, passwordError: passwordError),
+      );
       return;
     }
 
     emit(state.copyWith(isLoading: true, errorMessage: null));
     try {
-      final result = await _authManager.login(state.email.trim(), state.password);
+      final result = await _authManager.login(
+        state.email.trim(),
+        state.password,
+      );
       result.when(
         ok: (_) => emit(state.copyWith(isLoading: false, isSuccess: true)),
-        err: (error) => emit(state.copyWith(isLoading: false, errorMessage: error.message)),
+        err: (error) =>
+            emit(state.copyWith(isLoading: false, errorMessage: error.message)),
       );
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));

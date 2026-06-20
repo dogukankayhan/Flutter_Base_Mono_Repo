@@ -46,15 +46,14 @@ class _InlineBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.error_outline,
-              color: AppBrandColors.error, size: 18.w),
+          Icon(Icons.error_outline, color: AppBrandColors.error, size: 18.w),
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
               banner.message,
               style: context.textStyle.paragraph12Regular.copyWith(
-                    color: AppBrandColors.error,
-                  ),
+                color: AppBrandColors.error,
+              ),
             ),
           ),
           if (banner.onDismiss != null) ...[
@@ -82,15 +81,18 @@ class _FullBanner extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.wifi_off_outlined,
-                color: AppBrandColors.error, size: 48.w),
+            Icon(
+              Icons.wifi_off_outlined,
+              color: AppBrandColors.error,
+              size: 48.w,
+            ),
             SizedBox(height: 16.h),
             Text(
               banner.message,
               textAlign: TextAlign.center,
               style: context.textStyle.paragraph14Regular.copyWith(
-                    color: AppBrandColors.error,
-                  ),
+                color: AppBrandColors.error,
+              ),
             ),
             if (banner.onRetry != null) ...[
               SizedBox(height: 16.h),
@@ -99,8 +101,8 @@ class _FullBanner extends StatelessWidget {
                 child: Text(
                   banner.retryLabel,
                   style: context.textStyle.button14Bold.copyWith(
-                        color: AppBrandColors.primary,
-                      ),
+                    color: AppBrandColors.primary,
+                  ),
                 ),
               ),
             ],

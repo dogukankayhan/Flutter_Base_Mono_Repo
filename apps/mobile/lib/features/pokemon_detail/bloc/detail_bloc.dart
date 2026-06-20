@@ -34,13 +34,19 @@ class DetailBloc extends BaseBloc<DetailEvent, DetailState> {
   StreamSubscription? _favoritesSubscription;
 
   DetailBloc.create({Pokemon? initialPokemon})
-      : this(
-          getPokemonByIdUseCase: GetPokemonByIdUseCase(getIt<PokemonRepository>()),
-          getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase(getIt<PokemonRepository>()),
-          getEvolutionChainUseCase: GetEvolutionChainUseCase(getIt<PokemonRepository>()),
-          favoritesRepo: getIt<FavoritesRepository>(),
-          initialPokemon: initialPokemon,
-        );
+    : this(
+        getPokemonByIdUseCase: GetPokemonByIdUseCase(
+          getIt<PokemonRepository>(),
+        ),
+        getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase(
+          getIt<PokemonRepository>(),
+        ),
+        getEvolutionChainUseCase: GetEvolutionChainUseCase(
+          getIt<PokemonRepository>(),
+        ),
+        favoritesRepo: getIt<FavoritesRepository>(),
+        initialPokemon: initialPokemon,
+      );
 
   DetailBloc({
     required GetPokemonByIdUseCase getPokemonByIdUseCase,
@@ -66,7 +72,13 @@ class DetailBloc extends BaseBloc<DetailEvent, DetailState> {
 
     on<DetailLoad>((event, emit) async {
       _currentPokemonId = event.pokemonId;
-      emit(state.copyWith(isLoading: true, clearError: true, isEvolutionLoading: true));
+      emit(
+        state.copyWith(
+          isLoading: true,
+          clearError: true,
+          isEvolutionLoading: true,
+        ),
+      );
 
       try {
         // Step 1: Fetch Basic Data & Favorite Status
@@ -83,12 +95,26 @@ class DetailBloc extends BaseBloc<DetailEvent, DetailState> {
         // Step 2: Fetch Species using the URL from Pokemon data
         final species = await _getPokemonSpeciesUseCase(pokemon.speciesUrl);
 
-        emit(state.copyWith(species: species, isLoading: false, isEvolutionLoading: true));
+        emit(
+          state.copyWith(
+            species: species,
+            isLoading: false,
+            isEvolutionLoading: true,
+          ),
+        );
 
         // Step 3: Fetch Evolution Chain
         try {
-          final evolutionChain = await _getEvolutionChainUseCase(species.evolutionChainUrl);
-          emit(state.copyWith(evolutionChain: evolutionChain, isEvolutionLoading: false, isValid: true));
+          final evolutionChain = await _getEvolutionChainUseCase(
+            species.evolutionChainUrl,
+          );
+          emit(
+            state.copyWith(
+              evolutionChain: evolutionChain,
+              isEvolutionLoading: false,
+              isValid: true,
+            ),
+          );
         } catch (e) {
           emit(state.copyWith(isEvolutionLoading: false, isValid: true));
         }

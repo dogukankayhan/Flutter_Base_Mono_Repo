@@ -34,8 +34,7 @@ void main() {
 
   group('GetUserProfileUseCase', () {
     test('returns Result directly from repository on ok', () async {
-      when(mockRepo.getProfile())
-          .thenAnswer((_) async => Ok(_kProfile));
+      when(mockRepo.getProfile()).thenAnswer((_) async => Ok(_kProfile));
 
       final result = await useCase();
 
@@ -50,8 +49,7 @@ void main() {
     });
 
     test('returns Err Result from repository on failure', () async {
-      when(mockRepo.getProfile())
-          .thenAnswer((_) async => Err(_kError));
+      when(mockRepo.getProfile()).thenAnswer((_) async => Err(_kError));
 
       final result = await useCase();
 
@@ -62,8 +60,7 @@ void main() {
     });
 
     test('delegates to repository.getProfile', () async {
-      when(mockRepo.getProfile())
-          .thenAnswer((_) async => Ok(_kProfile));
+      when(mockRepo.getProfile()).thenAnswer((_) async => Ok(_kProfile));
 
       await useCase();
 

@@ -31,8 +31,12 @@ class LoginState extends BaseState {
     return LoginState(
       email: email ?? this.email,
       password: password ?? this.password,
-      emailError: identical(emailError, _omit) ? this.emailError : emailError as String?,
-      passwordError: identical(passwordError, _omit) ? this.passwordError : passwordError as String?,
+      emailError: identical(emailError, _omit)
+          ? this.emailError
+          : emailError as String?,
+      passwordError: identical(passwordError, _omit)
+          ? this.passwordError
+          : passwordError as String?,
       isSuccess: isSuccess ?? this.isSuccess,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -41,11 +45,11 @@ class LoginState extends BaseState {
 
   @override
   List<Object?> get props => [
-        ...super.props,
-        email,
-        password,
-        emailError,
-        passwordError,
-        isSuccess,
-      ];
+    ...super.props,
+    email,
+    password,
+    emailError,
+    passwordError,
+    isSuccess,
+  ];
 }

@@ -81,13 +81,29 @@ Future<void> setupNetworking({
         case 'GET':
           await api.get<dynamic>(path: request.url, headers: headers);
         case 'POST':
-          await api.post<dynamic>(path: request.url, body: request.body, headers: headers);
+          await api.post<dynamic>(
+            path: request.url,
+            body: request.body,
+            headers: headers,
+          );
         case 'PUT':
-          await api.put<dynamic>(path: request.url, body: request.body, headers: headers);
+          await api.put<dynamic>(
+            path: request.url,
+            body: request.body,
+            headers: headers,
+          );
         case 'PATCH':
-          await api.patch<dynamic>(path: request.url, body: request.body, headers: headers);
+          await api.patch<dynamic>(
+            path: request.url,
+            body: request.body,
+            headers: headers,
+          );
         case 'DELETE':
-          await api.delete<dynamic>(path: request.url, body: request.body, headers: headers);
+          await api.delete<dynamic>(
+            path: request.url,
+            body: request.body,
+            headers: headers,
+          );
       }
     },
   );
@@ -179,8 +195,11 @@ Future<void> setupNetworkingWithApiConfig({
     ),
   );
 
-  NetworkLogger(level: config.logLevel, enableColors: true, enableTimestamp: true)
-      .info('✅ Networking initialized');
+  NetworkLogger(
+    level: config.logLevel,
+    enableColors: true,
+    enableTimestamp: true,
+  ).info('✅ Networking initialized');
 }
 
 /// Reset and clear all dependencies

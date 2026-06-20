@@ -101,15 +101,18 @@ class MockNetworkInfo implements NetworkInfo {
   Future<bool> get isConnected => Future.value(isConnectedResult);
 
   @override
-  Stream<bool> get onConnectivityChanged => onConnectivityChangedStream ?? Stream.value(isConnectedResult);
+  Stream<bool> get onConnectivityChanged =>
+      onConnectivityChangedStream ?? Stream.value(isConnectedResult);
 }
 
 class MockNetworkInfoThrowing implements NetworkInfo {
   @override
-  Future<bool> get isConnected => Future.error(Exception('Connectivity check error'));
+  Future<bool> get isConnected =>
+      Future.error(Exception('Connectivity check error'));
 
   @override
-  Stream<bool> get onConnectivityChanged => Stream.error(Exception('Connectivity check error'));
+  Stream<bool> get onConnectivityChanged =>
+      Stream.error(Exception('Connectivity check error'));
 }
 
 // --- Mock X509Certificate ---
@@ -130,7 +133,11 @@ class MockAdapter implements HttpClientAdapter {
   late Future<ResponseBody> Function(RequestOptions options) fetchHandler;
 
   @override
-  Future<ResponseBody> fetch(RequestOptions options, Stream<Uint8List>? requestStream, Future<void>? cancelFuture) {
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
     return fetchHandler(options);
   }
 
@@ -142,12 +149,11 @@ class MockAdapter implements HttpClientAdapter {
 
 void mockConnectivityChannel(List<String> results) {
   const channel = MethodChannel('dev.fluttercommunity.plus/connectivity');
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
-    MethodCall methodCall,
-  ) async {
-    if (methodCall.method == 'check') {
-      return results;
-    }
-    return null;
-  });
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+        if (methodCall.method == 'check') {
+          return results;
+        }
+        return null;
+      });
 }

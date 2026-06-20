@@ -7,7 +7,10 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor({this.authTokenProvider});
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await authTokenProvider?.call();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';

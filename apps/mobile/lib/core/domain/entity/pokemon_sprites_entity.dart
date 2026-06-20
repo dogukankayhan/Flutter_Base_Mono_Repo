@@ -12,7 +12,6 @@ class PokemonSprites {
     this.backShiny,
     this.other,
   });
-
 }
 
 class PokemonOtherSprites {
@@ -33,10 +32,7 @@ class OfficialArtwork {
   final String? frontDefault;
   final String? frontShiny;
 
-  const OfficialArtwork({
-    this.frontDefault,
-    this.frontShiny,
-  });
+  const OfficialArtwork({this.frontDefault, this.frontShiny});
 }
 
 class DreamWorld {
@@ -49,18 +45,12 @@ class ShowdownSprites {
   final String? frontDefault;
   final String? frontShiny;
 
-  const ShowdownSprites({
-    this.frontDefault,
-    this.frontShiny,
-  });
+  const ShowdownSprites({this.frontDefault, this.frontShiny});
 }
 
 class HomeSprites {
   final String? frontDefault;
   final String? frontShiny;
 
-  const HomeSprites({
-    this.frontDefault,
-    this.frontShiny,
-  });
+  const HomeSprites({this.frontDefault, this.frontShiny});
 }

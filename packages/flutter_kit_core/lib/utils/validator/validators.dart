@@ -50,8 +50,7 @@ abstract final class Validators {
       MaxValidator(value, message);
 
   /// Value must equal the result of [compareValue] at call time.
-  static Validator<T> equals<T>(T Function() compareValue,
-          {String? message}) =>
+  static Validator<T> equals<T>(T Function() compareValue, {String? message}) =>
       EqualsValidator<T>(compareValue, message);
 
   /// Custom validation with a lambda.

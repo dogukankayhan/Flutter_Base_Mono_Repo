@@ -12,7 +12,8 @@ class PokemonMovesTab extends StatefulWidget {
   State<PokemonMovesTab> createState() => _PokemonMovesTabState();
 }
 
-class _PokemonMovesTabState extends State<PokemonMovesTab> with AutomaticKeepAliveClientMixin {
+class _PokemonMovesTabState extends State<PokemonMovesTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -23,7 +24,9 @@ class _PokemonMovesTabState extends State<PokemonMovesTab> with AutomaticKeepAli
       key: const PageStorageKey('moves'),
       physics: const ClampingScrollPhysics(),
       slivers: [
-        SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverPadding(
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
@@ -34,23 +37,36 @@ class _PokemonMovesTabState extends State<PokemonMovesTab> with AutomaticKeepAli
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      PokemonUtils.capitalize(move.move.name.replaceAll('-', ' ')),
+                      PokemonUtils.capitalize(
+                        move.move.name.replaceAll('-', ' '),
+                      ),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     trailing: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.grey.withAlpha(25),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         'LV. ${move.versionGroupDetails.first.levelLearnedAt}',
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     subtitle: Text(
                       context.translations.pokemon.detail.moves.learnMethod(
-                        method: move.versionGroupDetails.first.moveLearnMethod.name.replaceAll('-', ' '),
+                        method: move
+                            .versionGroupDetails
+                            .first
+                            .moveLearnMethod
+                            .name
+                            .replaceAll('-', ' '),
                       ),
                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),

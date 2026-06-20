@@ -53,16 +53,13 @@ class AppEmptyState extends StatelessWidget {
                 subtitle!,
                 textAlign: TextAlign.center,
                 style: context.textStyle.paragraph14Regular.copyWith(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
+                  color: Theme.of(context).colorScheme.outline,
+                ),
               ),
             ],
             if (actionLabel != null && onAction != null) ...[
               SizedBox(height: 24.h),
-              AppButton(
-                label: actionLabel!,
-                onPressed: onAction!,
-              ),
+              AppButton(label: actionLabel!, onPressed: onAction!),
             ],
           ],
         ),

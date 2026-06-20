@@ -12,7 +12,8 @@ class PokemonStatsTab extends StatefulWidget {
   State<PokemonStatsTab> createState() => _PokemonStatsTabState();
 }
 
-class _PokemonStatsTabState extends State<PokemonStatsTab> with AutomaticKeepAliveClientMixin {
+class _PokemonStatsTabState extends State<PokemonStatsTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -30,21 +31,36 @@ class _PokemonStatsTabState extends State<PokemonStatsTab> with AutomaticKeepAli
       (t.speed, stats.speed),
     ];
 
-    final primaryColor = PokemonUtils.getTypeColor(widget.pokemon.types.first.type.name);
+    final primaryColor = PokemonUtils.getTypeColor(
+      widget.pokemon.types.first.type.name,
+    );
 
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
       slivers: [
-        SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverPadding(
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              Text(t.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                t.title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 24),
-              ...statsList.map((stat) => _buildStatRow(stat.$1, stat.$2, primaryColor)),
+              ...statsList.map(
+                (stat) => _buildStatRow(stat.$1, stat.$2, primaryColor),
+              ),
               const SizedBox(height: 32),
-              _buildTotalStats(context, statsList.fold(0, (sum, item) => sum + item.$2)),
+              _buildTotalStats(
+                context,
+                statsList.fold(0, (sum, item) => sum + item.$2),
+              ),
             ]),
           ),
         ),
@@ -65,7 +81,10 @@ class _PokemonStatsTabState extends State<PokemonStatsTab> with AutomaticKeepAli
           ),
           SizedBox(
             width: 35,
-            child: Text(value.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+            child: Text(
+              value.toString(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -87,12 +106,21 @@ class _PokemonStatsTabState extends State<PokemonStatsTab> with AutomaticKeepAli
   Widget _buildTotalStats(BuildContext context, int total) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.grey.withAlpha(12), borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+        color: Colors.grey.withAlpha(12),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(context.translations.pokemon.detail.stats.total, style: const TextStyle(fontWeight: FontWeight.bold)),
-          Text(total.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          Text(
+            context.translations.pokemon.detail.stats.total,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            total.toString(),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
         ],
       ),
     );

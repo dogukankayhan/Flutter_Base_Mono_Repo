@@ -38,7 +38,5 @@ abstract class AuthRepository implements BaseRepository {
     required String idToken,
     CancelToken? cancelToken,
   });
-  Future<Result<AuthTokens, ApiError>> guestSignIn({
-    CancelToken? cancelToken,
-  });
+  Future<Result<AuthTokens, ApiError>> guestSignIn({CancelToken? cancelToken});
 }

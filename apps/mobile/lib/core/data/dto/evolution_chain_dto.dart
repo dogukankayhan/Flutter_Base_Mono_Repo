@@ -14,10 +14,7 @@ class EvolutionChainDto {
   }
 
   EvolutionChain toDomain() {
-    return EvolutionChain(
-      id: id,
-      root: _convertNode(root),
-    );
+    return EvolutionChain(id: id, root: _convertNode(root));
   }
 
   static EvolutionNode _convertNode(EvolutionNodeDto nodeDto) {

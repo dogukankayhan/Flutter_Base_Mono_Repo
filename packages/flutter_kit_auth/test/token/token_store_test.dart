@@ -21,10 +21,12 @@ void main() {
 
   group('read', () {
     test('returns AuthTokens when access and refresh tokens exist', () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => 'abc');
-      when(mockStorage.read(key: 'refresh_token'))
-          .thenAnswer((_) async => 'xyz');
+      when(
+        mockStorage.read(key: 'access_token'),
+      ).thenAnswer((_) async => 'abc');
+      when(
+        mockStorage.read(key: 'refresh_token'),
+      ).thenAnswer((_) async => 'xyz');
 
       final tokens = await store.read();
 
@@ -33,22 +35,25 @@ void main() {
       expect(tokens.refreshToken, 'xyz');
     });
 
-    test('returns AuthTokens with null refresh when refresh is not stored',
-        () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => 'abc');
-      when(mockStorage.read(key: 'refresh_token'))
-          .thenAnswer((_) async => null);
+    test(
+      'returns AuthTokens with null refresh when refresh is not stored',
+      () async {
+        when(
+          mockStorage.read(key: 'access_token'),
+        ).thenAnswer((_) async => 'abc');
+        when(
+          mockStorage.read(key: 'refresh_token'),
+        ).thenAnswer((_) async => null);
 
-      final tokens = await store.read();
+        final tokens = await store.read();
 
-      expect(tokens!.accessToken, 'abc');
-      expect(tokens.refreshToken, isNull);
-    });
+        expect(tokens!.accessToken, 'abc');
+        expect(tokens.refreshToken, isNull);
+      },
+    );
 
     test('returns null when access token is null', () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => null);
+      when(mockStorage.read(key: 'access_token')).thenAnswer((_) async => null);
 
       final tokens = await store.read();
 
@@ -56,8 +61,7 @@ void main() {
     });
 
     test('returns null when access token is empty string', () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => '');
+      when(mockStorage.read(key: 'access_token')).thenAnswer((_) async => '');
 
       final tokens = await store.read();
 
@@ -83,10 +87,9 @@ void main() {
       await store.write(tokens);
 
       verify(mockStorage.write(key: 'access_token', value: 'abc')).called(1);
-      verifyNever(mockStorage.write(
-        key: 'refresh_token',
-        value: anyNamed('value'),
-      ));
+      verifyNever(
+        mockStorage.write(key: 'refresh_token', value: anyNamed('value')),
+      );
     });
   });
 
@@ -105,8 +108,9 @@ void main() {
 
   group('readAccess', () {
     test('returns access token string from storage', () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => 'token123');
+      when(
+        mockStorage.read(key: 'access_token'),
+      ).thenAnswer((_) async => 'token123');
 
       final result = await store.readAccess();
 
@@ -114,8 +118,7 @@ void main() {
     });
 
     test('returns null when access token is not stored', () async {
-      when(mockStorage.read(key: 'access_token'))
-          .thenAnswer((_) async => null);
+      when(mockStorage.read(key: 'access_token')).thenAnswer((_) async => null);
 
       final result = await store.readAccess();
 
@@ -127,8 +130,9 @@ void main() {
 
   group('readRefresh', () {
     test('returns refresh token string from storage', () async {
-      when(mockStorage.read(key: 'refresh_token'))
-          .thenAnswer((_) async => 'refresh123');
+      when(
+        mockStorage.read(key: 'refresh_token'),
+      ).thenAnswer((_) async => 'refresh123');
 
       final result = await store.readRefresh();
 
@@ -136,8 +140,9 @@ void main() {
     });
 
     test('returns null when refresh token is not stored', () async {
-      when(mockStorage.read(key: 'refresh_token'))
-          .thenAnswer((_) async => null);
+      when(
+        mockStorage.read(key: 'refresh_token'),
+      ).thenAnswer((_) async => null);
 
       final result = await store.readRefresh();
 

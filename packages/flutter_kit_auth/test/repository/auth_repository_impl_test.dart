@@ -57,8 +57,9 @@ void main() {
 
       await repo.login(email: 'a@b.com', password: 'secret');
 
-      final dto = verify(mockRemote.login(captureAny)).captured.first
-          as LoginRequestDto;
+      final dto =
+          verify(mockRemote.login(captureAny)).captured.first
+              as LoginRequestDto;
       expect(dto.email, 'a@b.com');
       expect(dto.password, 'secret');
     });
@@ -104,8 +105,9 @@ void main() {
         lastName: 'Doe',
       );
 
-      final dto = verify(mockRemote.register(captureAny)).captured.first
-          as RegisterRequestDto;
+      final dto =
+          verify(mockRemote.register(captureAny)).captured.first
+              as RegisterRequestDto;
       expect(dto.email, 'new@test.com');
       expect(dto.password, 'pw');
       expect(dto.firstName, 'John');
@@ -187,7 +189,10 @@ void main() {
   group('updateProfile', () {
     test('returns Ok(Profile) with updated fields', () async {
       final updated = ProfileDto(
-        id: '1', email: 'test@test.com', firstName: 'Jane', lastName: 'Doe',
+        id: '1',
+        email: 'test@test.com',
+        firstName: 'Jane',
+        lastName: 'Doe',
       );
       when(mockRemote.updateProfile(any)).thenAnswer((_) async => Ok(updated));
 
@@ -237,7 +242,9 @@ void main() {
 
   group('appleSignIn', () {
     test('returns Ok(AuthTokens) and sends apple provider', () async {
-      when(mockRemote.appleSignIn(any)).thenAnswer((_) async => Ok(_kTokensDto));
+      when(
+        mockRemote.appleSignIn(any),
+      ).thenAnswer((_) async => Ok(_kTokensDto));
 
       final result = await repo.appleSignIn(idToken: 'apple-token');
 
@@ -246,8 +253,9 @@ void main() {
         err: (_) => fail('expected ok'),
       );
 
-      final dto = verify(mockRemote.appleSignIn(captureAny)).captured.first
-          as SocialAuthRequestDto;
+      final dto =
+          verify(mockRemote.appleSignIn(captureAny)).captured.first
+              as SocialAuthRequestDto;
       expect(dto.idToken, 'apple-token');
       expect(dto.provider, 'apple');
     });
@@ -265,8 +273,9 @@ void main() {
 
   group('googleSignIn', () {
     test('returns Ok(AuthTokens) and sends google provider', () async {
-      when(mockRemote.googleSignIn(any))
-          .thenAnswer((_) async => Ok(_kTokensDto));
+      when(
+        mockRemote.googleSignIn(any),
+      ).thenAnswer((_) async => Ok(_kTokensDto));
 
       final result = await repo.googleSignIn(idToken: 'google-token');
 
@@ -275,8 +284,9 @@ void main() {
         err: (_) => fail('expected ok'),
       );
 
-      final dto = verify(mockRemote.googleSignIn(captureAny)).captured.first
-          as SocialAuthRequestDto;
+      final dto =
+          verify(mockRemote.googleSignIn(captureAny)).captured.first
+              as SocialAuthRequestDto;
       expect(dto.idToken, 'google-token');
       expect(dto.provider, 'google');
     });

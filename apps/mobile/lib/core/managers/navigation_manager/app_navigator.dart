@@ -17,9 +17,9 @@ final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final class AppNavigator {
   AppNavigator._()
-      : login = LoginNavigator(rootKey),
-        register = RegisterNavigator(rootKey),
-        shell = ShellNavigator();
+    : login = LoginNavigator(rootKey),
+      register = RegisterNavigator(rootKey),
+      shell = ShellNavigator();
 
   static final instance = AppNavigator._();
 
@@ -28,11 +28,11 @@ final class AppNavigator {
   final ShellNavigator shell;
 
   List<RouteBase> get routes => [
-        login.route,
-        register.route,
-        shell.route,
-        MovieDetailNavigator.rootRoute(rootKey),
-      ];
+    login.route,
+    register.route,
+    shell.route,
+    MovieDetailNavigator.rootRoute(rootKey),
+  ];
 
   static const _shellPaths = {
     ShellNavigator.dashboardPath,

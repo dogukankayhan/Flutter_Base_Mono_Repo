@@ -22,7 +22,9 @@ class PokemonSpritesDto {
       backDefault: json['back_default'] as String?,
       backShiny: json['back_shiny'] as String?,
       other: json['other'] != null
-          ? PokemonOtherSpritesDto.fromJson(json['other'] as Map<String, dynamic>)
+          ? PokemonOtherSpritesDto.fromJson(
+              json['other'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
@@ -78,13 +80,17 @@ class PokemonOtherSpritesDto {
   factory PokemonOtherSpritesDto.fromJson(Map<String, dynamic> json) {
     return PokemonOtherSpritesDto(
       officialArtwork: json['official-artwork'] != null
-          ? OfficialArtworkDto.fromJson(json['official-artwork'] as Map<String, dynamic>)
+          ? OfficialArtworkDto.fromJson(
+              json['official-artwork'] as Map<String, dynamic>,
+            )
           : null,
       dreamWorld: json['dream_world'] != null
           ? DreamWorldDto.fromJson(json['dream_world'] as Map<String, dynamic>)
           : null,
       showdown: json['showdown'] != null
-          ? ShowdownSpritesDto.fromJson(json['showdown'] as Map<String, dynamic>)
+          ? ShowdownSpritesDto.fromJson(
+              json['showdown'] as Map<String, dynamic>,
+            )
           : null,
       home: json['home'] != null
           ? HomeSpritesDto.fromJson(json['home'] as Map<String, dynamic>)
@@ -113,9 +119,7 @@ class DreamWorldDto {
   DreamWorldDto({this.frontDefault});
 
   factory DreamWorldDto.fromJson(Map<String, dynamic> json) {
-    return DreamWorldDto(
-      frontDefault: json['front_default'] as String?,
-    );
+    return DreamWorldDto(frontDefault: json['front_default'] as String?);
   }
 }
 

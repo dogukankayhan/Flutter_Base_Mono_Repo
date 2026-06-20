@@ -13,8 +13,8 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   FavoritesRepositoryImpl({
     required FavoritesLocalDataSource localDataSource,
     required PokemonRepository pokemonRepository,
-  })  : _localDataSource = localDataSource,
-        _pokemonRepository = pokemonRepository {
+  }) : _localDataSource = localDataSource,
+       _pokemonRepository = pokemonRepository {
     // Broadcast initial state
     _emitCurrentFavorites();
   }
@@ -38,10 +38,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     final results = <Pokemon>[];
     for (var id in ids) {
       final result = await _pokemonRepository.getById(id);
-      result.when(
-        ok: (pokemon) => results.add(pokemon),
-        err: (_) {},
-      );
+      result.when(ok: (pokemon) => results.add(pokemon), err: (_) {});
     }
 
     return results;

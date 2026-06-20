@@ -90,7 +90,8 @@ class _RegisterFormState extends State<_RegisterForm> {
                     hintText: t.register.firstNameHint,
                     isRequired: true,
                     validationMessage: widget.state.firstNameError,
-                    onChanged: (v) => widget.bloc.add(RegisterFirstNameChanged(v)),
+                    onChanged: (v) =>
+                        widget.bloc.add(RegisterFirstNameChanged(v)),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -101,7 +102,8 @@ class _RegisterFormState extends State<_RegisterForm> {
                     hintText: t.register.lastNameHint,
                     isRequired: true,
                     validationMessage: widget.state.lastNameError,
-                    onChanged: (v) => widget.bloc.add(RegisterLastNameChanged(v)),
+                    onChanged: (v) =>
+                        widget.bloc.add(RegisterLastNameChanged(v)),
                   ),
                 ),
               ],
@@ -161,7 +163,11 @@ class _Background extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [cs.surface, cs.primaryContainer.withValues(alpha: 0.12), cs.surface],
+          colors: [
+            cs.surface,
+            cs.primaryContainer.withValues(alpha: 0.12),
+            cs.surface,
+          ],
         ),
       ),
       child: child,
@@ -195,15 +201,22 @@ class _Header extends StatelessWidget {
     final cs = theme.colorScheme;
     return Column(
       children: [
-        Text(t.register.title,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.headlineMedium
-                ?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5)),
+        Text(
+          t.register.title,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
+        ),
         const SizedBox(height: 6),
-        Text(t.register.subtitle,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: cs.onSurface.withValues(alpha: 0.55))),
+        Text(
+          t.register.subtitle,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: cs.onSurface.withValues(alpha: 0.55),
+          ),
+        ),
       ],
     );
   }
@@ -219,8 +232,10 @@ class _LoginLink extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(t.register.hasAccount,
-            style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6))),
+        Text(
+          t.register.hasAccount,
+          style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6)),
+        ),
         TextButton(
           onPressed: AppNavigator.instance.login.show,
           child: Text(t.register.loginLink),

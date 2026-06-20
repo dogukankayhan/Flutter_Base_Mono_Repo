@@ -13,8 +13,9 @@ class ConnectivityInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      final connected = await networkInfo.isConnected
-          .timeout(const Duration(seconds: 5));
+      final connected = await networkInfo.isConnected.timeout(
+        const Duration(seconds: 5),
+      );
 
       if (!connected) {
         debugPrint('[CONNECTIVITY] No internet — rejecting ${options.uri}');

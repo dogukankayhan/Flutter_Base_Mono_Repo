@@ -16,7 +16,12 @@ class PokemonDetailScreen extends StatelessWidget {
   final Pokemon? pokemon;
   final String? activeKey;
 
-  const PokemonDetailScreen({super.key, required this.pokemonId, this.pokemon, this.activeKey});
+  const PokemonDetailScreen({
+    super.key,
+    required this.pokemonId,
+    this.pokemon,
+    this.activeKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +33,16 @@ class PokemonDetailScreen extends StatelessWidget {
       create: () => DetailBloc.create(initialPokemon: pokemon),
       builder: (context, state, bloc) {
         if (state.pokemon == null && state.errorMessage == null) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
 
         if (state.errorMessage != null && state.pokemon == null) {
           return Scaffold(
-            appBar: AppBar(title: Text(context.translations.pokemon.detail.error)),
+            appBar: AppBar(
+              title: Text(context.translations.pokemon.detail.error),
+            ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +62,9 @@ class PokemonDetailScreen extends StatelessWidget {
         }
 
         final pokemon = state.pokemon!;
-        final primaryColor = PokemonUtils.getTypeColor(pokemon.types.first.type.name);
+        final primaryColor = PokemonUtils.getTypeColor(
+          pokemon.types.first.type.name,
+        );
 
         return DefaultTabController(
           length: 4,
@@ -61,7 +72,9 @@ class PokemonDetailScreen extends StatelessWidget {
             body: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
+                  ),
                   sliver: SliverAppBar(
                     expandedHeight: 400,
                     pinned: true,
@@ -70,7 +83,12 @@ class PokemonDetailScreen extends StatelessWidget {
                     leading: const BackButton(color: Colors.white),
                     actions: [
                       IconButton(
-                        icon: Icon(state.isFavorite ? Icons.favorite : Icons.favorite_border, color: Colors.white),
+                        icon: Icon(
+                          state.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.white,
+                        ),
                         onPressed: () => bloc.add(DetailToggleFavorite()),
                       ),
                     ],
@@ -78,7 +96,9 @@ class PokemonDetailScreen extends StatelessWidget {
                       builder: (context, constraints) {
                         final top = constraints.biggest.height;
                         final collapsedHeight =
-                            MediaQuery.of(context).padding.top + kToolbarHeight + 48;
+                            MediaQuery.of(context).padding.top +
+                            kToolbarHeight +
+                            48;
                         final isCollapsed = top <= collapsedHeight;
 
                         return FlexibleSpaceBar(
@@ -99,21 +119,39 @@ class PokemonDetailScreen extends StatelessWidget {
                               Positioned(
                                 right: -50,
                                 bottom: 0,
-                                child: Icon(Icons.catching_pokemon, size: 200, color: Colors.white.withAlpha(40)),
+                                child: Icon(
+                                  Icons.catching_pokemon,
+                                  size: 200,
+                                  color: Colors.white.withAlpha(40),
+                                ),
                               ),
                               SafeArea(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 24, right: 24, top: 40, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    left: 24,
+                                    right: 24,
+                                    top: 40,
+                                    bottom: 8,
+                                  ),
                                   child: Opacity(
-                                    opacity: (top - collapsedHeight) / (320 - collapsedHeight) > 0.5 ? 1 : 0,
+                                    opacity:
+                                        (top - collapsedHeight) /
+                                                (320 - collapsedHeight) >
+                                            0.5
+                                        ? 1
+                                        : 0,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              PokemonUtils.capitalize(pokemon.name),
+                                              PokemonUtils.capitalize(
+                                                pokemon.name,
+                                              ),
                                               style: const TextStyle(
                                                 fontSize: 32,
                                                 fontWeight: FontWeight.bold,
@@ -122,13 +160,17 @@ class PokemonDetailScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(width: 12),
                                             Padding(
-                                              padding: const EdgeInsets.only(bottom: 6),
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
                                               child: Text(
                                                 '#${pokemon.id.toString().padLeft(3, '0')}',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.white.withAlpha(180),
+                                                  color: Colors.white.withAlpha(
+                                                    180,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -137,7 +179,12 @@ class PokemonDetailScreen extends StatelessWidget {
                                         const SizedBox(height: 8),
                                         Wrap(
                                           spacing: 8,
-                                          children: pokemon.types.map((t) => _buildTypeTag(t.type.name)).toList(),
+                                          children: pokemon.types
+                                              .map(
+                                                (t) =>
+                                                    _buildTypeTag(t.type.name),
+                                              )
+                                              .toList(),
                                         ),
                                       ],
                                     ),
@@ -149,12 +196,21 @@ class PokemonDetailScreen extends StatelessWidget {
                                 right: 0,
                                 bottom: 80,
                                 child: Opacity(
-                                  opacity: (top - collapsedHeight) / (320 - collapsedHeight) > 0.2 ? 1 : 0,
+                                  opacity:
+                                      (top - collapsedHeight) /
+                                              (320 - collapsedHeight) >
+                                          0.2
+                                      ? 1
+                                      : 0,
                                   child: Hero(
                                     tag: 'pokemon-${pokemon.id}',
                                     child: CachedNetworkImage(
                                       imageUrl:
-                                          pokemon.sprites.other?.officialArtwork?.frontDefault ??
+                                          pokemon
+                                              .sprites
+                                              .other
+                                              ?.officialArtwork
+                                              ?.frontDefault ??
                                           pokemon.sprites.frontDefault ??
                                           '',
                                       height: 200,
@@ -173,7 +229,10 @@ class PokemonDetailScreen extends StatelessWidget {
                       child: Container(
                         decoration: const BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(32),
+                            topRight: Radius.circular(32),
+                          ),
                         ),
                         child: Builder(
                           builder: (context) {
@@ -199,15 +258,25 @@ class PokemonDetailScreen extends StatelessWidget {
               ],
               body: TabBarView(
                 children: [
-                  PokemonAboutTab(key: const PageStorageKey('about'), pokemon: pokemon, species: state.species),
-                  PokemonStatsTab(key: const PageStorageKey('stats'), pokemon: pokemon),
+                  PokemonAboutTab(
+                    key: const PageStorageKey('about'),
+                    pokemon: pokemon,
+                    species: state.species,
+                  ),
+                  PokemonStatsTab(
+                    key: const PageStorageKey('stats'),
+                    pokemon: pokemon,
+                  ),
                   PokemonEvolutionTab(
                     key: const PageStorageKey('evolution'),
                     chain: state.evolutionChain,
                     isLoading: state.isEvolutionLoading,
                     currentPokemonId: pokemon.id,
                   ),
-                  PokemonMovesTab(key: const PageStorageKey('moves'), pokemon: pokemon),
+                  PokemonMovesTab(
+                    key: const PageStorageKey('moves'),
+                    pokemon: pokemon,
+                  ),
                 ],
               ),
             ),
@@ -220,10 +289,16 @@ class PokemonDetailScreen extends StatelessWidget {
   Widget _buildTypeTag(String typeName) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(color: Colors.white.withAlpha(60), borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(60),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Text(
         PokemonUtils.capitalize(typeName),
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -28,22 +28,22 @@ class Movie extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'overview': overview,
-        'poster_path': posterPath,
-        'release_date': releaseDate,
-        'vote_average': voteAverage,
-      };
+    'id': id,
+    'title': title,
+    'overview': overview,
+    'poster_path': posterPath,
+    'release_date': releaseDate,
+    'vote_average': voteAverage,
+  };
 
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        overview: json['overview'] as String,
-        posterPath: json['poster_path'] as String?,
-        releaseDate: json['release_date'] as String?,
-        voteAverage: (json['vote_average'] as num).toDouble(),
-      );
+    id: json['id'] as int,
+    title: json['title'] as String,
+    overview: json['overview'] as String,
+    posterPath: json['poster_path'] as String?,
+    releaseDate: json['release_date'] as String?,
+    voteAverage: (json['vote_average'] as num).toDouble(),
+  );
 
   @override
   List<Object?> get props => [id, title, posterPath, voteAverage];

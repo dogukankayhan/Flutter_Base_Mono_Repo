@@ -21,7 +21,7 @@ final _kMovieJson = <String, dynamic>{
       'poster_path': '/test.jpg',
       'release_date': '2024-01-01',
       'vote_average': 7.5,
-    }
+    },
   ],
   'total_pages': 5,
 };
@@ -36,7 +36,7 @@ final _kLastPageJson = <String, dynamic>{
       'poster_path': null,
       'release_date': null,
       'vote_average': 0.0,
-    }
+    },
   ],
   'total_pages': 3,
 };
@@ -59,10 +59,12 @@ void main() {
 
   group('getPopularMovies — success', () {
     test('returns Ok with parsed movie list', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenAnswer((_) async => ApiResponse(data: _kMovieJson));
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kMovieJson));
 
       final result = await repo.getPopularMovies(offset: 0, pageSize: 20);
 
@@ -80,10 +82,12 @@ void main() {
     });
 
     test('calculates hasMore=false when page equals totalPages', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenAnswer((_) async => ApiResponse(data: _kLastPageJson));
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kLastPageJson));
 
       final result = await repo.getPopularMovies(offset: 40, pageSize: 20);
 
@@ -94,18 +98,22 @@ void main() {
     });
 
     test('calculates correct page number from offset and pageSize', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenAnswer((_) async => ApiResponse(data: _kMovieJson));
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kMovieJson));
 
       await repo.getPopularMovies(offset: 40, pageSize: 20);
 
       // offset=40, pageSize=20 → page = 40 ~/ 20 + 1 = 3
-      final captured = verify(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: captureAnyNamed('query'),
-      )).captured;
+      final captured = verify(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: captureAnyNamed('query'),
+        ),
+      ).captured;
       expect((captured.first as Map)['page'], 3);
     });
   });
@@ -114,10 +122,12 @@ void main() {
 
   group('getPopularMovies — errors', () {
     test('returns Err wrapping ApiError from api', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenThrow(_kError);
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenThrow(_kError);
 
       final result = await repo.getPopularMovies(offset: 0, pageSize: 20);
 
@@ -128,10 +138,12 @@ void main() {
     });
 
     test('wraps generic exception as Err(ApiError)', () async {
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenThrow(Exception('decode failed'));
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenThrow(Exception('decode failed'));
 
       final result = await repo.getPopularMovies(offset: 0, pageSize: 20);
 
@@ -149,15 +161,17 @@ void main() {
       final jsonWithNulls = <String, dynamic>{
         'page': 1,
         'results': [
-          {'id': 99, 'title': null, 'overview': null, 'poster_path': null}
+          {'id': 99, 'title': null, 'overview': null, 'poster_path': null},
         ],
         'total_pages': 1,
       };
 
-      when(mockApi.get<Map<String, dynamic>>(
-        path: anyNamed('path'),
-        query: anyNamed('query'),
-      )).thenAnswer((_) async => ApiResponse(data: jsonWithNulls));
+      when(
+        mockApi.get<Map<String, dynamic>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: jsonWithNulls));
 
       final result = await repo.getPopularMovies(offset: 0, pageSize: 20);
 

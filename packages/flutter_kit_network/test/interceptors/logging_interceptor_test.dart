@@ -15,7 +15,10 @@ void main() {
 
       final resHandler = MockResponseInterceptorHandler();
       interceptor.onResponse(
-        Response(requestOptions: RequestOptions(path: '/test'), statusCode: 200),
+        Response(
+          requestOptions: RequestOptions(path: '/test'),
+          statusCode: 200,
+        ),
         resHandler,
       );
       await resHandler.completer.future;

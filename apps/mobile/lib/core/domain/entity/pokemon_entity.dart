@@ -32,5 +32,4 @@ class Pokemon {
     required this.speciesUrl,
     this.moves = const [],
   });
-
 }

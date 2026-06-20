@@ -19,32 +19,36 @@ void main() {
       expect(handler.nextOptions, isNotNull);
     });
 
-    test('does not add Authorization header when provider returns null', () async {
-      final interceptor = AuthInterceptor(
-        authTokenProvider: () async => null,
-      );
-      final options = RequestOptions(path: '/test');
-      final handler = MockRequestInterceptorHandler();
+    test(
+      'does not add Authorization header when provider returns null',
+      () async {
+        final interceptor = AuthInterceptor(
+          authTokenProvider: () async => null,
+        );
+        final options = RequestOptions(path: '/test');
+        final handler = MockRequestInterceptorHandler();
 
-      interceptor.onRequest(options, handler);
-      await handler.completer.future;
+        interceptor.onRequest(options, handler);
+        await handler.completer.future;
 
-      expect(options.headers.containsKey('Authorization'), isFalse);
-      expect(handler.nextOptions, isNotNull);
-    });
+        expect(options.headers.containsKey('Authorization'), isFalse);
+        expect(handler.nextOptions, isNotNull);
+      },
+    );
 
-    test('does not add Authorization header when provider returns empty string', () async {
-      final interceptor = AuthInterceptor(
-        authTokenProvider: () async => '',
-      );
-      final options = RequestOptions(path: '/test');
-      final handler = MockRequestInterceptorHandler();
+    test(
+      'does not add Authorization header when provider returns empty string',
+      () async {
+        final interceptor = AuthInterceptor(authTokenProvider: () async => '');
+        final options = RequestOptions(path: '/test');
+        final handler = MockRequestInterceptorHandler();
 
-      interceptor.onRequest(options, handler);
-      await handler.completer.future;
+        interceptor.onRequest(options, handler);
+        await handler.completer.future;
 
-      expect(options.headers.containsKey('Authorization'), isFalse);
-      expect(handler.nextOptions, isNotNull);
-    });
+        expect(options.headers.containsKey('Authorization'), isFalse);
+        expect(handler.nextOptions, isNotNull);
+      },
+    );
   });
 }

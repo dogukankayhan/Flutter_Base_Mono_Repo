@@ -8,15 +8,11 @@ class PokemonAbility {
     required this.slot,
     required this.ability,
   });
-
 }
 
 class AbilityInfo {
   final String name;
   final String url;
 
-  const AbilityInfo({
-    required this.name,
-    required this.url,
-  });
+  const AbilityInfo({required this.name, required this.url});
 }

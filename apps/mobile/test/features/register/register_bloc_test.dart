@@ -46,19 +46,25 @@ void main() {
   });
 
   group('Field changes', () {
-    test('RegisterFirstNameChanged emits new firstName and clears error', () async {
-      registerBloc.add(const RegisterFirstNameChanged('Ali'));
-      await Future.delayed(Duration.zero);
-      expect(registerBloc.state.firstName, 'Ali');
-      expect(registerBloc.state.firstNameError, isNull);
-    });
+    test(
+      'RegisterFirstNameChanged emits new firstName and clears error',
+      () async {
+        registerBloc.add(const RegisterFirstNameChanged('Ali'));
+        await Future.delayed(Duration.zero);
+        expect(registerBloc.state.firstName, 'Ali');
+        expect(registerBloc.state.firstNameError, isNull);
+      },
+    );
 
-    test('RegisterLastNameChanged emits new lastName and clears error', () async {
-      registerBloc.add(const RegisterLastNameChanged('Veli'));
-      await Future.delayed(Duration.zero);
-      expect(registerBloc.state.lastName, 'Veli');
-      expect(registerBloc.state.lastNameError, isNull);
-    });
+    test(
+      'RegisterLastNameChanged emits new lastName and clears error',
+      () async {
+        registerBloc.add(const RegisterLastNameChanged('Veli'));
+        await Future.delayed(Duration.zero);
+        expect(registerBloc.state.lastName, 'Veli');
+        expect(registerBloc.state.lastNameError, isNull);
+      },
+    );
 
     test('RegisterEmailChanged emits new email and clears error', () async {
       registerBloc.add(const RegisterEmailChanged('ali@example.com'));
@@ -67,12 +73,15 @@ void main() {
       expect(registerBloc.state.emailError, isNull);
     });
 
-    test('RegisterPasswordChanged emits new password and clears error', () async {
-      registerBloc.add(const RegisterPasswordChanged('secret123'));
-      await Future.delayed(Duration.zero);
-      expect(registerBloc.state.password, 'secret123');
-      expect(registerBloc.state.passwordError, isNull);
-    });
+    test(
+      'RegisterPasswordChanged emits new password and clears error',
+      () async {
+        registerBloc.add(const RegisterPasswordChanged('secret123'));
+        await Future.delayed(Duration.zero);
+        expect(registerBloc.state.password, 'secret123');
+        expect(registerBloc.state.passwordError, isNull);
+      },
+    );
   });
 
   group('RegisterSubmitted — validation', () {
@@ -84,12 +93,14 @@ void main() {
       await Future.delayed(Duration.zero);
 
       expect(registerBloc.state.firstNameError, isNotNull);
-      verifyNever(mockAuthManager.register(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-        firstName: anyNamed('firstName'),
-        lastName: anyNamed('lastName'),
-      ));
+      verifyNever(
+        mockAuthManager.register(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+          firstName: anyNamed('firstName'),
+          lastName: anyNamed('lastName'),
+        ),
+      );
     });
 
     test('empty lastName emits lastNameError', () async {
@@ -125,12 +136,14 @@ void main() {
 
   group('RegisterSubmitted — success', () {
     test('calls authManager.register with correct trimmed values', () async {
-      when(mockAuthManager.register(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-        firstName: anyNamed('firstName'),
-        lastName: anyNamed('lastName'),
-      )).thenAnswer((_) async => const Ok(null));
+      when(
+        mockAuthManager.register(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+          firstName: anyNamed('firstName'),
+          lastName: anyNamed('lastName'),
+        ),
+      ).thenAnswer((_) async => const Ok(null));
 
       _fillValidFields(registerBloc);
       await Future.delayed(Duration.zero);
@@ -138,21 +151,25 @@ void main() {
       registerBloc.add(const RegisterSubmitted());
       await Future.delayed(const Duration(milliseconds: 50));
 
-      verify(mockAuthManager.register(
-        email: 'ali@example.com',
-        password: 'password123',
-        firstName: 'Ali',
-        lastName: 'Veli',
-      )).called(1);
+      verify(
+        mockAuthManager.register(
+          email: 'ali@example.com',
+          password: 'password123',
+          firstName: 'Ali',
+          lastName: 'Veli',
+        ),
+      ).called(1);
     });
 
     test('emits isSuccess: true on successful registration', () async {
-      when(mockAuthManager.register(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-        firstName: anyNamed('firstName'),
-        lastName: anyNamed('lastName'),
-      )).thenAnswer((_) async => const Ok(null));
+      when(
+        mockAuthManager.register(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+          firstName: anyNamed('firstName'),
+          lastName: anyNamed('lastName'),
+        ),
+      ).thenAnswer((_) async => const Ok(null));
 
       _fillValidFields(registerBloc);
       await Future.delayed(Duration.zero);
@@ -167,12 +184,14 @@ void main() {
 
   group('RegisterSubmitted — error', () {
     test('emits errorMessage on register failure', () async {
-      when(mockAuthManager.register(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-        firstName: anyNamed('firstName'),
-        lastName: anyNamed('lastName'),
-      )).thenAnswer(
+      when(
+        mockAuthManager.register(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+          firstName: anyNamed('firstName'),
+          lastName: anyNamed('lastName'),
+        ),
+      ).thenAnswer(
         (_) async => Err(ApiError(message: 'Bu e-posta zaten kullanılıyor')),
       );
 

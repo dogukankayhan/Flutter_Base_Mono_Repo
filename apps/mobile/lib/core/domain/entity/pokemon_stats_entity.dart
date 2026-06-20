@@ -14,5 +14,4 @@ class PokemonStats {
     required this.specialDefense,
     required this.speed,
   });
-
 }

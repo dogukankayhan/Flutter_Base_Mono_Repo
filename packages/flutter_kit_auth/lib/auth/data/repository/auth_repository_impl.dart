@@ -22,7 +22,10 @@ class AuthRepositoryImpl implements AuthRepository {
       LoginRequestDto(email: email, password: password),
       cancelToken: cancelToken,
     );
-    return result.when(ok: (tokensDto) => Ok(tokensDto.toEntity()), err: Err.new);
+    return result.when(
+      ok: (tokensDto) => Ok(tokensDto.toEntity()),
+      err: Err.new,
+    );
   }
 
   @override
@@ -31,7 +34,10 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? cancelToken,
   }) async {
     final result = await remote.refresh(refreshToken, cancelToken: cancelToken);
-    return result.when(ok: (tokensDto) => Ok(tokensDto.toEntity()), err: Err.new);
+    return result.when(
+      ok: (tokensDto) => Ok(tokensDto.toEntity()),
+      err: Err.new,
+    );
   }
 
   @override
@@ -51,13 +57,19 @@ class AuthRepositoryImpl implements AuthRepository {
       ),
       cancelToken: cancelToken,
     );
-    return result.when(ok: (tokensDto) => Ok(tokensDto.toEntity()), err: Err.new);
+    return result.when(
+      ok: (tokensDto) => Ok(tokensDto.toEntity()),
+      err: Err.new,
+    );
   }
 
   @override
   Future<Result<Profile, ApiError>> me({CancelToken? cancelToken}) async {
     final result = await remote.me(cancelToken: cancelToken);
-    return result.when(ok: (profileDto) => Ok(profileDto.toEntity()), err: Err.new);
+    return result.when(
+      ok: (profileDto) => Ok(profileDto.toEntity()),
+      err: Err.new,
+    );
   }
 
   @override
@@ -66,7 +78,10 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? cancelToken,
   }) async {
     final result = await remote.updateProfile(patch, cancelToken: cancelToken);
-    return result.when(ok: (profileDto) => Ok(profileDto.toEntity()), err: Err.new);
+    return result.when(
+      ok: (profileDto) => Ok(profileDto.toEntity()),
+      err: Err.new,
+    );
   }
 
   @override
@@ -79,7 +94,10 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? cancelToken,
   }) async {
     final result = await remote.appleSignIn(
-      SocialAuthRequestDto(provider: SocialAuthProvider.apple.key, idToken: idToken),
+      SocialAuthRequestDto(
+        provider: SocialAuthProvider.apple.key,
+        idToken: idToken,
+      ),
       cancelToken: cancelToken,
     );
     return result.when(ok: (dto) => Ok(dto.toEntity()), err: Err.new);
@@ -91,7 +109,10 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? cancelToken,
   }) async {
     final result = await remote.googleSignIn(
-      SocialAuthRequestDto(provider: SocialAuthProvider.google.key, idToken: idToken),
+      SocialAuthRequestDto(
+        provider: SocialAuthProvider.google.key,
+        idToken: idToken,
+      ),
       cancelToken: cancelToken,
     );
     return result.when(ok: (dto) => Ok(dto.toEntity()), err: Err.new);

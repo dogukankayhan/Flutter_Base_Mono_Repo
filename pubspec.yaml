@@ -17,4 +17,35 @@ workspace:
 dev_dependencies:
   melos: ^7.8.0
 
+melos:
+  command:
+    bootstrap: {}
 
+  scripts:
+    analyze:
+      run: dart analyze .
+      description: Analyze all packages
+      exec:
+        concurrency: 4
+
+    test:
+      run: flutter test
+      description: Run tests in all packages
+      exec:
+        concurrency: 2
+
+    format:
+      run: dart format lib test
+      description: Format all packages
+      exec:
+        concurrency: 4
+
+    format:check:
+      run: dart format --output=none --set-exit-if-changed lib test
+      description: Check formatting without modifying files
+      exec:
+        concurrency: 4
+
+    gen:feature:
+      run: dart scripts/gen_feature.dart
+      description: Yeni feature scaffold oluştur (interaktif)

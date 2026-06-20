@@ -36,7 +36,10 @@ class PokemonCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [bgColor.withValues(alpha: 0.6), bgColor.withValues(alpha: 0.3)],
+                  colors: [
+                    bgColor.withValues(alpha: 0.6),
+                    bgColor.withValues(alpha: 0.3),
+                  ],
                 ),
               ),
               child: Column(
@@ -49,11 +52,22 @@ class PokemonCard extends StatelessWidget {
                       tag: 'pokemon-${pokemon.id}',
                       child: CachedNetworkImage(
                         imageUrl:
-                            pokemon.sprites.other?.officialArtwork?.frontDefault ?? pokemon.sprites.frontDefault ?? '',
+                            pokemon
+                                .sprites
+                                .other
+                                ?.officialArtwork
+                                ?.frontDefault ??
+                            pokemon.sprites.frontDefault ??
+                            '',
                         fit: BoxFit.contain,
-                        placeholder: (context, url) => Center(child: CircularProgressIndicator(color: bgColor)),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.catching_pokemon, size: 64, color: bgColor.withOpacity(0.3)),
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(color: bgColor),
+                        ),
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.catching_pokemon,
+                          size: 64,
+                          color: bgColor.withOpacity(0.3),
+                        ),
                       ),
                     ),
                   ),
@@ -78,7 +92,9 @@ class PokemonCard extends StatelessWidget {
                           Text(
                             '#${pokemon.id.toString().padLeft(3, '0')}',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.5),
+                              color: theme.colorScheme.onSurface.withOpacity(
+                                0.5,
+                              ),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -100,10 +116,18 @@ class PokemonCard extends StatelessWidget {
                             spacing: 4,
                             runSpacing: 4,
                             children: pokemon.types.take(2).map((type) {
-                              final typeColor = PokemonUtils.getTypeColor(type.type.name);
+                              final typeColor = PokemonUtils.getTypeColor(
+                                type.type.name,
+                              );
                               return Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: typeColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                                 child: Text(
                                   PokemonUtils.capitalize(type.type.name),
                                   style: const TextStyle(

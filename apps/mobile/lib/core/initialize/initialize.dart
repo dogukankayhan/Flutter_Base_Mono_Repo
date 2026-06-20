@@ -59,7 +59,10 @@ class Initialize {
   }
 
   static Future<void> _initOrientation() =>
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
 
   static Future<void> _initFirebase(AppEnvironment env) async {
     final options = switch (env) {
@@ -72,9 +75,15 @@ class Initialize {
 
   static Future<void> _initDI(AppEnvironment env) async {
     final config = switch (env) {
-      AppEnvironment.dev => EnvironmentConfig.development(baseUrl: AppConfig.instance.baseUrl),
-      AppEnvironment.staging => EnvironmentConfig.staging(baseUrl: AppConfig.instance.baseUrl),
-      AppEnvironment.prod => EnvironmentConfig.production(baseUrl: AppConfig.instance.baseUrl),
+      AppEnvironment.dev => EnvironmentConfig.development(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
+      AppEnvironment.staging => EnvironmentConfig.staging(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
+      AppEnvironment.prod => EnvironmentConfig.production(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
     };
     await Injection.init(config: config);
   }

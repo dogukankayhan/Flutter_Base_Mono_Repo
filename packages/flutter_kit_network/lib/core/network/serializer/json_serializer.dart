@@ -11,10 +11,14 @@ class JsonSerializer implements Serializer {
     }
     final map = source is Map<String, dynamic>
         ? source
-        : (source is String ? jsonDecode(source) as Map<String, dynamic> : null);
+        : (source is String
+              ? jsonDecode(source) as Map<String, dynamic>
+              : null);
 
     if (map == null) {
-      throw ArgumentError('Unsupported source type for decode<T> : ${source.runtimeType}');
+      throw ArgumentError(
+        'Unsupported source type for decode<T> : ${source.runtimeType}',
+      );
     }
     return fromJson(map);
   }
@@ -27,8 +31,12 @@ class JsonSerializer implements Serializer {
         : (source is String ? (jsonDecode(source) as List) : null);
 
     if (list == null) {
-      throw ArgumentError('Unsupported source type for decodeList<T> : ${source.runtimeType}');
+      throw ArgumentError(
+        'Unsupported source type for decodeList<T> : ${source.runtimeType}',
+      );
     }
-    return list.map<T>((e) => fromJson((e as Map).cast<String, dynamic>())).toList();
+    return list
+        .map<T>((e) => fromJson((e as Map).cast<String, dynamic>()))
+        .toList();
   }
 }

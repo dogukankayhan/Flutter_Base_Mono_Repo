@@ -65,8 +65,10 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   void didUpdateWidget(_LoginForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_emailCtrl.text != widget.state.email) _emailCtrl.text = widget.state.email;
-    if (_passwordCtrl.text != widget.state.password) _passwordCtrl.text = widget.state.password;
+    if (_emailCtrl.text != widget.state.email)
+      _emailCtrl.text = widget.state.email;
+    if (_passwordCtrl.text != widget.state.password)
+      _passwordCtrl.text = widget.state.password;
   }
 
   @override
@@ -89,8 +91,12 @@ class _LoginFormState extends State<_LoginForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(t.login.title,
-                    style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  t.login.title,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 20),
                 AppTextField(
                   label: t.login.emailLabel,
@@ -154,7 +160,11 @@ class _Background extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [cs.surface, cs.primaryContainer.withValues(alpha: 0.12), cs.surface],
+          colors: [
+            cs.surface,
+            cs.primaryContainer.withValues(alpha: 0.12),
+            cs.surface,
+          ],
         ),
       ),
       child: child,
@@ -174,15 +184,22 @@ class _Brand extends StatelessWidget {
       children: [
         Icon(Icons.blur_on_rounded, size: 64, color: cs.primary),
         const SizedBox(height: 12),
-        Text(t.login.appName,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.headlineMedium
-                ?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5)),
+        Text(
+          t.login.appName,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
+        ),
         const SizedBox(height: 4),
-        Text(t.login.subtitle,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: cs.onSurface.withValues(alpha: 0.55))),
+        Text(
+          t.login.subtitle,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: cs.onSurface.withValues(alpha: 0.55),
+          ),
+        ),
       ],
     );
   }
@@ -199,11 +216,12 @@ class _OrDivider extends StatelessWidget {
         const Expanded(child: Divider()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(context.translations.login.orDivider,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: cs.onSurface.withValues(alpha: 0.4))),
+          child: Text(
+            context.translations.login.orDivider,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: cs.onSurface.withValues(alpha: 0.4),
+            ),
+          ),
         ),
         const Expanded(child: Divider()),
       ],
@@ -221,14 +239,16 @@ class _SocialButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton.outlined(
-            onPressed: () {},
-            icon: const Icon(Icons.g_mobiledata, size: 32),
-            tooltip: t.login.googleTooltip),
+          onPressed: () {},
+          icon: const Icon(Icons.g_mobiledata, size: 32),
+          tooltip: t.login.googleTooltip,
+        ),
         const SizedBox(width: 16),
         IconButton.outlined(
-            onPressed: () {},
-            icon: const Icon(Icons.apple, size: 32),
-            tooltip: t.login.appleTooltip),
+          onPressed: () {},
+          icon: const Icon(Icons.apple, size: 32),
+          tooltip: t.login.appleTooltip,
+        ),
       ],
     );
   }
@@ -244,8 +264,10 @@ class _RegisterLink extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(t.login.noAccount,
-            style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6))),
+        Text(
+          t.login.noAccount,
+          style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6)),
+        ),
         TextButton(
           onPressed: AppNavigator.instance.register.show,
           child: Text(t.login.registerLink),

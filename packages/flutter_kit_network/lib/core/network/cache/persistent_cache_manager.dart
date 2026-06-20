@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 /// Persistent cache manager using SQLite
-/// 
+///
 /// Features:
 /// - SQLite-based persistent storage
 /// - TTL (Time To Live) support
@@ -13,7 +13,7 @@ import 'package:path/path.dart';
 class PersistentCacheManager {
   static const String _tableName = 'http_cache';
   static const int _maxCacheSize = 50 * 1024 * 1024; // 50MB
-  
+
   Database? _database;
 
   /// Initialize database
@@ -38,11 +38,11 @@ class PersistentCacheManager {
             last_accessed INTEGER NOT NULL
           )
         ''');
-        
+
         await db.execute('''
           CREATE INDEX idx_expires_at ON $_tableName(expires_at)
         ''');
-        
+
         await db.execute('''
           CREATE INDEX idx_last_accessed ON $_tableName(last_accessed)
         ''');
@@ -106,32 +106,24 @@ class PersistentCacheManager {
     // Check cache size and evict if needed
     await _evictIfNeeded(size);
 
-    await _database!.insert(
-      _tableName,
-      {
-        'key': key,
-        'data': data,
-        'headers': headers != null ? jsonEncode(headers) : null,
-        'status_code': statusCode,
-        'created_at': now,
-        'expires_at': expiresAt,
-        'size': size,
-        'access_count': 0,
-        'last_accessed': now,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await _database!.insert(_tableName, {
+      'key': key,
+      'data': data,
+      'headers': headers != null ? jsonEncode(headers) : null,
+      'status_code': statusCode,
+      'created_at': now,
+      'expires_at': expiresAt,
+      'size': size,
+      'access_count': 0,
+      'last_accessed': now,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   /// Delete cache entry
   Future<void> delete(String key) async {
     if (_database == null) throw StateError('Database not initialized');
 
-    await _database!.delete(
-      _tableName,
-      where: 'key = ?',
-      whereArgs: [key],
-    );
+    await _database!.delete(_tableName, where: 'key = ?', whereArgs: [key]);
   }
 
   /// Clear all cache
@@ -196,7 +188,7 @@ class PersistentCacheManager {
     ''');
 
     final map = result.first;
-    
+
     return CacheStats(
       entryCount: map['count'] as int,
       totalSize: (map['total_size'] as int?) ?? 0,
@@ -248,8 +240,9 @@ class CacheEntry {
       expiresAt: DateTime.fromMillisecondsSinceEpoch(map['expires_at'] as int),
       size: map['size'] as int,
       accessCount: map['access_count'] as int,
-      lastAccessed:
-          DateTime.fromMillisecondsSinceEpoch(map['last_accessed'] as int),
+      lastAccessed: DateTime.fromMillisecondsSinceEpoch(
+        map['last_accessed'] as int,
+      ),
     );
   }
 
@@ -285,7 +278,8 @@ class CacheStats {
   }
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 CacheStats(
   entries: $entryCount,
   size: $totalSizeFormatted,

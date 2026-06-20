@@ -25,17 +25,19 @@ class PokemonMoveDto {
     return PokemonMove(
       move: MoveInfo(name: moveName, url: moveUrl),
       versionGroupDetails: versionGroupDetails
-          .map((d) => VersionGroupDetail(
-                levelLearnedAt: d.levelLearnedAt,
-                moveLearnMethod: MoveLearnMethod(
-                  name: d.moveLearnMethodName,
-                  url: d.moveLearnMethodUrl,
-                ),
-                versionGroup: VersionGroup(
-                  name: d.versionGroupName,
-                  url: d.versionGroupUrl,
-                ),
-              ))
+          .map(
+            (d) => VersionGroupDetail(
+              levelLearnedAt: d.levelLearnedAt,
+              moveLearnMethod: MoveLearnMethod(
+                name: d.moveLearnMethodName,
+                url: d.moveLearnMethodUrl,
+              ),
+              versionGroup: VersionGroup(
+                name: d.versionGroupName,
+                url: d.versionGroupUrl,
+              ),
+            ),
+          )
           .toList(),
     );
   }

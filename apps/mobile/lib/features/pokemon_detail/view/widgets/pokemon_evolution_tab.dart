@@ -10,13 +10,19 @@ class PokemonEvolutionTab extends StatefulWidget {
   final bool isLoading;
   final int? currentPokemonId;
 
-  const PokemonEvolutionTab({super.key, this.chain, this.isLoading = false, this.currentPokemonId});
+  const PokemonEvolutionTab({
+    super.key,
+    this.chain,
+    this.isLoading = false,
+    this.currentPokemonId,
+  });
 
   @override
   State<PokemonEvolutionTab> createState() => _PokemonEvolutionTabState();
 }
 
-class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with AutomaticKeepAliveClientMixin {
+class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -29,8 +35,10 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with Automati
 
     if (widget.chain == null) {
       return Center(
-        child: Text(context.translations.pokemon.detail.evolution.noData,
-            style: const TextStyle(color: Colors.grey)),
+        child: Text(
+          context.translations.pokemon.detail.evolution.noData,
+          style: const TextStyle(color: Colors.grey),
+        ),
       );
     }
 
@@ -39,13 +47,20 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with Automati
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
       slivers: [
-        SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverPadding(
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              Text(context.translations.pokemon.detail.evolution.chainTitle,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                context.translations.pokemon.detail.evolution.chainTitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 24),
               ...paths.map((path) => _buildEvolutionPath(context, path)),
             ]),
@@ -60,7 +75,10 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with Automati
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(color: Colors.grey.withAlpha(10), borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(
+          color: Colors.grey.withAlpha(10),
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: const Text(
           'Bu Pokémon evrimleşmez.',
           textAlign: TextAlign.center,
@@ -91,7 +109,10 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with Automati
       ),
       child: const SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: children),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: children,
+        ),
       ),
     );
   }
@@ -110,18 +131,26 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab> with Automati
           Container(
             width: 80,
             height: 80,
-            decoration: BoxDecoration(color: Colors.grey.withAlpha(20), shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: Colors.grey.withAlpha(20),
+              shape: BoxShape.circle,
+            ),
             child: CachedNetworkImage(
               imageUrl:
                   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${node.speciesId}.png',
-              placeholder: (context, url) => const Icon(Icons.catching_pokemon, color: Colors.grey),
+              placeholder: (context, url) =>
+                  const Icon(Icons.catching_pokemon, color: Colors.grey),
               errorWidget: (context, url, e) => const Icon(Icons.error),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             PokemonUtils.capitalize(node.speciesName),
-            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12, color: Colors.black),
+            style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 12,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
