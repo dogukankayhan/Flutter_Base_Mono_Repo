@@ -1,141 +1,141 @@
-# CLAUDE.md — SaloonManager App Codebase Guide
+# CLAUDE.md — Flutter Base Kit Monorepo Guide
 
-Bu dosya AI asistanların ve yeni geliştiricilerin projeyi hızlıca anlaması için hazırlanmıştır.
+This file is prepared for AI assistants and new developers to understand the project codebase quickly.
 
 ---
 
-## Proje Kimliği
+## Project Identity
 
 Flutter monorepo: `flutter_base_kit_workspace`
-- **Pub workspaces** + **Melos** ile orchestrate edilir
-- 3 flavor: `dev`, `staging`, `prod`
-- Ana uygulama: `apps/mobile/`
-- Paylaşılan paketler: `packages/flutter_kit_*/`
+- Orchestrated via **Pub workspaces** + **Melos**
+- 3 flavors: `dev`, `staging`, `prod`
+- Main application: `apps/mobile/`
+- Shared packages: `packages/flutter_kit_*/`
 
 ---
 
-## Paket Bağımlılık Grafiği
+## Package Dependency Graph
 
 ```
-flutter_kit_core        (bağımsız — BLoC base, validator)
-flutter_kit_network     (bağımsız — Dio, interceptors, Result<T,E>)
-flutter_kit_ui          (bağımsız — tema, design tokens)
-flutter_kit_firebase    (bağımsız — FCM, deep link callback)
-flutter_kit_auth        (network + core'a bağımlı)
-apps/mobile             (5 paketin hepsine bağımlı)
+flutter_kit_core        (independent — BLoC base, validator)
+flutter_kit_network     (independent — Dio, interceptors, Result<T,E>)
+flutter_kit_ui          (independent — theme, design tokens)
+flutter_kit_firebase    (independent — FCM, deep link callback)
+flutter_kit_auth        (dependent on network + core)
+apps/mobile             (dependent on all 5 packages)
 ```
 
-**Kural:** `flutter_kit_firebase` → `flutter_kit_auth` bağımlılığı yasak (circular). Deep link routing callback pattern ile çözülür (aşağıya bak).
+**Rule:** `flutter_kit_firebase` → `flutter_kit_auth` dependency is forbidden (circular). Resolved via the deep link routing callback pattern (see below).
 
 ---
 
-## Kritik Pattern 1: Navigator
+## Critical Pattern 1: Navigator
 
-Her feature, `<feature>_navigator.dart` dosyasına sahiptir. Bu dosya:
-- `GoRoute` tanımını içerir
-- `show()` static metoduyla navigation API'si sunar
-- `AppNavigator.instance`'a kaydedilir
+Each feature has a `<feature>_navigator.dart` file. This file:
+- Contains the `GoRoute` definition
+- Exposes the navigation API via a static `show()` method
+- Is registered in `AppNavigator.instance`
 
 ```dart
-// Kullanım — feature'ı açmak için:
+// Usage — to open a feature:
 DashboardNavigator.show(context);
 
-// Asla doğrudan context.go('/dashboard') çağırma —
-// path string'i tek bir yerde (navigator'da) yaşamalı.
+// Never call context.go('/dashboard') directly —
+// the path string must live only in one place (the navigator).
 ```
 
-`AppNavigator` (singleton): tüm navigator'ları toplar ve GoRouter'a route listesini verir. `redirect()` metodu auth guard'ı yönetir.
+`AppNavigator` (singleton): collects all navigators and provides the route list to GoRouter. The `redirect()` method manages the auth guard.
 
 ---
 
-## Kritik Pattern 2: Result\<T, E\>
+## Critical Pattern 2: Result\<T, E\>
 
-`flutter_kit_network` paketinden. Tüm async operasyonlar exception fırlatmak yerine `Result` döner.
+From the `flutter_kit_network` package. All async operations return a `Result` instead of throwing exceptions.
 
 ```dart
-// Doğru kullanım
+// Correct usage
 final result = await getDashboardUseCase();
 result.when(
   ok: (summary) => emit(state.copyWith(summary: summary, isLoading: false)),
   err: (error) => emit(state.copyWith(errorMessage: error.message, isLoading: false)),
 );
 
-// Yaygın hata: err branch'te emit unutmak — state askıda kalır
+// Common mistake: forgetting to emit in the err branch — the state hangs
 result.when(
   ok: (data) => emit(state.copyWith(data: data)),
-  err: (_) {},  // ← BUG: isLoading asla false olmaz
+  err: (_) {},  // ← BUG: isLoading never becomes false
 );
 ```
 
-`ApiError` alanları: `statusCode` (nullable int), `message` (String).
+`ApiError` fields: `statusCode` (nullable int), `message` (String).
 
-Use case'ler Result'ı doğrudan propagate eder — try/catch sarmaz:
+Use cases propagate the Result directly — do not wrap them in try/catch:
 ```dart
 @override
 Future<Result<DashboardSummary, ApiError>> call() =>
-    _repository.getDashboard(); // repository sonucu aynen geçir
+    _repository.getDashboard(); // pass the repository result as is
 ```
 
 ---
 
-## Kritik Pattern 3: BaseBloc + BaseBlocView Lifecycle
+## Critical Pattern 3: BaseBloc + BaseBlocView Lifecycle
 
 ```
 BaseBlocView.initState()
-  └── bloc = create()          ← factory'den oluşturulur
-      └── BaseBloc constructor → on<Event> kayıtları yapılır
+  └── bloc = create()          ← created from the factory
+      └── BaseBloc constructor → on<Event> registrations are made
 
 BaseBlocView: post-frame callback
-  └── bloc.onReady()           ← ilk veri yükleme buraya
-      örn: add(DashboardLoadRequested())
+  └── bloc.onReady()           ← initial data loading goes here
+      e.g.: add(DashboardLoadRequested())
 
 BaseBlocView.dispose()
-  └── bloc.close()             ← stream temizlenir
+  └── bloc.close()             ← stream is cleared
 ```
 
-`BaseBlocView`, blocu hem oluşturur hem de lifecycle'ını yönetir.  
-Widget içinde `Bloc()` constructor çağırma — her zaman `BaseBlocView` kullan.
+`BaseBlocView` both creates the bloc and manages its lifecycle.  
+Do not invoke the `Bloc()` constructor inside a widget — always use `BaseBlocView`.
 
 ---
 
-## Kritik Pattern 4: safeEmit
+## Critical Pattern 4: safeEmit
 
-`BaseCubit`'in `safeEmit(state)` metodu, cubit kapatıldıktan sonra gelen async callback'lerde `emit()` çağrısının crash yapmasını önler.
+The `safeEmit(state)` method of `BaseCubit` prevents the `emit()` call from crashing in async callbacks after the cubit is closed.
 
 ```dart
-// Cubit içinde emit yerine safeEmit kullan:
+// Use safeEmit instead of emit inside a Cubit:
 void doSomething() async {
   final result = await someApi();
-  safeEmit(state.copyWith(data: result)); // cubit kapandıysa sessizce ignore eder
+  safeEmit(state.copyWith(data: result)); // quietly ignores if the cubit is closed
 }
 ```
 
 ---
 
-## Kritik Pattern 5: DI Modül Sırası
+## Critical Pattern 5: DI Module Order
 
-`Injection.init()` içinde bu sıra **zorunludur**:
+This order is **mandatory** inside `Injection.init()`:
 
 ```
 1. setupNetworkModule   → FlutterSecureStorage, TokenStore, ApiManager
 2. setupAuthModule      → AuthRemoteDataSource, AuthRepository, AuthManager, AuthBloc
-                          (ApiManager ve TokenStore'a ihtiyaç duyar)
-3. setupNavigationModule → GoRouter, AuthRouterNotifier
-                           (AuthBloc'a ihtiyaç duyar)
+                          (requires ApiManager and TokenStore)
+3. setupNavigationModule → GoRouter, AppNavigator
+                           (requires AuthBloc)
 ```
 
-Sıra değişirse `Object not registered` hatası alınır.
+If the order is changed, `Object not registered` error is thrown.
 
 ---
 
-## Kritik Pattern 6: Callback-Based Deep Link
+## Critical Pattern 6: Callback-Based Deep Link
 
-`flutter_kit_firebase`, GoRouter'ı **import etmez** — import etseydi `firebase → navigation → auth → firebase` döngüsü oluşurdu.
+`flutter_kit_firebase` **does not import** GoRouter — doing so would cause a `firebase → navigation → auth → firebase` cycle.
 
-Çözüm: `NotificationDeepLinkHandler.onNavigate` statik callback, uygulama başlangıcında app layer tarafından set edilir:
+Solution: The `NotificationDeepLinkHandler.onNavigate` static callback is set by the app layer at startup:
 
 ```dart
-// main_*.dart içinde, GoRouter kurulduktan sonra:
+// Inside main_*.dart, after GoRouter is initialized:
 NotificationDeepLinkHandler.onNavigate = (path, params) {
   router.go(path, extra: params);
 };
@@ -143,35 +143,35 @@ NotificationDeepLinkHandler.onNavigate = (path, params) {
 
 ---
 
-## Kritik Pattern 7: ActiveCubitHelper
+## Critical Pattern 7: ActiveCubitHelper
 
-Aynı screen türü navigation stack'te **ikiden fazla** açıksa (örn: iki farklı kullanıcı profil sayfası), cubit'i GetIt'te ayırt etmek için `activeKey` kullanılır.
+If the same screen type is open **more than once** in the navigation stack (e.g., two different user profile pages), `activeKey` is used to distinguish the cubit in GetIt.
 
 ```dart
-// Screen'i açarken unique key ver:
+// Pass a unique key when opening the screen:
 BaseBlocView<ProfileCubit, ProfileState>(
   activeKey: userId,
   create: () => ProfileCubit(userId: userId),
   ...
 )
 
-// Başka bir widget'tan erişmek için:
+// To access it from another widget:
 final cubit = getActive<ProfileCubit>(key: userId);
 ```
 
-Key verilmezse `_default_ProfileCubit` kullanılır — aynı tipten tek instance varsayılır.
+If no key is provided, `_default_ProfileCubit` is used — a single instance of that type is assumed.
 
 ---
 
-## Kritik Pattern 8: PaginatedBloc
+## Critical Pattern 8: PaginatedBloc
 
-Infinite-scroll listeler için `PaginatedBloc` mixin'i kullanılır. Subclass sadece `fetchPage()` ve `paginatedState()` implement eder, pagination logic'i mixin tarafından yönetilir.
+The `PaginatedBloc` mixin is used for infinite-scroll lists. The subclass only implements `fetchPage()` and `paginatedState()`, and the pagination logic is managed by the mixin.
 
 ```dart
-// Düz BaseBloc yeter:
+// Plain BaseBloc is sufficient:
 class DashboardBloc extends BaseBloc<DashboardEvent, DashboardState> { ... }
 
-// Sayfalama gereken listeler için mixin ekle:
+// Add mixin for lists requiring pagination:
 class AppointmentBloc extends BaseBloc<AppointmentEvent, AppointmentState>
     with PaginatedBloc<Appointment, AppointmentEvent, AppointmentState> {
 
@@ -186,7 +186,7 @@ class AppointmentBloc extends BaseBloc<AppointmentEvent, AppointmentState>
 
 ---
 
-## Test Pattern Özeti
+## Test Pattern Summary
 
 ```dart
 @GenerateMocks([AuthManager, SomeUseCase])
@@ -195,7 +195,7 @@ void main() {
   late LoginBloc loginBloc;
 
   setUp(() {
-    // Mockito generic type uyarısını önler:
+    // Prevents Mockito generic type warnings:
     provideDummy<Result<AuthTokens, ApiError>>(
       Ok(AuthTokens(accessToken: '', refreshToken: null)),
     );
@@ -215,7 +215,7 @@ void main() {
 }
 ```
 
-Mock dosyaları üretmek için:
+To generate mock files:
 ```bash
 cd apps/mobile
 dart run build_runner build --delete-conflicting-outputs
@@ -223,9 +223,9 @@ dart run build_runner build --delete-conflicting-outputs
 
 ---
 
-## Dosya Adlandırma Sözleşmeleri
+## File Naming Conventions
 
-| Dosya | Adı |
+| File | Name |
 |-------|-----|
 | Bloc | `feature_bloc.dart` |
 | Event | `feature_event.dart` |
@@ -237,25 +237,25 @@ dart run build_runner build --delete-conflicting-outputs
 
 ---
 
-## Melos Komutları
+## Melos Commands
 
 ```bash
-melos bootstrap       # Bağımlılıkları kur (ilk kurulum veya pubspec değişikliği)
-melos analyze         # Tüm paketlerde lint kontrolü
-melos test            # Tüm paketlerde testleri çalıştır
-melos format          # Kodu formatla
-melos format:check    # Format kontrolü (CI'da kullanılır, dosya değiştirmez)
+melos bootstrap       # Install dependencies (first setup or pubspec changes)
+melos analyze         # Run lint checks in all packages
+melos test            # Run tests in all packages
+melos format          # Format code
+melos format:check    # Check formatting (used in CI, does not modify files)
 ```
 
 ---
 
-## YAPMA Listesi
+## DO NOT List
 
-| Yasak | Neden |
+| Forbidden | Reason |
 |-------|-------|
-| `context.go('/dashboard')` doğrudan çağırma | Path string'i dağılır — `DashboardNavigator.show(context)` kullan |
-| Widget içinde `Bloc()` construct etme | `BaseBlocView` lifecycle'ı yönetir — her zaman onu kullan |
-| `ApiManager` veya `AuthManager`'ı `BaseBloc`'a field eklemek | Paket izolasyonunu bozar — use case inject et |
-| Repository impl'e path string hard-code etmek | Test edilemez ve ortama göre değişemez — constructor'a default param ekle |
-| `firebase` paketinde `auth` veya `router` import etmek | Circular dependency — callback pattern kullan |
-| Async callback'te `emit()` doğrudan çağırmak | Cubit kapandıktan sonra crash — `safeEmit()` kullan |
+| Calling `context.go('/dashboard')` directly | Path string spreads — use `DashboardNavigator.show(context)` |
+| Constructing `Bloc()` inside a widget | `BaseBlocView` manages the lifecycle — always use it |
+| Adding `ApiManager` or `AuthManager` as field to `BaseBloc` | Breaks package isolation — inject use case instead |
+| Hardcoding path strings in repository impl | Untestable and cannot change by environment — add default param to constructor |
+| Importing `auth` or `router` inside `firebase` package | Circular dependency — use callback pattern |
+| Calling `emit()` directly in async callbacks | Crash after cubit is closed — use `safeEmit()` |
