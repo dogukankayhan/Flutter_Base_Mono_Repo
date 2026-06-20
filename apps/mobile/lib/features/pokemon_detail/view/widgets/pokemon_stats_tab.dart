@@ -88,13 +88,21 @@ class _PokemonStatsTabState extends State<PokemonStatsTab>
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: LinearProgressIndicator(
-                value: percentage,
-                backgroundColor: color.withAlpha(25),
-                color: color,
-                minHeight: 8,
+            child: Container(
+              height: 8,
+              decoration: BoxDecoration(
+                color: color.withAlpha(25),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: percentage,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
           ),

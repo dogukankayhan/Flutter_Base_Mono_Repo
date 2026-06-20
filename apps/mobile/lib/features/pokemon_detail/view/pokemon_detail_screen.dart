@@ -215,6 +215,7 @@ class PokemonDetailScreen extends StatelessWidget {
                                           '',
                                       height: 200,
                                       fit: BoxFit.contain,
+                                      memCacheHeight: 450,
                                     ),
                                   ),
                                 ),

@@ -60,6 +60,7 @@ class PokemonCard extends StatelessWidget {
                             pokemon.sprites.frontDefault ??
                             '',
                         fit: BoxFit.contain,
+                        memCacheWidth: 350,
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(color: bgColor),
                         ),

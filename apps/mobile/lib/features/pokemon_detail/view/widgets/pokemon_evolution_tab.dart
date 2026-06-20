@@ -138,6 +138,8 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
             child: CachedNetworkImage(
               imageUrl:
                   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${node.speciesId}.png',
+              memCacheWidth: 160,
+              memCacheHeight: 160,
               placeholder: (context, url) =>
                   const Icon(Icons.catching_pokemon, color: Colors.grey),
               errorWidget: (context, url, e) => const Icon(Icons.error),

@@ -3,8 +3,8 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    // id("com.google.gms.google-services")
+    // id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -37,21 +37,21 @@ android {
             dimension = "environment"
             applicationId = "com.yourcompany.baseapp.dev"
             resValue("string", "app_name", "BaseApp Dev")
-            resValue("string", "base_url", "YOUR_DEV_BASE_URL")
+            resValue("string", "base_url", "https://pokeapi.co/api/v2/")
             resValue("string", "google_server_client_id", "YOUR_GOOGLE_SERVER_CLIENT_ID_DEV")
         }
         create("staging") {
             dimension = "environment"
             applicationId = "com.yourcompany.baseapp.staging"
             resValue("string", "app_name", "BaseApp Staging")
-            resValue("string", "base_url", "YOUR_STAGING_BASE_URL")
+            resValue("string", "base_url", "https://pokeapi.co/api/v2/")
             resValue("string", "google_server_client_id", "YOUR_GOOGLE_SERVER_CLIENT_ID_STAGING")
         }
         create("prod") {
             dimension = "environment"
             applicationId = "com.yourcompany.baseapp"
             resValue("string", "app_name", "BaseApp")
-            resValue("string", "base_url", "YOUR_PROD_BASE_URL")
+            resValue("string", "base_url", "https://pokeapi.co/api/v2/")
             resValue("string", "google_server_client_id", "YOUR_GOOGLE_SERVER_CLIENT_ID_PROD")
         }
     }
