@@ -1,7 +1,7 @@
 /// Validates multiple fields and tracks overall form validity.
 ///
-/// Her alan lazy fonksiyon olarak tanımlanır — çağrıldığında
-/// o anki state değerini okur.
+/// Each field is defined as lazy function — reads current state value when called
+/// reads the current state value.
 ///
 /// ```dart
 /// FormValidator get _form => FormValidator({

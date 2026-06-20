@@ -16,7 +16,7 @@ import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart'
 import 'package:get_it/get_it.dart';
 
 /// Auth paketinin DI kurulumu.
-/// `apiManager` ve `tokenStore` dışarıdan verilir.
+/// `apiManager` and `tokenStore` are provided externally.
 Future<void> setupAuth({
   required GetIt getIt,
   required ApiManager apiManager,

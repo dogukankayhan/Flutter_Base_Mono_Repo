@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Sabit (mod bağımsız) marka renkleri.
+/// Constant (mode independent) brand colors.
 ///
-/// Tüm değerler compile-time const — runtime allocation yok.
+/// All values are compile-time const — no runtime allocation.
 /// Context gerektirmez: AppBrandColors.gold, AppBrandColors.primary
 ///
-/// Az kullanılan shade'ler için: Palette.primary[30]!
+/// For rarely used shades: Palette.primary[30]!
 abstract final class AppBrandColors {
   // ─── Primary palette shortcuts ────────────────────────
   static const Color primary             = Color(0xFF5b7dfb); // primary[40]

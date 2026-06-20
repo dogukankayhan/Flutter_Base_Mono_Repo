@@ -3,7 +3,7 @@ import 'package:flutter_kit_ui/theme/app_colors.dart';
 import 'package:flutter_kit_ui/theme/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Kullanım:
+/// Usage:
 ///   context.showAppBottomSheet(
 ///     title: 'Filtrele',
 ///     child: FilterSheet(),

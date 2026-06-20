@@ -3,13 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/notification_channel.dart';
 import '../extensions/remote_message_ext.dart';
 
-/// Uygulamanın arka planda veya kapalı olduğu durumda FCM mesajlarını yakalar.
-/// Bu fonksiyon ayrı bir Dart isolate'inde çalışır — UI'a erişemez.
+/// Catches FCM messages when application is in background or closed.
+/// This function runs in a separate Dart isolate — cannot access UI.
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final payload = message.toPayload();
 
-  // Sadece data-only mesajlarda (notification alanı yoksa) yerel bildirim göster
+  // Show local notification only for data-only messages (no notification area)
   if (message.notification == null) {
     final plugin = FlutterLocalNotificationsPlugin();
     await plugin.initialize(

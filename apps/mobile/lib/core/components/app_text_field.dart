@@ -8,10 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum InputType { text, password, numeric, email, phone }
 
-/// Kullanım:
+/// Usage:
 ///   AppTextField(label: 'E-posta', controller: _ctrl, hintText: 'ornek@mail.com', type: InputType.email)
-///   AppTextField(label: 'Şifre',   controller: _ctrl, hintText: '••••••••',       type: InputType.password)
-///   AppTextField(label: 'Not',     controller: _ctrl, hintText: 'Açıklama girin', maxLines: 4)
+///   AppTextField(label: 'Password',   controller: _ctrl, hintText: '••••••••',       type: InputType.password)
+///   AppTextField(label: 'Note',     controller: _ctrl, hintText: 'Enter description', maxLines: 4)
 class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
@@ -38,15 +38,15 @@ class AppTextField extends StatefulWidget {
   final bool isEnabled;
   final Widget? prefixIcon;
 
-  /// Password type için otomatik toggle ikonu oluşturulur,
-  /// bu alan yalnızca text/numeric/email/phone için geçerlidir.
+  /// Automatic toggle icon is created for password type,
+  /// this field is only applicable for text/numeric/email/phone.
   final SvgIcon? suffixIcon;
 
   final int maxLines;
   final FocusNode? focusNode;
   final FormFieldValidator<String>? validator;
 
-  /// Validator mesajı yerine dışarıdan doğrudan hata mesajı vermek için.
+  /// To provide direct error message from outside instead of validator message.
   final String? validationMessage;
   final ValueChanged<String>? onChanged;
 
@@ -106,7 +106,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
         if (!_isMultiline) return field;
 
-        // Multiline: resize handle göster
+        // Multiline: show resize handle
         return Stack(
           children: [
             field,

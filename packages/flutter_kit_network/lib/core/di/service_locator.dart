@@ -103,7 +103,7 @@ Future<void> setupNetworking({
   );
   getIt.registerSingleton<AnalyticsManager>(analyticsManager);
 
-  // EnvironmentConfig'den ApiConfig oluştur
+  // Create ApiConfig from EnvironmentConfig
   final apiConfig = ApiConfig.fromEnvironmentConfig(config);
 
   // Http client with all interceptors

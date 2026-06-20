@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kit_auth/auth/bloc/auth_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// AuthBloc'u dinleyerek GoRouter'a köprü kurar.
+/// Bridges GoRouter by listening to AuthBloc.
 /// Kendi state tutmaz, tek kaynak AuthBloc'tur.
 class AuthRouterNotifier extends ChangeNotifier {
   final AuthBloc _authBloc;
@@ -22,7 +22,7 @@ class AuthRouterNotifier extends ChangeNotifier {
   }
 }
 
-/// Test ortamı için — AuthBloc gerektirmeden çalışır.
+/// For test environment — works without requiring AuthBloc.
 @visibleForTesting
 class TestAuthRouterNotifier extends ChangeNotifier {
   bool _loggedIn = false;

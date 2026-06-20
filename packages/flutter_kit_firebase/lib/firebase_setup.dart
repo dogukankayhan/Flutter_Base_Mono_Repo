@@ -6,7 +6,7 @@ import 'package:flutter_kit_firebase/notification/handlers/notification_backgrou
 import 'package:flutter_kit_firebase/notification/notification_manager.dart';
 
 /// Firebase paketinin init fonksiyonu.
-/// [options] environment'a göre app katmanından verilir.
+/// [options] provided from app layer based on environment.
 Future<void> setupFirebase({required FirebaseOptions options}) async {
   try {
     await Firebase.initializeApp(options: options);
@@ -23,7 +23,7 @@ Future<void> setupFirebase({required FirebaseOptions options}) async {
   };
 }
 
-/// Bildirim servisini başlatır. Splash ekranında çağrılır.
+/// Initializes the notification service. Called in Splash screen.
 Future<void> setupNotifications() =>
     NotificationManager.instance.init().catchError((e) {
       debugPrint('[NotificationManager] init error: $e');

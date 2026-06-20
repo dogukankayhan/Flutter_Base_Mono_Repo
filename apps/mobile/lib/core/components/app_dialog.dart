@@ -5,13 +5,13 @@ import 'package:flutter_kit_ui/theme/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_button.dart';
 
-/// Kullanım:
+/// Usage:
 ///   context.showAppDialog(
-///     title: 'Çıkış Yap',
+///     title: 'Log Out',
 ///     content: 'Oturumunuzu kapatmak istiyor musunuz?',
-///     primaryLabel: 'Çıkış Yap',
+///     primaryLabel: 'Log Out',
 ///     onPrimary: () { context.read<AuthBloc>().add(LogoutRequested()); },
-///     secondaryLabel: 'İptal',
+///     secondaryLabel: 'Cancel',
 ///   );
 ///
 ///   context.showAppDialog(title: 'Silindi', content: 'Randevu iptal edildi.');

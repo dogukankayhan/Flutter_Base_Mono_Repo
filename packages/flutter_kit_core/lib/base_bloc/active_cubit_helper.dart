@@ -1,35 +1,35 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_kit_network/core/di/service_locator.dart';
 
-/// Active cubit helper fonksiyonları
+/// Active cubit helper functions
 /// GetIt kullanarak cubit'leri key'li veya key'siz register/unregister eder
 ///
-/// **Ne zaman kullan:** Aynı tipten birden fazla screen navigation stack'te
-/// eşzamanlı olabildiğinde (örn: iki farklı müşteri profil sayfası açık).
-/// Key olmadan sadece son instance erişilebilir olur — önceki üzerine yazılır.
+/// **When to use:** When multiple screens of the same type can be open in the navigation stack simultaneously
+/// can be simultaneous (e.g. two different customer profile pages open).
+/// Without key, only the last instance is accessible — overwrites previous.
 ///
-/// **Tipik kullanım (BaseBlocView içinde):**
+/// **Typical usage (inside BaseBlocView):**
 /// ```dart
 /// BaseBlocView<ProfileCubit, ProfileState>(
 ///   activeKey: userId,          // unique identifier
 ///   create: () => ProfileCubit(userId: userId),
 ///   ...
 /// )
-/// // Başka bir widget'tan erişim:
+/// // Access from another widget:
 /// final cubit = getActive<ProfileCubit>(key: userId);
 /// ```
 ///
-/// Key verilmezse `_default_TypeName` kullanılır — tek instance varsayılır.
+/// If key is not provided, `_default_TypeName` is used — single instance assumed.
 
-/// Aktif kayıtları takip et (debug & getAllActive için)
+/// Track active registrations (for debug & getAllActive)
 final Set<String> _activeKeys = {};
 
-/// Aktif cubit'i yayınla (register et)
+/// Publish active cubit (register it)
 void publishActive<T extends Object>(T instance, {String? key}) {
   final instanceName = key ?? '_default_${T.toString()}';
 
   if (getIt.isRegistered<T>(instanceName: instanceName)) {
-    // Debug modda uyar: aynı key ile tekrar publish ediliyor
+    // Warn in debug mode: publishing again with the same key
     assert(() {
       debugPrint(
         '[ActiveCubit] ⚠️ Override: $instanceName was already registered. '
@@ -44,7 +44,7 @@ void publishActive<T extends Object>(T instance, {String? key}) {
   _activeKeys.add(instanceName);
 }
 
-/// Aktif cubit yayınını kaldır (unregister)
+/// Unregister active cubit
 void unpublishActive<T extends Object>({String? key}) {
   final instanceName = key ?? '_default_${T.toString()}';
 
@@ -64,7 +64,7 @@ T? getActiveOrNull<T extends Object>({String? key}) {
   return null;
 }
 
-/// Aktif cubit'i al (non-null, bulamazsa fırlatır)
+/// Get active cubit (non-null, throws if not found)
 T getActive<T extends Object>({String? key}) {
   final instance = getActiveOrNull<T>(key: key);
   if (instance == null) {
@@ -73,16 +73,16 @@ T getActive<T extends Object>({String? key}) {
   return instance;
 }
 
-/// Şu an aktif olan tüm cubit key'lerini döndürür (debug/logging için)
+/// Returns all currently active cubit keys (for debug/logging)
 Set<String> getAllActiveKeys() => Set.unmodifiable(_activeKeys);
 
-/// Belirtilen tipte aktif cubit var mı?
+/// Is there an active cubit of the specified type?
 bool hasActive<T extends Object>({String? key}) {
   final instanceName = key ?? '_default_${T.toString()}';
   return getIt.isRegistered<T>(instanceName: instanceName);
 }
 
-/// Custom exception - stack trace'de hemen görünür
+/// Custom exception - immediately visible in stack trace
 class ActiveCubitNotFoundException<T> implements Exception {
   final String? key;
   const ActiveCubitNotFoundException(this.key);

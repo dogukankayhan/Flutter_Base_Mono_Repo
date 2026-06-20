@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-/// Kullanım:
+/// Usage:
 ///   SvgIcon.home()
 ///   SvgIcon.homeBold(width: 32, color: Colors.red)
 ///   SvgIcon.arrowRight(height: 20)
@@ -87,14 +87,14 @@ enum SvgIcon {
   stockCount,
 }
 
-/// Kullanım:
+/// Usage:
 ///   PngAsset.appIcon()
 ///   PngAsset.appIcon(width: 80, fit: BoxFit.contain)
 enum PngAsset {
   appIcon,
 }
 
-// ─── Camel → kebab-case yardımcısı ──────────────────────────────────
+// ─── Camel → kebab-case helper ──────────────────────────────────────
 String _toKebab(String name) => name
     .replaceAllMapped(
       RegExp(r'^([a-z])|[A-Z]'),

@@ -24,7 +24,7 @@ class CacheInterceptor extends Interceptor {
       if (!cached.isExpired) {
         return handler.resolve(cached.response, true);
       }
-      // Expire olmuş entry'yi sil
+      // Delete expired entry
       _cache.remove(cacheKey);
     }
 
@@ -41,11 +41,11 @@ class CacheInterceptor extends Interceptor {
       final cacheKey = _getCacheKey(response.requestOptions);
       final maxAge = _getMaxAge(response);
 
-      // Max entry limitine ulaşıldıysa expire olanları temizle
+      // If max entry limit is reached, clear expired entries
       if (_cache.length >= maxEntries) {
         _evictExpired();
       }
-      // Hâlâ doluysa en eski entry'yi çıkar (LRU)
+      // If still full, remove the oldest entry (LRU)
       if (_cache.length >= maxEntries) {
         _cache.remove(_cache.keys.first);
       }
@@ -59,7 +59,7 @@ class CacheInterceptor extends Interceptor {
     handler.next(response);
   }
 
-  /// Expire olmuş tüm entry'leri temizle
+  /// Clear all expired entries
   void _evictExpired() {
     _cache.removeWhere((_, entry) => entry.isExpired);
   }

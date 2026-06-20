@@ -2,8 +2,8 @@ import '../network/api/api_response.dart';
 import '../network/error/api_error.dart';
 
 // ignore: unintended_html_in_doc_comment
-/// ApiResponse<T> için .when(...) sugar.
-/// Projendeki ApiResponse şekline göre "duck-typing" yapıyoruz.
+/// ApiResponse<T> .when(...) syntactic sugar.
+/// Doing duck-typing based on the ApiResponse shape in your project.
 extension ApiResponseWhenX<T> on ApiResponse<T> {
   R when<R>({
     required R Function(T data) ok,

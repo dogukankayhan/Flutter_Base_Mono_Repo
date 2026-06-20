@@ -1,13 +1,13 @@
-/// Lifecycle methodlarına sahip bloc/cubit'ler için interface
+/// Interface for blocs/cubits with lifecycle methods
 /// BaseCubit ve BaseBloc bu interface'i implement eder
 abstract class LifecycleBloc {
-  /// Bloc/Cubit oluşturulduğunda çağrılır (opsiyonel)
+  /// Called when Bloc/Cubit is created (optional)
   void onInit();
 
-  /// Widget render edildikten sonra çağrılır (opsiyonel)
+  /// Called after widget is rendered (optional)
   void onReady();
 
-  /// Bloc/Cubit kapalı mı?
+  /// Is Bloc/Cubit closed?
   bool get isClosed;
 
   /// Close the bloc/cubit

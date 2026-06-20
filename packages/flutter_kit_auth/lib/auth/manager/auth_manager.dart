@@ -16,7 +16,7 @@ import '../domain/usecase/google_sign_in_usecase.dart';
 import '../domain/usecase/guest_sign_in_usecase.dart';
 import '../token/token_store.dart';
 
-/// getIt üzerinden yönetilir — static singleton pattern kaldırıldı.
+/// managed via getIt — static singleton pattern removed.
 /// Injection: `getIt.registerSingleton(await AuthManager.create(...))`
 class AuthManager {
   AuthManager._({
@@ -32,7 +32,7 @@ class AuthManager {
     required this.tokenStore,
   });
 
-  /// Nesneyi oluşturur ve kayıtlı token varsa oturumu geri yükler.
+  /// Creates the object and restores session if token is saved.
   static Future<AuthManager> create({
     required LoginUseCase loginUseCase,
     required RegisterUseCase registerUseCase,
@@ -83,7 +83,7 @@ class AuthManager {
 
   final _statusController = StreamController<AuthStatus>.broadcast();
 
-  /// Auth durumu değişikliklerini dinlemek için stream.
+  /// Stream to listen for auth state changes.
   /// AuthBloc bu stream'e subscribe olur.
   Stream<AuthStatus> get statusStream => _statusController.stream;
 
@@ -229,7 +229,7 @@ class AuthManager {
         _notify();
         mapped = Ok(tokens);
       } else {
-        // Refresh başarısız → session geçersiz, temizle
+        // Refresh failed → session invalid, clear
         _tokens = null;
         _profile = null;
         tokenStore.clear();

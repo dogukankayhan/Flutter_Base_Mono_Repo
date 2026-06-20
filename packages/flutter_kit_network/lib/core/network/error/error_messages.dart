@@ -3,7 +3,7 @@
 /// Usage:
 /// ```dart
 /// final errorMessages = ErrorMessages(locale: 'tr_TR');
-/// print(errorMessages.networkError); // "Ağ hatası"
+/// print(errorMessages.networkError); // "Network error"
 /// ```
 class ErrorMessages {
   final String locale;

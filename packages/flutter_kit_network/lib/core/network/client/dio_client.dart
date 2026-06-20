@@ -39,14 +39,14 @@ class DioClient implements HttpClient {
       ),
     );
 
-    // Interceptor sırası önemli:
-    // 1. Connectivity → İnternet yoksa hemen reject, boşuna devam etme
+    // Interceptor order is important:
+    // 1. Connectivity → If no internet, reject immediately, don't proceed
     // 2. Auth         → Token ekle
-    // 3. RateLimiter  → Rate limit kontrolü
+    // 3. RateLimiter  → Rate limit control
     // 4. Cache        → Cache'de varsa server'a gitme
     // 5. Retry        → Hata olursa tekrar dene
     // 6. Refresh      → 401'de token yenile ve request'i tekrar at
-    // 7. Logging      → En sonda, her şeyi logla
+    // 7. Logging      → At the end, log everything
 
     // 1. Connectivity
     if (networkInfo != null) {

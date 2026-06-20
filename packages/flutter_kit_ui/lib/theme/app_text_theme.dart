@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 ///   bodyLarge / bodyMedium / bodySmall
 ///   labelLarge / labelMedium / labelSmall
 ///
-/// Font ailesi değiştirmek için [_fontFamily] sabitini güncelle.
+/// Update [_fontFamily] constant to change font family.
 /// Google Fonts kullanmak istersen pubspec'e google_fonts ekleyip
 /// buradaki TextStyle'lara GoogleFonts.xxx() ile override edebilirsin.
 sealed class AppTextTheme {

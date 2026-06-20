@@ -7,12 +7,12 @@ import '../../../features/movies/movie_detail_coordinator.dart';
 import '../../../features/register/register_coordinator.dart';
 import '../../../features/shell/shell_coordinator.dart';
 
-/// Root navigator key — tüm route'lar bu key üzerinden açılır.
+/// Root navigator key — all routes open via this key.
 ///
-/// GoRouter burada constructor parameter olarak alınmaz veya GetIt'ten
-/// çekilmez çünkü bu, navigation → auth → firebase döngüsüne yol açar.
+/// GoRouter is not taken as constructor parameter here or from GetIt
+/// not pulled because this leads to navigation → auth → firebase cycle.
 /// Bunun yerine [NotificationDeepLinkHandler.onNavigate] callback'i
-/// uygulama başlangıcında set edilir — firebase paketi router'ı import etmez.
+/// set at app startup — firebase package does not import router.
 final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final class AppCoordinator {

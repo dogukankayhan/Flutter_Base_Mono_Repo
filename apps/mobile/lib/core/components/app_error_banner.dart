@@ -3,12 +3,12 @@ import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
 import 'package:flutter_kit_ui/theme/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Hata mesajı göstermek için iki variant:
+/// Two variants to show error messages:
 ///
-/// **Inline (form içi):** `isInline: true` — kompakt satır, dismiss butonu
+/// **Inline (inside form):** `isInline: true` — compact line, dismiss button
 ///   AppErrorBanner(message: state.errorMessage!, isInline: true, onDismiss: _dismiss)
 ///
-/// **Full (ekran ortası):** `isInline: false` — icon + mesaj + retry butonu
+/// **Full (center of screen):** `isInline: false` — icon + message + retry button
 ///   AppErrorBanner(message: state.errorMessage!, onRetry: _retry)
 class AppErrorBanner extends StatelessWidget {
   const AppErrorBanner({

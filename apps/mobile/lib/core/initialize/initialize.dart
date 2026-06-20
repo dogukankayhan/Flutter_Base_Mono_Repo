@@ -28,7 +28,7 @@ class Initialize {
     await _initLocaleAndTheme();
   }
 
-  /// Splash ekranında çağrılır — ağır işler burada yapılır.
+  /// Called on splash screen — heavy work done here.
   static Future<void> run() async {
     if (_firebaseEnabled) await _initNotifications();
   }
@@ -44,17 +44,17 @@ class Initialize {
   }
 
   static void _initErrorHandlers() {
-    // Flutter framework hataları (widget build, layout, vb.)
+    // Flutter framework errors (widget build, layout, etc.)
     FlutterError.onError = (details) {
       FlutterError.presentError(details); // debug console'a yazar
       // if (_firebaseEnabled) FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     };
 
-    // Dart async hataları ve Flutter dışı platform hataları
+    // Dart async errors and non-Flutter platform errors
     PlatformDispatcher.instance.onError = (error, stack) {
       debugPrint('[FATAL] $error\n$stack');
       // if (_firebaseEnabled) FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true; // true → hatayı handle ettik, platformu çökertme
+      return true; // true → we handled the error, do not crash the platform
     };
   }
 

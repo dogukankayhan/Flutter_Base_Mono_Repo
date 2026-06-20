@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Tema durumunu yöneten Cubit.
+/// Cubit managing theme state.
 ///
 /// 3 mod destekler:
-/// - [ThemeMode.system] → cihaz ayarını takip eder (varsayılan)
+/// - [ThemeMode.system] → follows device settings (default)
 /// - [ThemeMode.light]  → her zaman light
 /// - [ThemeMode.dark]   → her zaman dark
 ///
-/// Seçim [SharedPreferences] ile kalıcı hale gelir.
+/// Selection is persisted with [SharedPreferences].
 ///
-/// Kullanım:
+/// Usage:
 ///   context.read<ThemeCubit>().setThemeMode(ThemeMode.dark);
 ///   context.read<ThemeCubit>().toggleTheme();
 ///
@@ -26,8 +26,8 @@ class ThemeCubit extends Cubit<ThemeMode> {
 
   ThemeCubit() : super(ThemeMode.system);
 
-  /// SharedPreferences'tan kaydedilmiş tema modunu yükle.
-  /// Uygulama başlangıcında çağrılmalı.
+  /// Load saved theme mode from SharedPreferences.
+  /// Must be called at app startup.
   Future<void> loadSavedTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final stored = prefs.getString(_key);
@@ -40,8 +40,8 @@ class ThemeCubit extends Cubit<ThemeMode> {
     }
   }
 
-  /// Tema modunu değiştir ve kaydet.
-  /// System seçilirse kayıt silinir → sonraki açılışta varsayılan system olur.
+  /// Change and save theme mode.
+  /// If System selected, record is deleted → next startup defaults to system.
   Future<void> setThemeMode(ThemeMode mode) async {
     debugPrint('[ThemeCubit] setThemeMode → ${mode.name}');
     emit(mode);
@@ -53,8 +53,8 @@ class ThemeCubit extends Cubit<ThemeMode> {
     }
   }
 
-  /// Light ↔ Dark arası geçiş.
-  /// System modundayken mevcut brightness'a göre tersine çevirir.
+  /// Toggle between Light ↔ Dark.
+  /// Reverses based on current brightness when in System mode.
   Future<void> toggleTheme([BuildContext? context]) async {
     if (context != null) {
       final brightness = MediaQuery.platformBrightnessOf(context);
@@ -77,7 +77,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
     }
   }
 
-  /// Mevcut modun karanlık olup olmadığını kontrol et.
+  /// Check if current mode is dark.
   bool isDark([BuildContext? context]) {
     if (state == ThemeMode.dark) return true;
     if (state == ThemeMode.light) return false;

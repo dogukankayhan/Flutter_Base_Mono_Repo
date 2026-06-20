@@ -1,7 +1,7 @@
 import 'package:flutter_kit_network/core/network/error/api_error.dart';
 import 'package:flutter_kit_network/core/utils/result.dart';
 
-/// Parametresiz use case'ler için base sınıf.
+/// Base class for parameterless use cases.
 ///
 /// ```dart
 /// class MeUseCase extends BaseUseCase<Profile> {
@@ -14,7 +14,7 @@ abstract class BaseUseCase<Output> {
   Future<Result<Output, ApiError>> call();
 }
 
-/// Parametreli use case'ler için base sınıf.
+/// Base class for parameterized use cases.
 ///
 /// ```dart
 /// class LoginUseCase extends BaseParamsUseCase<LoginParams, AuthTokens> {

@@ -4,25 +4,25 @@ import 'active_cubit_helper.dart';
 import 'lifecycle_bloc.dart';
 import 'base_state.dart';
 
-/// Base Bloc View - tüm bloc/cubit view'ler bu widget'ı kullanmalı
+/// Base Bloc View - all bloc/cubit views should use this widget
 ///
-/// Özellikler:
-/// - Bloc/Cubit lifecycle'ını yönetir (onInit, onReady, close)
-/// - Active key ile aynı tipten birden fazla ekranı ayırt eder
-/// - onInit, onReady, onDispose callback'lerini sağlar
+/// Features:
+/// - Manages Bloc/Cubit lifecycle (onInit, onReady, close)
+/// - Distinguishes multiple screens of the same type using active key
+/// - provides onInit, onReady, onDispose callbacks
 /// - GetIt ile bloc/cubit'leri publish/unpublish eder
 /// - Hem BaseBloc hem BaseCubit destekler
 ///
 final class BaseBlocView<C extends LifecycleBloc, S extends BaseState> extends StatefulWidget {
-  /// Ekranın içeriğini çizen builder
-  /// [bloc] parametresi eklendi - artık builder içinde bloc'a direkt erişebilirsiniz
+  /// Builder that draws screen content
+  /// [bloc] parameter added - now you can access the bloc directly inside builder
   final Widget Function(BuildContext context, S state, C bloc) builder;
 
-  /// Bloc/Cubit'i oluşturan fonksiyon
+  /// Function that creates Bloc/Cubit
   final C Function() create;
 
-  /// Aynı tipten birden fazla ekranı ayırt etmek için opsiyonel active key.
-  /// Örn: StoryDetail için storyId, Chat için conversationId...
+  /// Optional active key to distinguish multiple screens of the same type.
+  /// E.g. storyId for StoryDetail, conversationId for Chat...
   final String? activeKey;
 
   /// Bloc/Cubit lifecycle callback'leri
@@ -30,11 +30,11 @@ final class BaseBlocView<C extends LifecycleBloc, S extends BaseState> extends S
   final Function(C)? onReady;
   final Function(C)? onDispose;
 
-  /// build sonrası post-frame çağrı ister misin? (default: true)
+  /// do you want post-frame call after build? (default: true)
   final bool? usePostFrame;
 
-  /// state.isLoading true olduğunda gösterilecek widget.
-  /// Belirtilmezse varsayılan CircularProgressIndicator kullanılır.
+  /// widget to be shown when state.isLoading is true.
+  /// If not specified, default CircularProgressIndicator is used.
   final Widget? loadingOverlay;
 
   const BaseBlocView({
@@ -62,10 +62,10 @@ final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState> ext
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // 1) Bloc/Cubit'i ekrana özel oluştur
+    // 1) Create Bloc/Cubit specifically for the screen
     bloc = widget.create();
 
-    // 2) Aktif bloc olarak yayınla (key'li veya defaultsuz)
+    // 2) Publish as active bloc (with key or default)
     publishActive<C>(bloc, key: widget.activeKey);
 
     // 3) onInit callback
@@ -73,7 +73,7 @@ final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState> ext
     widget.onInit?.call(bloc);
 
     // 4) onReady: bloc.onReady() + view callback birlikte tetiklenir.
-    // BaseBlocView burada merkezi lifecycle kontrolünü sağlar.
+    // BaseBlocView handles central lifecycle control here.
     final usePostFrame = widget.usePostFrame ?? true;
     if (usePostFrame) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,7 +93,7 @@ final class _BaseBlocViewState<C extends LifecycleBloc, S extends BaseState> ext
     // dispose callback
     widget.onDispose?.call(bloc);
 
-    // 5) Ekran kapanınca aktif bloc yayını kaldır (key'li veya defaultsuz)
+    // 5) Unpublish active bloc when screen is closed (with key or default)
     unpublishActive<C>(key: widget.activeKey);
 
     WidgetsBinding.instance.removeObserver(this);

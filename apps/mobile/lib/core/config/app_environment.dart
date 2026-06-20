@@ -21,7 +21,7 @@ class AppConfig {
   });
 
   /// Native katmandan (Android: strings.xml/resValue, iOS: Info.plist/xcconfig)
-  /// baseUrl, appName ve googleServerClientId değerlerini okur.
+  /// Reads baseUrl, appName, and googleServerClientId.
   static Future<void> init(AppEnvironment env) async {
     final nativeConfig = await _channel.invokeMapMethod<String, String>(
       'getEnvironmentConfig',

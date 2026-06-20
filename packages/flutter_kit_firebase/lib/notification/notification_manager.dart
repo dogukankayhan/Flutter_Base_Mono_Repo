@@ -25,7 +25,7 @@ class NotificationManager {
   /// Terminated state'de gelen notification — splash bitmeden navigate edilemez.
   NotificationPayload? _pendingPayload;
 
-  /// App açıkken action butonuna basılınca çağrılacak callback.
+  /// Callback to be called when action button is pressed while App is open.
   /// NotificationManager.instance.onApprovalAction = (id, approved) => ...
   ApprovalCallback? onApprovalAction;
 
@@ -48,7 +48,7 @@ class NotificationManager {
     _initialized = true;
   }
 
-  // ── İzin ─────────────────────────────────────────────────────────────────
+  // ── Permission ────────────────────────────────────────────────────────────
 
   Future<void> _requestPermission() async {
     await _fcm.requestPermission(
@@ -138,7 +138,7 @@ class NotificationManager {
     }
   }
 
-  /// Splash tamamlandıktan sonra SplashScreen'den çağrılır.
+  /// Called from SplashScreen after splash is complete.
   void consumePendingPayload() {
     final payload = _pendingPayload;
     if (payload == null) return;
@@ -156,13 +156,13 @@ class NotificationManager {
   void _listenTokenRefresh() {
     _fcm.onTokenRefresh.listen((token) {
       debugPrint('[FCM] Token refreshed: $token');
-      // TODO: Backend'e yeni token'ı gönder
+      // TODO: Send the new token to the backend
     });
   }
 
   Future<void> deleteToken() => _fcm.deleteToken();
 
-  // ── Yerel bildirim gösterimi ──────────────────────────────────────────────
+  // ── Local notification display ─────────────────────────────────────────────
 
   Future<void> _showLocalNotification(RemoteMessage message) async {
     final notification = message.notification;
@@ -189,7 +189,7 @@ class NotificationManager {
         android: androidDetails,
         iOS: iosDetails,
       ),
-      // payload'a approvalId yazıyoruz — action handler'ın kullanacağı
+      // we write approvalId to payload — to be used by action handler
       payload: isApproval ? payload.approvalId : payload.path,
     );
   }
@@ -285,7 +285,7 @@ class NotificationManager {
     final actionId = response.actionId;
     final rawPayload = response.payload;
 
-    // Action butonuna basıldı (Onayla / Reddet)
+    // Action button pressed (Approve / Reject)
     if (actionId != null && rawPayload != null) {
       final isApproved = actionId == NotificationActionId.approve;
       debugPrint('[Notification] Foreground ${isApproved ? "APPROVE" : "REJECT"}: $rawPayload');
@@ -293,14 +293,14 @@ class NotificationManager {
       return;
     }
 
-    // Normal bildirime tıklandı — deep link
+    // Normal notification clicked — deep link
     if (rawPayload == null) return;
     final payload = NotificationPayload.fromMap(data: {'path': rawPayload});
     _trackOpened(payload);
     NotificationDeepLinkHandler.handle(payload);
   }
 
-  // ── Yardımcılar ───────────────────────────────────────────────────────────
+  // ── Helpers ───────────────────────────────────────────────────────────────
 
   AppNotificationChannel _channelFor(NotificationPayload payload) {
     if (payload.imageUrl != null) return AppNotificationChannel.promotional;

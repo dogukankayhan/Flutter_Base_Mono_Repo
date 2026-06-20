@@ -9,7 +9,7 @@ import 'package:mockito/annotations.dart';
 
 import 'api_manager_test.mocks.dart';
 
-// Mock sınıfları oluşturmak için annotasyonlar
+// Annotations for creating mock classes
 @GenerateMocks([HttpClient, Serializer, Dio, Response, RequestOptions, Headers])
 void main() {
   late DioApiManager apiManager;
@@ -97,7 +97,7 @@ void main() {
         ),
       ).thenAnswer((_) async => mockResponse);
 
-      // decode<TestModel> çağrıldığında, fromJson’u gerçekten kullanarak TestModel üretelim
+      // when decode<TestModel> is called, let's actually use fromJson to produce TestModel
       when(mockSerializer.decode<TestModel>(any, any)).thenAnswer((invocation) {
         final source = invocation.positionalArguments[0];
         final fromJson =
@@ -535,7 +535,7 @@ void main() {
   });
 }
 
-// Test için yardımcı model sınıfı
+// Helper model class for testing
 class TestModel {
   final String id;
   final String name;

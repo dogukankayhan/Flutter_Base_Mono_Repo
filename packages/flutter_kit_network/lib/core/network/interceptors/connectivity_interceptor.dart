@@ -28,7 +28,7 @@ class ConnectivityInterceptor extends Interceptor {
       }
       handler.next(options);
     } catch (e) {
-      // Connectivity check timeout veya hata → isteği geçir, asıl istek başarısız olursa anlaşılır
+      // Connectivity check timeout or error → let the request pass, it will be understood if the main request fails
       debugPrint('[CONNECTIVITY] Check failed: $e — proceeding anyway');
       handler.next(options);
     }

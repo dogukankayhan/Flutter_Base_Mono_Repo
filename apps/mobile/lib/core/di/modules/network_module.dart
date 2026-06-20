@@ -20,8 +20,8 @@ Future<void> setupNetworkModule(
     () => SecureTokenStore(storage: getIt<FlutterSecureStorage>()),
   );
 
-  // Dev modda token refresh interceptor'ı devre dışı bırak.
-  // 401 geldiğinde /auth/refresh'e istek atmak yerine hemen error state'e geç.
+  // Disable token refresh interceptor in dev mode.
+  // When 401 occurs, transition to error state immediately instead of requesting /auth/refresh.
   final isDev = AppConfig.instance.isDev;
 
   await network_di.setupNetworking(

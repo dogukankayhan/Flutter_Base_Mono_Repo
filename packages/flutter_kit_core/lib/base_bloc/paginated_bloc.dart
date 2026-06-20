@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'base_bloc.dart';
 import 'base_state.dart';
 
-/// Pagination destekli state'ler için base class.
+/// Base class for states with pagination support.
 ///
-/// Her paginated ekranın state'i bundan extend etmeli.
-/// [T] liste item'ının tipi (örn: PokemonDetail, ForumPost).
+/// State of each paginated screen must extend this.
+/// [T] type of list item (e.g. PokemonDetail, ForumPost).
 abstract class PaginatedState<T> extends BaseState {
   List<T> get items;
   bool get hasMore;
@@ -15,7 +15,7 @@ abstract class PaginatedState<T> extends BaseState {
 }
 
 /// Base Pagination Events
-/// Her paginated bloc bu event'leri kullanmalı
+/// Every paginated bloc must use these events
 sealed class PaginatedEvent {}
 
 class LoadInitialEvent extends PaginatedEvent {}
@@ -34,17 +34,17 @@ class RemoveItemWhereEvent<T> extends PaginatedEvent {
   RemoveItemWhereEvent(this.test);
 }
 
-/// Pagination logic'ini otomatikleştiren mixin.
+/// Mixin that automates pagination logic.
 ///
-/// **Ne zaman kullan:** Liste ekranlarında infinite-scroll gerektiğinde.
-/// Düz [BaseBloc] (PaginatedBloc olmadan) tercih et eğer:
-/// - liste sayfalama gerektirmiyorsa (tüm veri tek seferde yükleniyorsa), veya
-/// - sayfalama mantığını farklı bir şekilde implement etmek istiyorsan.
+/// **When to use:** When infinite-scroll is required in list screens.
+/// Choose plain [BaseBloc] (without PaginatedBloc) if:
+/// - list pagination is not required (all data loaded at once), or
+/// - you want to implement pagination logic differently.
 ///
 /// **Event wiring:** Subclass kendi event'lerini [handleLoadInitial],
-/// [handleLoadMore], [handleRemoveAt], [handleRemoveWhere]'e bağlar.
+/// Binds to [handleLoadMore], [handleRemoveAt], [handleRemoveWhere].
 ///
-/// Kullanım:
+/// Usage:
 /// ```dart
 /// sealed class HomeEvent {}
 /// class HomeStarted extends HomeEvent {}
@@ -74,19 +74,19 @@ class RemoveItemWhereEvent<T> extends PaginatedEvent {
 /// }
 /// ```
 mixin PaginatedBloc<T, E, S extends PaginatedState<T>> on BaseBloc<E, S> {
-  /// İlk sayfa boyutu. Override edilebilir.
+  /// Initial page size. Can be overridden.
   int get firstPageSize => 20;
 
-  /// Sonraki sayfaların boyutu. Override edilebilir.
+  /// Size of subsequent pages. Can be overridden.
   int get nextPageSize => 20;
 
-  /// Subclass implement eder — veri kaynağından sayfa çeker.
+  /// Subclass implements — fetches page from data source.
   Future<(List<T> items, bool hasMore, int nextOffset)> fetchPage(
     int offset,
     int size,
   );
 
-  /// Subclass implement eder — mevcut state'i pagination alanlarıyla günceller.
+  /// Subclass implements — updates current state with pagination fields.
   S paginatedState({
     List<T>? items,
     bool? hasMore,
@@ -100,7 +100,7 @@ mixin PaginatedBloc<T, E, S extends PaginatedState<T>> on BaseBloc<E, S> {
   int _pLastOffset = -1;
 
   /// Load initial page helper
-  /// Event handler içinde çağrılmalı
+  /// Must be called inside event handler
   Future<void> handleLoadInitial(Emitter<S> emit) async {
     if (_pBusy) return;
     _pBusy = true;
@@ -125,7 +125,7 @@ mixin PaginatedBloc<T, E, S extends PaginatedState<T>> on BaseBloc<E, S> {
   }
 
   /// Load more pages helper
-  /// Event handler içinde çağrılmalı
+  /// Must be called inside event handler
   Future<void> handleLoadMore(Emitter<S> emit) async {
     if (_pBusy || !state.hasMore) return;
     final currentOffset = state.nextOffset;
@@ -153,7 +153,7 @@ mixin PaginatedBloc<T, E, S extends PaginatedState<T>> on BaseBloc<E, S> {
   }
 
   /// Remove item at index helper
-  /// Event handler içinde çağrılmalı
+  /// Must be called inside event handler
   void handleRemoveAt(int index, Emitter<S> emit) {
     final current = state.items;
     if (index < 0 || index >= current.length) return;
@@ -161,7 +161,7 @@ mixin PaginatedBloc<T, E, S extends PaginatedState<T>> on BaseBloc<E, S> {
   }
 
   /// Remove items matching test helper
-  /// Event handler içinde çağrılmalı
+  /// Must be called inside event handler
   void handleRemoveWhere(bool Function(T item) test, Emitter<S> emit) {
     emit(paginatedState(items: state.items.where((e) => !test(e)).toList()));
   }

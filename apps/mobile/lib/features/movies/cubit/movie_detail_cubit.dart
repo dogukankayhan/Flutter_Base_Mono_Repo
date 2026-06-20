@@ -7,11 +7,11 @@ import 'favorites_cubit.dart';
 import 'favorites_state.dart';
 import 'movie_detail_state.dart';
 
-/// Her film detayı için ayrı instance — BaseBlocView(activeKey: movie.id) ile
-/// navigation stack'te eşzamanlı birden fazla detay sayfası açık olabilir.
+/// Separate instance for each movie detail — with BaseBlocView(activeKey: movie.id)
+/// multiple detail pages can be open simultaneously in navigation stack.
 ///
-/// FavoritesCubit stream'ini dinler: favoriler dışarıdan değiştiğinde
-/// (favoriler tabından toggle) bu cubit anında güncellenir.
+/// Listens to FavoritesCubit stream: when favorites change externally
+/// (toggled from favorites tab) this cubit is updated instantly.
 class MovieDetailCubit extends BaseCubit<MovieDetailState> {
   MovieDetailCubit({
     required Movie movie,

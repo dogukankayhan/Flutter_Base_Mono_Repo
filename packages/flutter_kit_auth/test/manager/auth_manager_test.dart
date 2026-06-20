@@ -19,7 +19,7 @@ import 'package:mockito/annotations.dart';
 
 import 'auth_manager_test.mocks.dart';
 
-// Mock sınıfları oluşturmak için annotasyonlar
+// Annotations for creating mock classes
 @GenerateMocks([
   LoginUseCase,
   RegisterUseCase,
@@ -71,7 +71,7 @@ void main() {
   );
 
   setUp(() {
-    // Mockito'nun Result<T,E> tipini dummy olarak üretebilmesi için
+    // To allow Mockito to generate the Result<T,E> type as dummy
     provideDummy<Result<AuthTokens, ApiError>>(
       Ok(AuthTokens(accessToken: '', refreshToken: null)),
     );
@@ -81,7 +81,7 @@ void main() {
     provideDummy<Result<void, ApiError>>(const Ok(null));
     provideDummy<Result<AuthTokens?, ApiError>>(const Ok(null));
 
-    // Her testten önce mock'ları oluştur
+    // Create mocks before each test
     mockLoginUseCase = MockLoginUseCase();
     mockRegisterUseCase = MockRegisterUseCase();
     mockMeUseCase = MockMeUseCase();
@@ -489,7 +489,7 @@ void main() {
       // Act
       final result = await authManager.refreshIfNeeded();
 
-      // Assert — refresh başarısız olunca Err döner, state temizlenir
+      // Assert — when refresh fails, Err is returned, state is cleared
       expect(result.isErr, true);
       expect(authManager.isLoggedIn, false);
       verify(mockRefreshUseCase(testRefreshToken)).called(1);

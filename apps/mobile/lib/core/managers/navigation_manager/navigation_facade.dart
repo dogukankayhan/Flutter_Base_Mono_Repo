@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'app_coordinator.dart' show rootKey;
 
-/// Düşük seviye navigator yardımcıları.
+/// Low-level navigator helpers.
 ///
-/// Root navigator'a context gerektirmeden ya da post-frame'de erişmek için
-/// kullanılır. Feature koordinasyonu için AppCoordinator.instance kullanın.
+/// Used to access root navigator without context or post-frame.
+/// used. For feature coordination use AppCoordinator.instance.
 final class Nav {
   Nav._();
 

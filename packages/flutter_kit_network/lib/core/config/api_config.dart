@@ -31,7 +31,7 @@ class ApiConfig {
     this.enableRateLimiter = false,
   });
 
-  /// EnvironmentConfig'den ApiConfig oluştur
+  /// Create ApiConfig from EnvironmentConfig
   factory ApiConfig.fromEnvironmentConfig(EnvironmentConfig config) {
     return ApiConfig(
       baseUrl: config.baseUrl,

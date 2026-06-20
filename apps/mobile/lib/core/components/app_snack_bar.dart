@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum SnackBarType { success, error, info, warning }
 
-/// Kullanım:
+/// Usage:
 ///   AppSnackBar.show(context, message: 'Kaydedildi!', type: SnackBarType.success)
-///   AppSnackBar.show(context, message: 'Hata oluştu', type: SnackBarType.error)
+///   AppSnackBar.show(context, message: 'Error occurred', type: SnackBarType.error)
 ///   AppSnackBar.show(context,
-///     message: 'Geri alınabilir',
+///     message: 'Reversible',
 ///     type: SnackBarType.info,
 ///     actionLabel: 'Geri Al',
 ///     onAction: _undoDelete,

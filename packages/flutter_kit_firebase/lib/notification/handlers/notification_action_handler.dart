@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/notification_payload.dart';
 
-/// App arka planda/kapalıyken action button'a tıklanınca bu fonksiyon çalışır.
-/// Ayrı bir Dart isolate'inde çalışır — DI, BuildContext veya UI'a erişemez.
-/// Sadece HTTP isteği veya SharedPreferences gibi stateless işlemler yapılabilir.
+/// This function runs when action button is clicked while App is in background/closed.
+/// Runs in a separate Dart isolate — cannot access DI, BuildContext, or UI.
+/// Only stateless operations like HTTP requests or SharedPreferences can be performed.
 @pragma('vm:entry-point')
 void notificationActionBackgroundHandler(NotificationResponse response) {
   final actionId = response.actionId;
-  final approvalId = response.payload; // payload'a approvalId yazıyoruz
+  final approvalId = response.payload; // we write approvalId to payload
 
   if (approvalId == null || actionId == null) return;
 
@@ -22,8 +22,8 @@ void notificationActionBackgroundHandler(NotificationResponse response) {
   }
 }
 
-/// App açıkken action button'a tıklanınca çağrılır.
-/// DI ve navigator kullanılabilir.
+/// Called when action button is clicked while App is open.
+/// DI and navigator can be used.
 typedef ApprovalCallback = Future<void> Function(
   String approvalId,
   bool isApproved,

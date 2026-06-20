@@ -3,10 +3,10 @@ import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
 import 'package:flutter_kit_ui/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Kullanım örnekleri:
+/// Usage examples:
 ///
-///   AppCard(child: Text('İçerik'))
-///   AppCard(child: Text('Tıklanabilir'), onTap: _onTap)
+///   AppCard(child: Text('Content'))
+///   AppCard(child: Text('Clickable'), onTap: _onTap)
 ///   AppCard(child: _Content(), padding: EdgeInsets.all(16), elevation: 0)
 class AppCard extends StatelessWidget {
   const AppCard({

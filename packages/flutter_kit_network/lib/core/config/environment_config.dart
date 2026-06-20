@@ -1,7 +1,7 @@
 import '../network/logger/network_logger.dart';
 
 /// Environment Configuration
-/// Uygulama ortamı için kapsamlı konfigürasyon
+/// Comprehensive configuration for app environment
 class EnvironmentConfig {
   final String baseUrl;
   final String environment;
@@ -28,7 +28,7 @@ class EnvironmentConfig {
     this.retryBaseDelay = const Duration(seconds: 1),
   }) : isDevelopment = environment == 'development';
 
-  /// Development ortamı için preset
+  /// Preset for development environment
   factory EnvironmentConfig.development({
     required String baseUrl,
     Map<String, dynamic>? defaultHeaders,
@@ -42,7 +42,7 @@ class EnvironmentConfig {
     );
   }
 
-  /// Production ortamı için preset
+  /// Preset for production environment
   factory EnvironmentConfig.production({
     required String baseUrl,
     Map<String, dynamic>? defaultHeaders,
@@ -56,7 +56,7 @@ class EnvironmentConfig {
     );
   }
 
-  /// Staging ortamı için preset
+  /// Preset for staging environment
   factory EnvironmentConfig.staging({
     required String baseUrl,
     Map<String, dynamic>? defaultHeaders,

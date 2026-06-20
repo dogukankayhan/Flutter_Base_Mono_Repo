@@ -9,12 +9,12 @@ enum ButtonVariant { primary, tertiary }
 
 enum ButtonSize { small, medium, large }
 
-/// Kullanım örnekleri:
+/// Usage examples:
 ///
 ///   AppButton(label: 'Devam', onPressed: _submit)
 ///   AppButton(label: 'Kaydet', prefixIcon: SvgIcon.save, isLoading: _loading)
-///   AppButton(label: 'İptal', variant: ButtonVariant.tertiary, onPressed: _cancel)
-///   AppButton(label: 'Gönder', suffixIcon: SvgIcon.arrowRight, fullWidth: true)
+///   AppButton(label: 'Cancel', variant: ButtonVariant.tertiary, onPressed: _cancel)
+///   AppButton(label: 'Submit', suffixIcon: SvgIcon.arrowRight, fullWidth: true)
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
@@ -34,14 +34,14 @@ class AppButton extends StatelessWidget {
   final ButtonVariant variant;
   final ButtonSize size;
 
-  /// Icon enum değeri — rengi button state'e göre otomatik ayarlanır.
+  /// Icon enum value — color automatically set based on button state.
   final SvgIcon? prefixIcon;
   final SvgIcon? suffixIcon;
 
   final bool isLoading;
   final bool isEnabled;
 
-  /// true → double.infinity genişlik
+  /// true → double.infinity width
   final bool fullWidth;
 
   // ─── Build ──────────────────────────────────────────────
@@ -139,9 +139,9 @@ class AppButton extends StatelessWidget {
 
   // ─── Helpers ────────────────────────────────────────────
 
-  /// Loading sırasında disabled styling'ini önlemek için boş callback.
+  /// Empty callback to prevent disabled styling during loading.
   VoidCallback? get _effectiveCallback {
-    if (isLoading) return () {}; // enabled görünümü korunur, tıklama engellenir
+    if (isLoading) return () {}; // enabled look is preserved, clicking is prevented
     if (!isEnabled) return null; // Flutter disabled styling'i devreye girer
     return onPressed;
   }

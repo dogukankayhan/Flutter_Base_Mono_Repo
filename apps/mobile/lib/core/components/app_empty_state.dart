@@ -3,13 +3,13 @@ import 'package:flutter_kit_ui/theme/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_button.dart';
 
-/// Kullanım:
-///   AppEmptyState(title: 'Randevu bulunamadı')
+/// Usage:
+///   AppEmptyState(title: 'No appointments found')
 ///   AppEmptyState(
-///     title: 'Müşteri yok',
-///     subtitle: 'Henüz müşteri eklemediniz.',
+///     title: 'No customers',
+///     subtitle: 'You have not added any customers yet.',
 ///     icon: Icons.people_outline,
-///     actionLabel: 'Müşteri Ekle',
+///     actionLabel: 'Add Customer',
 ///     onAction: () => CustomerCoordinator.showCreate(context),
 ///   )
 class AppEmptyState extends StatelessWidget {

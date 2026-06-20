@@ -115,9 +115,9 @@ final class AppTextStyle {
   TextStyle get button12Regular => _base(size: 12, weight: FontWeight.w400, height: 20 / 12);
 }
 
-/// Context-üzerinden kısayol erişim — `AppTextStyle(context)` yerine `context.ts`.
+/// Shortcut access via context — `context.ts` instead of `AppTextStyle(context)`.
 ///
-/// Örnek:
+/// Example:
 ///   context.textStyle.title16Bold
 ///   context.textStyle.paragraph14Regular
 extension AppTextStyleX on BuildContext {

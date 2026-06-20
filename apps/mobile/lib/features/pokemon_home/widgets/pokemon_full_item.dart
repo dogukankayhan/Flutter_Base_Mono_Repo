@@ -6,7 +6,7 @@ class PokemonFullItem extends StatelessWidget {
   final Pokemon data;
   const PokemonFullItem({super.key, required this.data});
 
-  /// Pokemon id'sine göre soft gradient rengi
+  /// Soft gradient color based on pokemon id
   Color _bgColor() {
     final colors = [
       const Color(0xFF78C850), // grass
@@ -43,7 +43,7 @@ class PokemonFullItem extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Pokemon image – contain ile oranı koru, tam göster
+          // Pokemon image – preserve ratio with contain, show fully
           Positioned.fill(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(32, 60, 32, 100),

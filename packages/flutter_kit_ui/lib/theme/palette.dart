@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Ham renk paleti — saf veri, sıfır logic.
+/// Raw color palette — pure data, zero logic.
 ///
-/// Tüm değerler compile-time const. Runtime'da map allocation yok.
-/// Az kullanılan shade'lere doğrudan buradan erişilir: Palette.primary[30]!
+/// All values are compile-time const. No map allocation at runtime.
+/// Directly access rarely used shades here: Palette.primary[30]!
 ///
-/// Sık kullanılan semantic renkler için [AppBrandColors]'a bakın.
+/// See [AppBrandColors] for commonly used semantic colors.
 abstract final class Palette {
   static const Map<int, Color> primary = {
     10: Color(0xFFdbe2fe),

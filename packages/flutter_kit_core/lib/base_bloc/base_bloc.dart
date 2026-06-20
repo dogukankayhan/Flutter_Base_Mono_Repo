@@ -2,16 +2,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'base_state.dart';
 import 'lifecycle_bloc.dart';
 
-/// Base Bloc - tüm bloc'lar bundan türetilmeli.
+/// Base Bloc - all blocs should inherit from this.
 ///
-/// authManager / apiManager burada tutulmaz — paket döngüsünü önlemek için
-/// her bloc ihtiyacı olan bağımlılığı kendi constructor'ından alır.
+/// authManager / apiManager not kept here — to prevent package cycle
+/// each bloc receives its required dependency from its own constructor.
 ///
-/// onReady() BaseBlocView'ın post-frame callback'i tarafından tetiklenir;
-/// BaseBloc widget render döngüsünden bağımsız kalır ve unit test'lerde
+/// onReady() is triggered by post-frame callback of BaseBlocView;
+/// BaseBloc remains independent of the widget render loop and in unit tests
 /// TestWidgetsFlutterBinding gerektirmez.
 ///
-/// Örnek:
+/// Example:
 /// ```dart
 /// class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 ///   final HomeRepository repo;

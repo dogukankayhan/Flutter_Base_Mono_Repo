@@ -12,7 +12,7 @@ import 'rules/custom_validator.dart';
 
 /// Static factory for all built-in validators.
 ///
-/// Her method opsiyonel [message] parametresi alır (i18n):
+/// Each method takes optional [message] parameter (i18n):
 /// ```dart
 /// Validators.required(message: t.validation.required)
 /// Validators.email(message: t.validation.email)

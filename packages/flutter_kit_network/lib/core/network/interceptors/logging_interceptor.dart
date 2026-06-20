@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class LoggingInterceptor extends Interceptor {
-  /// Ekranların network telemetrisine abone olması için static callback.
+  /// Static callback for screens to subscribe to network telemetry.
   static void Function(String)? onLog;
 
   static void _log(String message) {

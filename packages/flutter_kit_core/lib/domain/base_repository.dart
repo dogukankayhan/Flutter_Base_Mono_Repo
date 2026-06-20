@@ -1,6 +1,6 @@
-/// Tüm repository interface'leri için marker kontrat.
+/// Marker contract for all repository interfaces.
 ///
-/// Kullanım:
+/// Usage:
 /// ```dart
 /// abstract class ArmyRepository implements BaseRepository {
 ///   Future<Result<List<Unit>, ApiError>> getUnits();

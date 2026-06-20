@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'palette.dart';
 
-/// Tema moduna göre değişen renkler.
+/// Colors changing according to theme mode.
 ///
 /// ThemeData'ya register edilir:
 ///   ThemeData(extensions: [AppColors.light])
 ///
-/// Widget'tan erişim:
+/// Access from Widget:
 ///   context.appColors.background
 ///   context.appColors.borderColor
 @immutable
@@ -206,7 +206,7 @@ class AppColors extends ThemeExtension<AppColors> {
   }
 }
 
-/// Widget'tan tip-güvenli erişim.
+/// Type-safe access from Widget.
 ///   context.appColors.background
 ///   context.appColors.borderColor
 extension AppColorsX on BuildContext {

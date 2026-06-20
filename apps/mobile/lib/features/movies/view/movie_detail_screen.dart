@@ -17,9 +17,9 @@ import '../movie_detail_coordinator.dart';
 
 /// Movie detail screen.
 ///
-/// activeKey = movie.id — navigation stack'te aynı anda birden fazla
-/// MovieDetailCubit instance'ı benzersiz şekilde kayıt edilir.
-/// `getActive<MovieDetailCubit>(key: id)` ile dışarıdan erişilebilir.
+/// activeKey = movie.id — multiple MovieDetailCubit instances
+/// MovieDetailCubit instance is registered uniquely.
+/// Externally accessible via `getActive<MovieDetailCubit>(key: id)`.
 class MovieDetailScreen extends StatelessWidget {
   const MovieDetailScreen({super.key, required this.movie});
   final Movie movie;
@@ -182,8 +182,8 @@ class _Chip extends StatelessWidget {
 
 // ─── Favorites Section ────────────────────────────────────────────────────────
 //
-// FavoritesCubit (singleton) + MovieDetailCubit (activeKey) aynı anda
-// aynı ekranda aktif — iki farklı cubit tipinin birlikte çalışma örneği.
+// FavoritesCubit (singleton) + MovieDetailCubit (activeKey) at the same time
+// active on the same screen — example of two different cubit types working together.
 
 class _FavoritesSection extends StatelessWidget {
   const _FavoritesSection({required this.currentMovieId});

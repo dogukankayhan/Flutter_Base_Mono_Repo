@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../connectivity/network_info.dart';
 
-/// Offline queue'ya eklenen request'i çalıştıracak callback tipi.
+/// Callback type to execute requests added to offline queue.
 typedef RequestExecutor = Future<void> Function(QueuedRequest request);
 
 /// Offline queue for failed requests
@@ -31,7 +31,7 @@ class OfflineQueue {
     this.maxRetries = 3,
   });
 
-  /// Async init — constructor'da async çağrı yapılamaz, bu yüzden ayrı.
+  /// Async init — async call cannot be made in constructor, so it is separate.
   Future<void> init() async {
     await _loadQueue();
     _listenToConnectivity();

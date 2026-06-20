@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import '../models/notification_payload.dart';
 
-/// Router bağımlılığını kesmek için callback pattern kullanılır.
-/// App katmanı başlangıçta `onNavigate` atar:
+/// Callback pattern is used to break router dependency.
+/// App layer sets `onNavigate` at start:
 /// `NotificationDeepLinkHandler.onNavigate = (path, params) => router.go(path);`
 abstract final class NotificationDeepLinkHandler {
   static void Function(String path, Map<String, dynamic>? params)? onNavigate;
