@@ -24,7 +24,6 @@ class PokemonCard extends StatelessWidget {
     final bgColor = PokemonUtils.getTypeColor(primaryType);
 
     return Card(
-      clipBehavior: Clip.antiAlias,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
@@ -33,6 +32,10 @@ class PokemonCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -62,7 +65,11 @@ class PokemonCard extends StatelessWidget {
                         fit: BoxFit.contain,
                         memCacheWidth: 350,
                         placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(color: bgColor),
+                          child: Icon(
+                            Icons.catching_pokemon,
+                            size: 48,
+                            color: bgColor.withValues(alpha: 0.2),
+                          ),
                         ),
                         errorWidget: (context, url, error) => Icon(
                           Icons.catching_pokemon,

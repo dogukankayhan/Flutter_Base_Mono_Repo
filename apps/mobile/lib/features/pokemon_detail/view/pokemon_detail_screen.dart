@@ -11,7 +11,7 @@ import '../bloc/detail_state.dart';
 import 'widgets/pokemon_about_tab.dart';
 import 'widgets/pokemon_stats_tab.dart';
 
-class PokemonDetailScreen extends StatelessWidget {
+class PokemonDetailScreen extends StatefulWidget {
   final int pokemonId;
   final Pokemon? pokemon;
   final String? activeKey;
@@ -24,13 +24,60 @@ class PokemonDetailScreen extends StatelessWidget {
   });
 
   @override
+  State<PokemonDetailScreen> createState() => _PokemonDetailScreenState();
+}
+
+class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
+  bool _isTransitionComplete = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final route = ModalRoute.of(context);
+      if (route != null && route.animation != null) {
+        if (route.animation!.isCompleted) {
+          setState(() {
+            _isTransitionComplete = true;
+          });
+        } else {
+          route.animation!.addStatusListener(_onAnimationStatusChanged);
+        }
+      } else {
+        setState(() {
+          _isTransitionComplete = true;
+        });
+      }
+    });
+  }
+
+  void _onAnimationStatusChanged(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      final route = ModalRoute.of(context);
+      route?.animation?.removeStatusListener(_onAnimationStatusChanged);
+      if (mounted) {
+        setState(() {
+          _isTransitionComplete = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    final route = ModalRoute.of(context);
+    route?.animation?.removeStatusListener(_onAnimationStatusChanged);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final String key = activeKey ?? 'pokemon_detail_$pokemonId';
+    final String key = widget.activeKey ?? 'pokemon_detail_${widget.pokemonId}';
 
     return BaseBlocView<DetailBloc, DetailState>(
       activeKey: key,
-      onInit: (bloc) => bloc.add(DetailLoad(pokemonId)),
-      create: () => DetailBloc.create(initialPokemon: pokemon),
+      onInit: (bloc) => bloc.add(DetailLoad(widget.pokemonId)),
+      create: () => DetailBloc.create(initialPokemon: widget.pokemon),
       builder: (context, state, bloc) {
         if (state.pokemon == null && state.errorMessage == null) {
           return const Scaffold(
@@ -52,7 +99,7 @@ class PokemonDetailScreen extends StatelessWidget {
                   Text(state.errorMessage!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () => bloc.add(DetailLoad(pokemonId)),
+                    onPressed: () => bloc.add(DetailLoad(widget.pokemonId)),
                     child: Text(context.translations.common.retry),
                   ),
                 ],
@@ -257,29 +304,31 @@ class PokemonDetailScreen extends StatelessWidget {
                   ),
                 ),
               ],
-              body: TabBarView(
-                children: [
-                  PokemonAboutTab(
-                    key: const PageStorageKey('about'),
-                    pokemon: pokemon,
-                    species: state.species,
-                  ),
-                  PokemonStatsTab(
-                    key: const PageStorageKey('stats'),
-                    pokemon: pokemon,
-                  ),
-                  PokemonEvolutionTab(
-                    key: const PageStorageKey('evolution'),
-                    chain: state.evolutionChain,
-                    isLoading: state.isEvolutionLoading,
-                    currentPokemonId: pokemon.id,
-                  ),
-                  PokemonMovesTab(
-                    key: const PageStorageKey('moves'),
-                    pokemon: pokemon,
-                  ),
-                ],
-              ),
+              body: _isTransitionComplete
+                  ? TabBarView(
+                      children: [
+                        PokemonAboutTab(
+                          key: const PageStorageKey('about'),
+                          pokemon: pokemon,
+                          species: state.species,
+                        ),
+                        PokemonStatsTab(
+                          key: const PageStorageKey('stats'),
+                          pokemon: pokemon,
+                        ),
+                        PokemonEvolutionTab(
+                          key: const PageStorageKey('evolution'),
+                          chain: state.evolutionChain,
+                          isLoading: state.isEvolutionLoading,
+                          currentPokemonId: pokemon.id,
+                        ),
+                        PokemonMovesTab(
+                          key: const PageStorageKey('moves'),
+                          pokemon: pokemon,
+                        ),
+                      ],
+                    )
+                  : const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),
         );
