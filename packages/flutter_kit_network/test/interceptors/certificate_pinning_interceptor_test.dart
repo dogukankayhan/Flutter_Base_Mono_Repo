@@ -24,7 +24,7 @@ void main() {
       () {
         const interceptor = CertificatePinningInterceptor(
           allowedSHAs: {
-            'FA22DFE1DA9013B3C1145040ACAE9089E0C08BC1C1A0719614F4B73ADD6F6EF5'
+            'FA22DFE1DA9013B3C1145040ACAE9089E0C08BC1C1A0719614F4B73ADD6F6EF5',
           },
         );
         final mockCert = MockX509Certificate([0xAA, 0xBB, 0xCC]);
