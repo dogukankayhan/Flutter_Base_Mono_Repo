@@ -87,7 +87,7 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
       );
     }
 
-    const List<Widget> children = [];
+    final List<Widget> children = [];
     for (int i = 0; i < path.length; i++) {
       children.add(_buildEvolutionNode(context, path[i]));
       if (i < path.length - 1) {
@@ -107,7 +107,7 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
         border: Border.all(color: Colors.grey.withAlpha(40)),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const SingleChildScrollView(
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
