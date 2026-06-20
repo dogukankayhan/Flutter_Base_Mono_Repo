@@ -1,0 +1,20 @@
+name: flutter_base_kit_workspace
+description: Monorepo workspace root — not a publishable package.
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+
+workspace:
+  - apps/mobile
+  - packages/flutter_kit_network
+  - packages/flutter_kit_core
+  - packages/flutter_kit_auth
+  - packages/flutter_kit_firebase
+  - packages/flutter_kit_ui
+
+
+dev_dependencies:
+  melos: ^7.8.0
+
+

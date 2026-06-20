@@ -1,0 +1,37 @@
+name: flutter_base_kit
+
+packages:
+  - apps/mobile
+  - packages/*
+
+command:
+  bootstrap: {}
+
+scripts:
+  analyze:
+    exec:
+      run: dart analyze .
+      concurrency: 4
+    description: Analyze all packages
+
+  test:
+    exec:
+      run: flutter test
+      concurrency: 2
+    description: Run tests in all packages
+
+  format:
+    exec:
+      run: dart format .
+      concurrency: 4
+    description: Format all packages
+
+  format:check:
+    exec:
+      run: dart format --output=none --set-exit-if-changed .
+      concurrency: 4
+    description: Check formatting without modifying files
+
+  gen:feature:
+    run: dart scripts/gen_feature.dart
+    description: Yeni feature scaffold oluştur (interaktif)
