@@ -37,13 +37,8 @@
     "hasAccount": "Zaten hesabınız var mı? ",
     "loginLink": "Giriş Yap"
   },
-  "movies": {
-    "title": "Popüler Filmler"
-  },
   "favorites": {
     "title": "Favorilerim",
-    "tabMovies": "Filmler",
-    "tabPokemon": "Pokemon",
     "clearTooltip": "Tümünü Temizle",
     "clearTitle": "Favorileri Temizle?",
     "clearConfirm": "Tüm favori Pokemonları kaldırmak istediğinize emin misiniz? Bu işlem geri alınamaz.",
@@ -54,8 +49,6 @@
     "removeButton": "Kaldır",
     "removeSuccess": "{name} favorilerden kaldırıldı",
     "removeTooltip": "Favorilerden Çıkar",
-    "emptyMovies": "Henüz favori film yok",
-    "emptyMoviesHint": "Filmler sekmesinden ❤ ile ekleyebilirsin",
     "emptyPokemon": "Henüz favori Pokemon yok",
     "emptyPokemonHint": "Pokemon sekmesinden ❤ ile ekleyebilirsin"
   },

@@ -43,7 +43,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$common$en common = Translations$common$en._(_root);
 	late final Translations$login$en login = Translations$login$en._(_root);
 	late final Translations$register$en register = Translations$register$en._(_root);
-	late final Translations$movies$en movies = Translations$movies$en._(_root);
 	late final Translations$favorites$en favorites = Translations$favorites$en._(_root);
 	late final Translations$pokemon$en pokemon = Translations$pokemon$en._(_root);
 }
@@ -171,18 +170,6 @@ class Translations$register$en {
 	String get loginLink => 'Sign In';
 }
 
-// Path: movies
-class Translations$movies$en {
-	Translations$movies$en._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Popular Movies'
-	String get title => 'Popular Movies';
-}
-
 // Path: favorites
 class Translations$favorites$en {
 	Translations$favorites$en._(this._root);
@@ -193,12 +180,6 @@ class Translations$favorites$en {
 
 	/// en: 'My Favorites'
 	String get title => 'My Favorites';
-
-	/// en: 'Movies'
-	String get tabMovies => 'Movies';
-
-	/// en: 'Pokemon'
-	String get tabPokemon => 'Pokemon';
 
 	/// en: 'Clear All'
 	String get clearTooltip => 'Clear All';
@@ -229,12 +210,6 @@ class Translations$favorites$en {
 
 	/// en: 'Remove from Favorites'
 	String get removeTooltip => 'Remove from Favorites';
-
-	/// en: 'No favorite movies yet'
-	String get emptyMovies => 'No favorite movies yet';
-
-	/// en: 'Add movies with ❤ from the Movies tab'
-	String get emptyMoviesHint => 'Add movies with ❤ from the Movies tab';
 
 	/// en: 'No favorite Pokémon yet'
 	String get emptyPokemon => 'No favorite Pokémon yet';
@@ -432,10 +407,7 @@ extension on Translations {
 			'register.submitButton' => 'Create Account',
 			'register.hasAccount' => 'Already have an account? ',
 			'register.loginLink' => 'Sign In',
-			'movies.title' => 'Popular Movies',
 			'favorites.title' => 'My Favorites',
-			'favorites.tabMovies' => 'Movies',
-			'favorites.tabPokemon' => 'Pokemon',
 			'favorites.clearTooltip' => 'Clear All',
 			'favorites.clearTitle' => 'Clear Favorites?',
 			'favorites.clearConfirm' => 'Are you sure you want to remove all favorite Pokémon? This action cannot be undone.',
@@ -446,8 +418,6 @@ extension on Translations {
 			'favorites.removeButton' => 'Remove',
 			'favorites.removeSuccess' => ({required Object name}) => '${name} removed from favorites',
 			'favorites.removeTooltip' => 'Remove from Favorites',
-			'favorites.emptyMovies' => 'No favorite movies yet',
-			'favorites.emptyMoviesHint' => 'Add movies with ❤ from the Movies tab',
 			'favorites.emptyPokemon' => 'No favorite Pokémon yet',
 			'favorites.emptyPokemonHint' => 'Add Pokémon with ❤ from the Pokémon tab',
 			'pokemon.searchHint' => 'Search Pokémon...',

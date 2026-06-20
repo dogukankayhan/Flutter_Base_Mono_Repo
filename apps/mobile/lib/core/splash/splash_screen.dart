@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
 
-    rootKey.currentContext?.go(ShellNavigator.dashboardPath);
+    rootKey.currentContext?.go(ShellNavigator.pokemonPath);
   }
 
   @override

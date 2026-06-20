@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/config/app_environment.dart';
 import '../../../features/login/login_navigator.dart';
-import '../../../features/movies/movie_detail_navigator.dart';
 import '../../../features/register/register_navigator.dart';
 import '../../../features/shell/shell_navigator.dart';
 
@@ -27,15 +26,9 @@ final class AppNavigator {
   final RegisterNavigator register;
   final ShellNavigator shell;
 
-  List<RouteBase> get routes => [
-    login.route,
-    register.route,
-    shell.route,
-    MovieDetailNavigator.rootRoute(rootKey),
-  ];
+  List<RouteBase> get routes => [login.route, register.route, shell.route];
 
   static const _shellPaths = {
-    ShellNavigator.dashboardPath,
     ShellNavigator.appointmentsPath,
     ShellNavigator.pokemonPath,
   };
@@ -46,7 +39,7 @@ final class AppNavigator {
       if (_shellPaths.contains(path)) return LoginNavigator.path;
     } else {
       if (path == LoginNavigator.path || path == RegisterNavigator.path) {
-        return ShellNavigator.dashboardPath;
+        return ShellNavigator.pokemonPath;
       }
     }
     return null;

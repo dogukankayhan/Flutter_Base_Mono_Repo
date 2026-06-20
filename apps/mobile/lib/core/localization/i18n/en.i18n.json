@@ -37,13 +37,8 @@
     "hasAccount": "Already have an account? ",
     "loginLink": "Sign In"
   },
-  "movies": {
-    "title": "Popular Movies"
-  },
   "favorites": {
     "title": "My Favorites",
-    "tabMovies": "Movies",
-    "tabPokemon": "Pokemon",
     "clearTooltip": "Clear All",
     "clearTitle": "Clear Favorites?",
     "clearConfirm": "Are you sure you want to remove all favorite Pokémon? This action cannot be undone.",
@@ -54,8 +49,6 @@
     "removeButton": "Remove",
     "removeSuccess": "{name} removed from favorites",
     "removeTooltip": "Remove from Favorites",
-    "emptyMovies": "No favorite movies yet",
-    "emptyMoviesHint": "Add movies with ❤ from the Movies tab",
     "emptyPokemon": "No favorite Pokémon yet",
     "emptyPokemonHint": "Add Pokémon with ❤ from the Pokémon tab"
   },

@@ -40,7 +40,6 @@ class TranslationsTr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _Translations$common$tr common = _Translations$common$tr._(_root);
 	@override late final _Translations$login$tr login = _Translations$login$tr._(_root);
 	@override late final _Translations$register$tr register = _Translations$register$tr._(_root);
-	@override late final _Translations$movies$tr movies = _Translations$movies$tr._(_root);
 	@override late final _Translations$favorites$tr favorites = _Translations$favorites$tr._(_root);
 	@override late final _Translations$pokemon$tr pokemon = _Translations$pokemon$tr._(_root);
 }
@@ -104,16 +103,6 @@ class _Translations$register$tr implements Translations$register$en {
 	@override String get loginLink => 'Giriş Yap';
 }
 
-// Path: movies
-class _Translations$movies$tr implements Translations$movies$en {
-	_Translations$movies$tr._(this._root);
-
-	final TranslationsTr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Popüler Filmler';
-}
-
 // Path: favorites
 class _Translations$favorites$tr implements Translations$favorites$en {
 	_Translations$favorites$tr._(this._root);
@@ -122,8 +111,6 @@ class _Translations$favorites$tr implements Translations$favorites$en {
 
 	// Translations
 	@override String get title => 'Favorilerim';
-	@override String get tabMovies => 'Filmler';
-	@override String get tabPokemon => 'Pokemon';
 	@override String get clearTooltip => 'Tümünü Temizle';
 	@override String get clearTitle => 'Favorileri Temizle?';
 	@override String get clearConfirm => 'Tüm favori Pokemonları kaldırmak istediğinize emin misiniz? Bu işlem geri alınamaz.';
@@ -134,8 +121,6 @@ class _Translations$favorites$tr implements Translations$favorites$en {
 	@override String get removeButton => 'Kaldır';
 	@override String removeSuccess({required Object name}) => '${name} favorilerden kaldırıldı';
 	@override String get removeTooltip => 'Favorilerden Çıkar';
-	@override String get emptyMovies => 'Henüz favori film yok';
-	@override String get emptyMoviesHint => 'Filmler sekmesinden ❤ ile ekleyebilirsin';
 	@override String get emptyPokemon => 'Henüz favori Pokemon yok';
 	@override String get emptyPokemonHint => 'Pokemon sekmesinden ❤ ile ekleyebilirsin';
 }
@@ -275,10 +260,7 @@ extension on TranslationsTr {
 			'register.submitButton' => 'Hesap Oluştur',
 			'register.hasAccount' => 'Zaten hesabınız var mı? ',
 			'register.loginLink' => 'Giriş Yap',
-			'movies.title' => 'Popüler Filmler',
 			'favorites.title' => 'Favorilerim',
-			'favorites.tabMovies' => 'Filmler',
-			'favorites.tabPokemon' => 'Pokemon',
 			'favorites.clearTooltip' => 'Tümünü Temizle',
 			'favorites.clearTitle' => 'Favorileri Temizle?',
 			'favorites.clearConfirm' => 'Tüm favori Pokemonları kaldırmak istediğinize emin misiniz? Bu işlem geri alınamaz.',
@@ -289,8 +271,6 @@ extension on TranslationsTr {
 			'favorites.removeButton' => 'Kaldır',
 			'favorites.removeSuccess' => ({required Object name}) => '${name} favorilerden kaldırıldı',
 			'favorites.removeTooltip' => 'Favorilerden Çıkar',
-			'favorites.emptyMovies' => 'Henüz favori film yok',
-			'favorites.emptyMoviesHint' => 'Filmler sekmesinden ❤ ile ekleyebilirsin',
 			'favorites.emptyPokemon' => 'Henüz favori Pokemon yok',
 			'favorites.emptyPokemonHint' => 'Pokemon sekmesinden ❤ ile ekleyebilirsin',
 			'pokemon.searchHint' => 'Pokémon Ara...',

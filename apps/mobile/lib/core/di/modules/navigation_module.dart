@@ -14,7 +14,7 @@ void setupNavigationModule(GetIt getIt) {
     return AppRouter.create(
       auth: notifier,
       initialLocation: AppConfig.instance.isDev
-          ? ShellNavigator.dashboardPath
+          ? ShellNavigator.pokemonPath
           : SplashNavigator.path,
     );
   });

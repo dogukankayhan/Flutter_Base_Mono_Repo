@@ -58,9 +58,8 @@ class _BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<_BottomNav> {
   static const _tabs = [
-    (SvgIcon.home, SvgIcon.homeBold, 'Filmler'),
-    (SvgIcon.calendar, SvgIcon.calendarBold, 'Favorilerim'),
     (SvgIcon.lightning, SvgIcon.lightning, 'Pokemon'),
+    (SvgIcon.calendar, SvgIcon.calendarBold, 'Favorilerim'),
   ];
 
   List<BottomNavigationBarItem>? _items;

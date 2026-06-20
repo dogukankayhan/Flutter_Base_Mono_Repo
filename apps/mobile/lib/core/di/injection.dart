@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'modules/auth_module.dart';
 import 'modules/feature_module.dart';
 import 'modules/local_module.dart';
-import 'modules/movie_module.dart';
 import 'modules/navigation_module.dart';
 import 'modules/network_module.dart';
 import 'modules/pokemon_module.dart';
@@ -20,7 +19,6 @@ class Injection {
     setupNavigationModule(getIt);
     setupLocalModule(getIt);
     setupFeatureModule(getIt);
-    setupMovieModule(getIt);
     setupPokemonModule(getIt);
   }
 
