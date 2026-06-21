@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
-import 'package:flutter_kit_ui/theme/app_colors.dart';
-import 'package:flutter_kit_ui/theme/app_text_style.dart';
+import 'package:flutter_kit_ui/colors/app_colors.dart';
+import 'package:flutter_kit_ui/typography/app_text_style.dart';
 
 import '../../../core/localization/localization_extension.dart';
 import '../../pokemon_favorites/bloc/pokemon_favorites_bloc.dart';

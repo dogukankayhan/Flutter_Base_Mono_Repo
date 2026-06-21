@@ -7,8 +7,8 @@ import 'package:flutter_base_kit/features/components/bloc/components_event.dart'
 import 'package:flutter_base_kit/features/components/bloc/components_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
-import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
-import 'package:flutter_kit_ui/theme/app_text_style.dart';
+import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
+import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_kit_ui/theme/theme_cubit.dart';
 
 class ComponentsScreen extends StatelessWidget {

@@ -4,9 +4,9 @@ import 'package:flutter_base_kit/core/enums/app_icon.dart';
 import 'package:flutter_kit_core/utils/formatter/date_input_formatter.dart';
 import 'package:flutter_kit_core/utils/formatter/iban_input_formatter.dart';
 import 'package:flutter_kit_core/utils/formatter/phone_input_formatter.dart';
-import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
-import 'package:flutter_kit_ui/theme/app_colors.dart';
-import 'package:flutter_kit_ui/theme/app_text_style.dart';
+import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
+import 'package:flutter_kit_ui/colors/app_colors.dart';
+import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum InputType { text, password, numeric, email, phone, date, iban, url }

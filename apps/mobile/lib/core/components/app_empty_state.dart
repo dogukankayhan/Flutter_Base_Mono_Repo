@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_ui/theme/app_text_style.dart';
+import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_button.dart';
 

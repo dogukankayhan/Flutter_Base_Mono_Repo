@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'app_brand_colors.dart';
-import 'app_colors.dart';
-import 'app_text_theme.dart';
-import 'palette.dart';
+import '../colors/app_brand_colors.dart';
+import '../colors/app_colors.dart';
+import '../colors/palette.dart';
+import '../typography/app_text_theme.dart';
 
 sealed class AppTheme {
   AppTheme._();

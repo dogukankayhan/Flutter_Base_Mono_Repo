@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
-import 'package:flutter_kit_ui/theme/app_colors.dart';
+import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
+import 'package:flutter_kit_ui/colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// Usage examples:
