@@ -18,6 +18,26 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
   @override
   bool get wantKeepAlive => true;
 
+  late final List<PokemonMove> _sortedMoves = _buildSortedMoves();
+
+  List<PokemonMove> _buildSortedMoves() {
+    final moves = List<PokemonMove>.from(widget.pokemon.moves);
+    moves.sort((a, b) {
+      final detailA = _getBestDetail(a.versionGroupDetails);
+      final detailB = _getBestDetail(b.versionGroupDetails);
+      final isLevelUpA = detailA.moveLearnMethod.name == 'level-up';
+      final isLevelUpB = detailB.moveLearnMethod.name == 'level-up';
+      if (isLevelUpA && !isLevelUpB) return -1;
+      if (!isLevelUpA && isLevelUpB) return 1;
+      if (isLevelUpA && isLevelUpB) {
+        final lvlCompare = detailA.levelLearnedAt.compareTo(detailB.levelLearnedAt);
+        if (lvlCompare != 0) return lvlCompare;
+      }
+      return a.move.name.compareTo(b.move.name);
+    });
+    return moves;
+  }
+
   static const _versionPriorities = [
     'scarlet-violet',
     'legends-arceus',
@@ -72,75 +92,27 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
     return bestDetail!;
   }
 
-  Color _getLearnMethodBgColor(String method) {
-    switch (method) {
-      case 'level-up':
-        return Colors.blue.withValues(alpha: 0.15);
-      case 'machine':
-        return Colors.purple.withValues(alpha: 0.15);
-      case 'egg':
-        return Colors.amber.withValues(alpha: 0.15);
-      case 'tutor':
-        return Colors.teal.withValues(alpha: 0.15);
-      default:
-        return Colors.grey.withValues(alpha: 0.15);
-    }
-  }
-
-  Color _getLearnMethodBorderColor(String method) {
-    switch (method) {
-      case 'level-up':
-        return Colors.blue.withValues(alpha: 0.4);
-      case 'machine':
-        return Colors.purple.withValues(alpha: 0.4);
-      case 'egg':
-        return Colors.amber.withValues(alpha: 0.4);
-      case 'tutor':
-        return Colors.teal.withValues(alpha: 0.4);
-      default:
-        return Colors.grey.withValues(alpha: 0.4);
-    }
-  }
-
-  Color _getLearnMethodTextColor(String method) {
-    switch (method) {
-      case 'level-up':
-        return Colors.blueAccent;
-      case 'machine':
-        return Colors.purpleAccent;
-      case 'egg':
-        return Colors.amberAccent;
-      case 'tutor':
-        return Colors.tealAccent;
-      default:
-        return Colors.grey;
-    }
+  // Returns (bgColor, borderColor, textColor) for a learn method badge.
+  // Add a new case here when a new learn method is introduced.
+  ({Color bg, Color border, Color text}) _learnMethodStyle(String method) {
+    final base = switch (method) {
+      'level-up' => Colors.blue,
+      'machine'  => Colors.purple,
+      'egg'      => Colors.amber,
+      'tutor'    => Colors.teal,
+      _          => Colors.grey,
+    };
+    final isGrey = base == Colors.grey;
+    return (
+      bg:     base.withValues(alpha: 0.15),
+      border: base.withValues(alpha: 0.4),
+      text:   isGrey ? Colors.grey : Color.lerp(base, Colors.white, 0.4)!,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    // Sort moves: level-up first (by level ascending), then others alphabetically
-    final sortedMoves = List<PokemonMove>.from(widget.pokemon.moves);
-    sortedMoves.sort((a, b) {
-      final detailA = _getBestDetail(a.versionGroupDetails);
-      final detailB = _getBestDetail(b.versionGroupDetails);
-
-      final isLevelUpA = detailA.moveLearnMethod.name == 'level-up';
-      final isLevelUpB = detailB.moveLearnMethod.name == 'level-up';
-
-      if (isLevelUpA && !isLevelUpB) return -1;
-      if (!isLevelUpA && isLevelUpB) return 1;
-
-      if (isLevelUpA && isLevelUpB) {
-        final lvlCompare = detailA.levelLearnedAt.compareTo(detailB.levelLearnedAt);
-        if (lvlCompare != 0) return lvlCompare;
-      }
-
-      return a.move.name.compareTo(b.move.name);
-    });
-
     return CustomScrollView(
       key: const PageStorageKey('moves'),
       physics: const ClampingScrollPhysics(),
@@ -152,7 +124,7 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              final move = sortedMoves[index];
+              final move = _sortedMoves[index];
               final bestDetail = _getBestDetail(move.versionGroupDetails);
               final method = bestDetail.moveLearnMethod.name;
 
@@ -166,32 +138,25 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
                       ),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    trailing: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getLearnMethodBgColor(method),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: _getLearnMethodBorderColor(method),
-                          width: 1.0,
+                    trailing: Builder(builder: (context) {
+                      final style = _learnMethodStyle(method);
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: style.bg,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: style.border, width: 1.0),
                         ),
-                      ),
-                      child: Text(
-                        method == 'level-up'
-                            ? 'LV. ${bestDetail.levelLearnedAt}'
-                            : method == 'machine'
-                                ? 'TM'
-                                : method.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: _getLearnMethodTextColor(method),
+                        child: Text(
+                          method == 'level-up'
+                              ? 'LV. ${bestDetail.levelLearnedAt}'
+                              : method == 'machine'
+                                  ? 'TM'
+                                  : method.toUpperCase(),
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: style.text),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                     subtitle: Text(
                       context.translations.pokemon.detail.moves.learnMethod(
                         method: method.replaceAll('-', ' '),
@@ -199,10 +164,10 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ),
-                  if (index < sortedMoves.length - 1) const Divider(),
+                  if (index < _sortedMoves.length - 1) const Divider(),
                 ],
               );
-            }, childCount: sortedMoves.length),
+            }, childCount: _sortedMoves.length),
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_kit_core/utils/extensions/string_ext.dart';
 import '../../../core/domain/entity/pokemon_entity.dart';
 import '../../../core/utils/pokemon_utils.dart';
 
@@ -98,7 +99,7 @@ class PokemonCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          PokemonUtils.capitalize(pokemon.name),
+                          pokemon.name.capitalize,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
@@ -116,7 +117,7 @@ class PokemonCard extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(12)),
                               child: Text(
-                                PokemonUtils.capitalize(type.type.name),
+                                type.type.name.capitalize,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,

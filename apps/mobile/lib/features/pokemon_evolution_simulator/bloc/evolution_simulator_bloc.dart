@@ -57,14 +57,15 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
         pokemons: pokemonsMap,
         isLoading: false,
         isValid: true,
+        unlockedEvolutions: _calculateUnlockedEvolutions(
+          event.initialPokemonId,
+          initialLevel,
+        ),
       ));
-
-      // Calculate initial unlocked evolutions
-      _recalculateEvolutions(state.currentLevel, emit);
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Evrim ağacı detayları yüklenemedi: $e',
+        errorMessage: 'Evrim ağacı yüklenemedi',
       ));
     }
   }
@@ -73,8 +74,10 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
     EvolutionSimulatorLevelChanged event,
     Emitter<EvolutionSimulatorState> emit,
   ) {
-    emit(state.copyWith(currentLevel: event.level));
-    _recalculateEvolutions(event.level, emit);
+    emit(state.copyWith(
+      currentLevel: event.level,
+      unlockedEvolutions: _calculateUnlockedEvolutions(state.currentPokemonId, event.level),
+    ));
   }
 
   void _onPokemonSelected(
@@ -92,8 +95,8 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
     emit(state.copyWith(
       currentPokemonId: event.speciesId,
       currentLevel: targetLevel,
+      unlockedEvolutions: _calculateUnlockedEvolutions(event.speciesId, targetLevel),
     ));
-    _recalculateEvolutions(targetLevel, emit);
   }
 
   void _onEvolve(
@@ -101,10 +104,11 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
     Emitter<EvolutionSimulatorState> emit,
   ) {
     if (!state.pokemons.containsKey(event.targetSpeciesId)) return;
-    
-    // Evolve the Pokemon, keeping the current level
-    emit(state.copyWith(currentPokemonId: event.targetSpeciesId));
-    _recalculateEvolutions(state.currentLevel, emit);
+
+    emit(state.copyWith(
+      currentPokemonId: event.targetSpeciesId,
+      unlockedEvolutions: _calculateUnlockedEvolutions(event.targetSpeciesId, state.currentLevel),
+    ));
   }
 
   // Recursive helper to get all unique species IDs from the chain tree
@@ -126,25 +130,23 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
     return null;
   }
 
-  void _recalculateEvolutions(int level, Emitter<EvolutionSimulatorState> emit) {
-    if (state.chain == null) return;
-
-    final currentNode = _findNode(state.chain!.root, state.currentPokemonId);
-    if (currentNode == null) return;
+  List<EvolutionNode> _calculateUnlockedEvolutions(int pokemonId, int level) {
+    if (state.chain == null) return [];
+    final currentNode = _findNode(state.chain!.root, pokemonId);
+    if (currentNode == null) return [];
 
     final unlocked = <EvolutionNode>[];
     for (final child in currentNode.evolvesTo) {
-      // Level-up trigger requires meeting minLevel
       if (child.triggerName == 'level-up') {
-        if (child.minLevel != null && level >= child.minLevel!) {
+        // minLevel == null means no specific level requirement (e.g. friendship-based)
+        if (child.minLevel == null || level >= child.minLevel!) {
           unlocked.add(child);
         }
       } else {
-        // Other triggers (use-item, trade, etc.) are always unlocked for simulator selection
+        // Other triggers (use-item, trade, etc.) are always available in simulator
         unlocked.add(child);
       }
     }
-
-    emit(state.copyWith(unlockedEvolutions: unlocked));
+    return unlocked;
   }
 }

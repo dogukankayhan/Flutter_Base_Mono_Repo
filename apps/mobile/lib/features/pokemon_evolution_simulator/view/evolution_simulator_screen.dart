@@ -299,8 +299,11 @@ class EvolutionSimulatorScreen extends StatelessWidget {
   Widget _buildEvolutionChainSection(EvolutionSimulatorState state, EvolutionSimulatorBloc bloc) {
     if (state.chain == null) return const SizedBox.shrink();
 
-    final paths = state.chain!.allPaths;
-    
+    final allPaths = state.chain!.allPaths;
+    // Show only paths that contain the current pokemon; fall back to all paths
+    final displayPaths = allPaths.where((p) => p.any((n) => n.speciesId == state.currentPokemonId)).toList();
+    final paths = displayPaths.isEmpty ? allPaths : displayPaths;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -316,102 +319,102 @@ class EvolutionSimulatorScreen extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 120,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            clipBehavior: Clip.none,
-            itemCount: paths[0].length,
-            separatorBuilder: (_, index) {
-              // Show requirement detail on separator
-              final nextNode = paths[0][index + 1];
-              String req = 'Lvl ?';
-              if (nextNode.triggerName == 'level-up' && nextNode.minLevel != null) {
-                req = 'Lvl ${nextNode.minLevel}';
-              } else if (nextNode.itemName != null) {
-                req = PokemonUtils.capitalize(nextNode.itemName!.replaceAll('-', ' '));
-              } else if (nextNode.triggerName == 'trade') {
-                req = 'Trade';
-              }
-              
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    req,
-                    style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  const Icon(Icons.arrow_forward_rounded, color: Colors.white24, size: 20),
-                ],
-              );
-            },
-            itemBuilder: (context, index) {
-              final node = paths[0][index];
-              final isCurrent = node.speciesId == state.currentPokemonId;
-              final nodePokemon = state.pokemons[node.speciesId];
+        for (final path in paths)
+          SizedBox(
+            height: 120,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              clipBehavior: Clip.none,
+              itemCount: path.length,
+              separatorBuilder: (_, index) {
+                final nextNode = path[index + 1];
+                String req = 'Lvl ?';
+                if (nextNode.triggerName == 'level-up' && nextNode.minLevel != null) {
+                  req = 'Lvl ${nextNode.minLevel}';
+                } else if (nextNode.itemName != null) {
+                  req = PokemonUtils.capitalize(nextNode.itemName!.replaceAll('-', ' '));
+                } else if (nextNode.triggerName == 'trade') {
+                  req = 'Trade';
+                }
 
-              return GestureDetector(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  bloc.add(EvolutionSimulatorPokemonSelected(node.speciesId));
-                },
-                child: Column(
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      width: 68,
-                      height: 68,
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFF1E1E24),
-                        border: Border.all(
-                          color: isCurrent ? const Color(0xFF3B82F6) : Colors.white10,
-                          width: isCurrent ? 2.5 : 1.0,
-                        ),
-                        boxShadow: isCurrent
-                            ? [
-                                BoxShadow(
-                                  color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
-                                  blurRadius: 12,
-                                  spreadRadius: 2,
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Container(
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF141417)),
-                        clipBehavior: Clip.antiAlias,
-                        child: nodePokemon != null
-                            ? CachedNetworkImage(
-                                imageUrl: nodePokemon.sprites.frontDefault ?? '',
-                                fit: BoxFit.contain,
-                                errorWidget: (context, url, error) => const Icon(Icons.catching_pokemon, color: Colors.grey),
-                              )
-                            : Image.network(
-                                'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$kDefaultPokemonSpriteId.png',
-                                errorBuilder: (context, error, stackTrace) => const Icon(Icons.catching_pokemon, color: Colors.grey),
-                              ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
                     Text(
-                      PokemonUtils.capitalize(node.speciesName),
-                      style: TextStyle(
-                        color: isCurrent ? Colors.white : Colors.white38,
-                        fontSize: 10,
-                        fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                      ),
+                      req,
+                      style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 4),
+                    const Icon(Icons.arrow_forward_rounded, color: Colors.white24, size: 20),
                   ],
-                ),
-              );
-            },
+                );
+              },
+              itemBuilder: (context, index) {
+                final node = path[index];
+                final isCurrent = node.speciesId == state.currentPokemonId;
+                final nodePokemon = state.pokemons[node.speciesId];
+
+                return GestureDetector(
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    bloc.add(EvolutionSimulatorPokemonSelected(node.speciesId));
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        width: 68,
+                        height: 68,
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFF1E1E24),
+                          border: Border.all(
+                            color: isCurrent ? const Color(0xFF3B82F6) : Colors.white10,
+                            width: isCurrent ? 2.5 : 1.0,
+                          ),
+                          boxShadow: isCurrent
+                              ? [
+                                  BoxShadow(
+                                    color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
+                                    blurRadius: 12,
+                                    spreadRadius: 2,
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF141417)),
+                          clipBehavior: Clip.antiAlias,
+                          child: nodePokemon != null
+                              ? CachedNetworkImage(
+                                  imageUrl: nodePokemon.sprites.frontDefault ?? '',
+                                  fit: BoxFit.contain,
+                                  errorWidget: (context, url, error) => const Icon(Icons.catching_pokemon, color: Colors.grey),
+                                )
+                              : Image.network(
+                                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$kDefaultPokemonSpriteId.png',
+                                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.catching_pokemon, color: Colors.grey),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        PokemonUtils.capitalize(node.speciesName),
+                        style: TextStyle(
+                          color: isCurrent ? Colors.white : Colors.white38,
+                          fontSize: 10,
+                          fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
-        ),
         const SizedBox(height: 16),
       ],
     );

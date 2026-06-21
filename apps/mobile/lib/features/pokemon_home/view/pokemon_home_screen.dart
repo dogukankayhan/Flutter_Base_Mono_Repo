@@ -4,11 +4,11 @@ import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
 import 'package:flutter_base_kit/core/localization/localization_extension.dart';
 import 'package:flutter_base_kit/core/utils/pokemon_utils.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/compare_navigator.dart';
+import 'package:flutter_base_kit/features/pokemon_detail/navigator/pokemon_detail_navigator.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
 import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
 import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
-import 'package:go_router/go_router.dart';
 import '../bloc/pokemon_home_bloc.dart';
 import '../bloc/pokemon_home_state.dart';
 import '../widgets/pokemon_card.dart';
@@ -191,7 +191,7 @@ class _PokemonGrid extends StatelessWidget {
               isFavorite: state.favoriteIds.contains(pokemon.id),
               isCompareMode: state.isCompareMode,
               isSelectedForCompare: isSelected,
-              onTap: () => context.push('/pokemon/pokemon/${pokemon.id}', extra: pokemon),
+              onTap: () => PokemonDetailNavigator.show(context, pokemonId: pokemon.id, pokemon: pokemon),
               onFavoriteToggle: () => bloc.add(PokemonHomeToggleFavorite(pokemon.id)),
               onCompareTap: canSelect ? () => bloc.add(PokemonHomeCompareSelectionToggled(pokemon)) : null,
             );
