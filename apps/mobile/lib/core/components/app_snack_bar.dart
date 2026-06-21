@@ -6,12 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 enum SnackBarType { success, error, info, warning }
 
 /// Usage:
-///   AppSnackBar.show(context, message: 'Kaydedildi!', type: SnackBarType.success)
+///   AppSnackBar.show(context, message: 'Saved!', type: SnackBarType.success)
 ///   AppSnackBar.show(context, message: 'Error occurred', type: SnackBarType.error)
 ///   AppSnackBar.show(context,
 ///     message: 'Reversible',
 ///     type: SnackBarType.info,
-///     actionLabel: 'Geri Al',
+///     actionLabel: 'Undo',
 ///     onAction: _undoDelete,
 ///   )
 abstract final class AppSnackBar {

@@ -198,10 +198,12 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
     });
 
     on<PokemonHomeCompareModeToggled>((event, emit) {
-      emit(state.copyWith(
-        isCompareMode: !state.isCompareMode,
-        compareSelection: const [],
-      ));
+      emit(
+        state.copyWith(
+          isCompareMode: !state.isCompareMode,
+          compareSelection: const [],
+        ),
+      );
     });
 
     on<PokemonHomeCompareSelectionToggled>((event, emit) {

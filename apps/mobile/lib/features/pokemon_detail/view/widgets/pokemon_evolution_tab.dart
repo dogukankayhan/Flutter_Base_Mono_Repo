@@ -69,12 +69,23 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
                   TextButton.icon(
                     style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                     ),
                     icon: const Icon(Icons.analytics_outlined, size: 18),
                     label: Text(
-                      context.translations.pokemon.detail.evolution.simulatorButton,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      context
+                          .translations
+                          .pokemon
+                          .detail
+                          .evolution
+                          .simulatorButton,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
                     ),
                     onPressed: () {
                       HapticFeedback.lightImpact();

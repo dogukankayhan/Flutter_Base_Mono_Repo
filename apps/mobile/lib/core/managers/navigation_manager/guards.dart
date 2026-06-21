@@ -4,7 +4,7 @@ import 'package:flutter_kit_auth/auth/bloc/auth_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 /// Bridges GoRouter by listening to AuthBloc.
-/// Kendi state tutmaz, tek kaynak AuthBloc'tur.
+/// Does not maintain its own state; the single source of truth is AuthBloc.
 class AuthRouterNotifier extends ChangeNotifier {
   final AuthBloc _authBloc;
   late StreamSubscription _sub;

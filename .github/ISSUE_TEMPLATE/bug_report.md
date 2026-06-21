@@ -1,41 +1,41 @@
 ---
 name: Bug Report
-about: Bir şey çalışmıyor
+about: Report something that is not working
 labels: bug
 assignees: ''
 ---
 
-## Ortam
+## Environment
 
-- Flutter version: (flutter --version)
-- Paket / feature: (örn. flutter_kit_network, login screen)
-- Cihaz / OS: (örn. iPhone 15 / iOS 17.4, Pixel 8 / Android 14)
+- Flutter version: (run `flutter --version`)
+- Package / Feature: (e.g., `flutter_kit_network`, login screen)
+- Device / OS: (e.g., iPhone 15 / iOS 17.4, Pixel 8 / Android 14)
 - Flavor: (dev / staging / prod)
 
-## Yeniden Üretme Adımları
+## Steps to Reproduce
 
 1.
 2.
 3.
 
-## Beklenen Davranış
+## Expected Behavior
 
-<!-- Ne olması gerekiyordu? -->
+<!-- What should have happened? -->
 
-## Gerçek Davranış
+## Actual Behavior
 
-<!-- Ne oldu? -->
+<!-- What actually happened? -->
 
-## Ekran Görüntüsü / Video
+## Screenshots / Video
 
-<!-- Varsa ekleyin -->
+<!-- Include if applicable -->
 
 ## Log / Stack Trace
 
 ```
-<!-- flutter logs veya crash raporu buraya -->
+<!-- Paste flutter logs or crash reports here -->
 ```
 
-## Ek Notlar
+## Additional Notes
 
-<!-- Context, geçici çözümler, ilgili PR'lar -->
+<!-- Context, temporary workarounds, related PRs, etc. -->

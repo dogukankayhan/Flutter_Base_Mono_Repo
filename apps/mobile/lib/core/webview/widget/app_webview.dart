@@ -102,8 +102,7 @@ class AppWebViewState extends State<AppWebView> {
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
       ),
-      onWebViewCreated: (ctrl) =>
-          _bloc.add(WebViewControllerCreated(ctrl)),
+      onWebViewCreated: (ctrl) => _bloc.add(WebViewControllerCreated(ctrl)),
       onLoadStart: (_, url) =>
           _bloc.add(WebViewPageStarted(url?.toString() ?? '')),
       onLoadStop: (_, url) =>

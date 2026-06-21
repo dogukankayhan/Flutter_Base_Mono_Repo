@@ -1,36 +1,36 @@
 # Result\<T, E\> Pattern — Quick-Start
 
-## Nedir, Neden Var?
+## What is it, Why is it here?
 
-`Result<T, E>` (`flutter_kit_network`'ten) başarı veya hata olabilen her async operasyonu temsil eder.
+`Result<T, E>` (from `flutter_kit_network`) represents any asynchronous operation that can result in either success or failure.
 
-**Flutter'da standart try/catch yaklaşımının sorunu:**
+**The problem with the standard try/catch approach in Flutter:**
 ```dart
-// try/catch: derleyici her iki durumu da ele alıp almadığını kontrol EDEMEZ
+// try/catch: compiler CANNOT verify if you handled both states
 try {
   final data = await repo.fetch();
   // ...
 } catch (e) {
-  // hata yönetimi — unutmak kolay
+  // error handling — easy to forget
 }
 ```
 
-**Result ile:**
+**With Result:**
 ```dart
-// when() exhausive — her iki branch zorunlu, derleyici kontrol eder
+// when() is exhaustive — both branches are mandatory, verified by the compiler
 final result = await repo.fetch();
 result.when(
-  ok: (data) => /* başarı yolu */,
-  err: (error) => /* hata yolu */,
+  ok: (data) => /* success path */,
+  err: (error) => /* error path */,
 );
 ```
 
 ---
 
-## Üç Temel Metot
+## Three Fundamental Methods
 
 ### `.when(ok:, err:)`
-Her iki durumu ele alır. En yaygın kullanım:
+Handles both states. Most common usage:
 ```dart
 result.when(
   ok: (value) => doSomethingWith(value),
@@ -38,23 +38,23 @@ result.when(
 );
 ```
 
-### `.isOk` ve `.isErr`
-Boolean kontrol:
+### `.isOk` and `.isErr`
+Boolean check:
 ```dart
 if (result.isOk) {
-  // güvenle devam
+  // safely proceed
 }
 ```
 
-### Değere direkt erişim (dikkatli kullan)
+### Direct access to value (use with care)
 ```dart
-// Sadece isOk kontrolünden sonra:
+// Only after isOk check:
 final value = (result as Ok<T, E>).value;
 ```
 
 ---
 
-## BLoC'ta Doğru Kullanım
+## Correct Usage in BLoC
 
 ```dart
 Future<void> _onLoad(
@@ -76,93 +76,93 @@ Future<void> _onLoad(
 }
 ```
 
-**Kritik:** Her iki branch'te `isLoading: false` set edilmeli. Unutulursa ekran yükleniyor animasyonunda takılı kalır.
+**Critical:** `isLoading: false` must be set in both branches. If forgotten, the screen will get stuck on the loading animation.
 
 ---
 
-## Yaygın Hatalar
+## Common Mistakes
 
-### Hata 1: err branch'te emit unutmak
+### Mistake 1: Forgetting to emit in the err branch
 ```dart
-// YANLIŞ — isLoading asla false olmaz
+// WRONG — isLoading never becomes false
 result.when(
   ok: (data) => emit(state.copyWith(data: data, isLoading: false)),
   err: (_) {},  // ← BUG
 );
 
-// DOĞRU
+// CORRECT
 result.when(
   ok: (data) => emit(state.copyWith(data: data, isLoading: false)),
   err: (e) => emit(state.copyWith(errorMessage: e.message, isLoading: false)),
 );
 ```
 
-### Hata 2: UseCase içinde try/catch sarmak
+### Mistake 2: Wrapping try/catch inside a UseCase
 ```dart
-// YANLIŞ — Result zaten hataları sarıyor, çift sarma
+// WRONG — Result already wraps errors, double wrapping
 @override
 Future<Result<DashboardSummary, ApiError>> call() async {
   try {
     return await _repository.getDashboard();
   } catch (e) {
-    return Err(ApiError(message: e.toString())); // ← YANLIŞ
+    return Err(ApiError(message: e.toString())); // ← WRONG
   }
 }
 
-// DOĞRU — doğrudan propagate et
+// CORRECT — propagate directly
 @override
 Future<Result<DashboardSummary, ApiError>> call() =>
     _repository.getDashboard();
 ```
 
-### Hata 3: Null kontrolü yapmak
+### Mistake 3: Doing a null check
 ```dart
-// YANLIŞ
+// WRONG
 if (result.value != null) { ... }
 
-// DOĞRU
+// CORRECT
 result.when(ok: (v) { ... }, err: (e) { ... });
 ```
 
 ---
 
-## ApiError Alanları
+## ApiError Fields
 
 ```dart
 class ApiError {
-  final int? statusCode;  // HTTP status (401, 404, 500...) — null olabilir (network hatası)
-  final String message;   // Kullanıcıya gösterilebilir mesaj
+  final int? statusCode;  // HTTP status (401, 404, 500...) — can be null (network error)
+  final String message;   // User-friendly message
 }
 ```
 
-`statusCode` null olduğunda genellikle timeout, DNS veya SSL hatası demektir.
+When `statusCode` is null, it usually indicates a timeout, DNS, or SSL error.
 
 ---
 
-## Repository'den UseCase'e Propagasyon
+## Propagation from Repository to UseCase
 
 ```
-ApiManager.get()            → Result<DashboardDto, ApiError>
-DataSource.getDashboard()   → Result<DashboardSummary, ApiError>  (DTO→Entity mapping sonrası)
-RepositoryImpl.getDashboard() → Result<DashboardSummary, ApiError>  (datasource'u doğrudan döndür)
-UseCase.call()              → Result<DashboardSummary, ApiError>  (repo'yu doğrudan döndür)
-Bloc._onLoad()              → state'i günceller, dışarı döndürmez
+ApiManager.get()              → Result<DashboardDto, ApiError>
+DataSource.getDashboard()     → Result<DashboardSummary, ApiError>  (after DTO→Entity mapping)
+RepositoryImpl.getDashboard() → Result<DashboardSummary, ApiError>  (return datasource directly)
+UseCase.call()                → Result<DashboardSummary, ApiError>  (return repo directly)
+Bloc._onLoad()                → updates state, does not return anything
 ```
 
-Her katman Result'ı **sarmadan** geçirir — sadece BLoC katmanı state'e dönüştürür.
+Each layer passes the Result along without wrapping it — only the BLoC layer converts it to state.
 
 ---
 
-## Ok ve Err Oluşturma
+## Creating Ok and Err
 
 ```dart
-// Başarı
+// Success
 return const Ok(dashboardSummary);
 
-// Hata
+// Error
 return const Err(ApiError(statusCode: 404, message: 'Not found'));
 
-// Test'te dummy değer (Mockito için)
+// Dummy value in tests (for Mockito)
 provideDummy<Result<DashboardSummary, ApiError>>(
   const Ok(DashboardSummary(...)),
 );

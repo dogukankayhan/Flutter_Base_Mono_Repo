@@ -1,46 +1,46 @@
-## Bu PR ne yapar?
+## What does this PR do?
 
-<!-- Tek cümleyle özetle -->
+<!-- Summarize in one sentence -->
 
 ---
 
-## Değişiklik tipi
+## Type of Change
 
-- [ ] Yeni özellik (`feat`)
+- [ ] New feature (`feat`)
 - [ ] Bug fix (`fix`)
 - [ ] Refactoring
-- [ ] Dokümantasyon
-- [ ] CI/CD / altyapı
-- [ ] Test ekleme / güncelleme
+- [ ] Documentation
+- [ ] CI/CD / Infrastructure
+- [ ] Adding / updating tests
 
 ---
 
 ## Checklist
 
-### Kod kalitesi
-- [ ] `melos analyze` — uyarı/hata yok
-- [ ] `melos test` — tüm testler geçiyor
-- [ ] `melos format:check` — format hatası yok
+### Code Quality
+- [ ] `melos analyze` — no warnings or errors
+- [ ] `melos test` — all tests pass
+- [ ] `melos format:check` — no formatting errors
 
-### İçerik
-- [ ] Yeni Bloc/Cubit için test dosyası eklendi
-- [ ] Yeni API path'ler hard-code edilmedi (constructor parametresi veya sabit sınıf kullanıldı)
-- [ ] Yeni UI bileşenleri `AppTextField`, `AppButton`, `AppCard` gibi mevcut component'ları kullanıyor
-- [ ] Hard-coded string yok (lokalize edilmiş veya constant)
-- [ ] Credential veya secret commit edilmedi
+### Content
+- [ ] Test file added for the new Bloc/Cubit
+- [ ] New API paths are not hard-coded (constructor parameter or constant class used)
+- [ ] New UI components use existing widgets like `AppTextField`, `AppButton`, `AppCard`
+- [ ] No hard-coded strings (localized or constant)
+- [ ] No credentials or secrets committed
 
-### Dokümantasyon
-- [ ] Mimari değişiklik varsa `docs/ARCHITECTURE.md` güncellendi
-- [ ] Yeni paket eklendiyse `CONTRIBUTING.md` güncellendi
-
----
-
-## Test planı
-
-<!-- Bu değişikliği nasıl test ettin? Hangi senaryoları kapsıyorsun? -->
+### Documentation
+- [ ] `docs/ARCHITECTURE.md` updated if architectural changes were made
+- [ ] `CONTRIBUTING.md` updated if a new package was added
 
 ---
 
-## İlgili issue
+## Test Plan
+
+<!-- How did you test this change? Which scenarios are covered? -->
+
+---
+
+## Related Issue
 
 Closes #

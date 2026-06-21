@@ -6,10 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Cubit managing theme state.
 ///
-/// 3 mod destekler:
+/// Supports 3 modes:
 /// - [ThemeMode.system] → follows device settings (default)
-/// - [ThemeMode.light]  → her zaman light
-/// - [ThemeMode.dark]   → her zaman dark
+/// - [ThemeMode.light]  → always light
+/// - [ThemeMode.dark]   → always dark
 ///
 /// Selection is persisted with [SharedPreferences].
 ///
@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///   context.read<ThemeCubit>().setThemeMode(ThemeMode.dark);
 ///   context.read<ThemeCubit>().toggleTheme();
 ///
-///   // Widget'ta dinleme:
+///   // Listening in Widget:
 ///   BlocBuilder<ThemeCubit, ThemeMode>(
 ///     builder: (context, mode) => MaterialApp(themeMode: mode, ...),
 ///   )
@@ -65,7 +65,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
     } else if (state == ThemeMode.dark) {
       await setThemeMode(ThemeMode.light);
     } else {
-      // System modunda → mevcut brightness'a bak
+      // In system mode → look at current brightness
       if (context != null) {
         final brightness = MediaQuery.platformBrightnessOf(context);
         await setThemeMode(

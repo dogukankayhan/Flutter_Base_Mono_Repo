@@ -20,7 +20,10 @@ class FavoritesScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: context.appColors.background,
           appBar: AppBar(
-            title: Text(context.translations.favorites.title, style: context.textStyle.title18Bold),
+            title: Text(
+              context.translations.favorites.title,
+              style: context.textStyle.title18Bold,
+            ),
             automaticallyImplyLeading: false,
             actions: [
               if (pokemonState.favorites.isNotEmpty)
@@ -37,7 +40,10 @@ class FavoritesScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _showClearAllDialog(BuildContext context, PokemonFavoritesBloc bloc) {
+  Future<void> _showClearAllDialog(
+    BuildContext context,
+    PokemonFavoritesBloc bloc,
+  ) {
     final t = context.translations;
     return showDialog(
       context: context,
@@ -45,14 +51,20 @@ class FavoritesScreen extends StatelessWidget {
         title: Text(t.favorites.clearTitle),
         content: Text(t.favorites.clearConfirm),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(t.common.cancel)),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(t.common.cancel),
+          ),
           TextButton(
             onPressed: () {
               bloc.add(PokemonFavoritesClearAll());
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(t.favorites.clearSuccess), duration: const Duration(seconds: 2)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(t.favorites.clearSuccess),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: Text(t.favorites.clearButton),

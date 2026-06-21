@@ -30,7 +30,9 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
       if (isLevelUpA && !isLevelUpB) return -1;
       if (!isLevelUpA && isLevelUpB) return 1;
       if (isLevelUpA && isLevelUpB) {
-        final lvlCompare = detailA.levelLearnedAt.compareTo(detailB.levelLearnedAt);
+        final lvlCompare = detailA.levelLearnedAt.compareTo(
+          detailB.levelLearnedAt,
+        );
         if (lvlCompare != 0) return lvlCompare;
       }
       return a.move.name.compareTo(b.move.name);
@@ -97,16 +99,16 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
   ({Color bg, Color border, Color text}) _learnMethodStyle(String method) {
     final base = switch (method) {
       'level-up' => Colors.blue,
-      'machine'  => Colors.purple,
-      'egg'      => Colors.amber,
-      'tutor'    => Colors.teal,
-      _          => Colors.grey,
+      'machine' => Colors.purple,
+      'egg' => Colors.amber,
+      'tutor' => Colors.teal,
+      _ => Colors.grey,
     };
     final isGrey = base == Colors.grey;
     return (
-      bg:     base.withValues(alpha: 0.15),
+      bg: base.withValues(alpha: 0.15),
       border: base.withValues(alpha: 0.4),
-      text:   isGrey ? Colors.grey : Color.lerp(base, Colors.white, 0.4)!,
+      text: isGrey ? Colors.grey : Color.lerp(base, Colors.white, 0.4)!,
     );
   }
 
@@ -138,25 +140,34 @@ class _PokemonMovesTabState extends State<PokemonMovesTab>
                       ),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    trailing: Builder(builder: (context) {
-                      final style = _learnMethodStyle(method);
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: style.bg,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: style.border, width: 1.0),
-                        ),
-                        child: Text(
-                          method == 'level-up'
-                              ? 'LV. ${bestDetail.levelLearnedAt}'
-                              : method == 'machine'
-                                  ? 'TM'
-                                  : method.toUpperCase(),
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: style.text),
-                        ),
-                      );
-                    }),
+                    trailing: Builder(
+                      builder: (context) {
+                        final style = _learnMethodStyle(method);
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: style.bg,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: style.border, width: 1.0),
+                          ),
+                          child: Text(
+                            method == 'level-up'
+                                ? 'LV. ${bestDetail.levelLearnedAt}'
+                                : method == 'machine'
+                                ? 'TM'
+                                : method.toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: style.text,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     subtitle: Text(
                       context.translations.pokemon.detail.moves.learnMethod(
                         method: method.replaceAll('-', ' '),

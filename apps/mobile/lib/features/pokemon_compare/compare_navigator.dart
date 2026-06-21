@@ -9,12 +9,12 @@ final class CompareNavigator {
   static const String path = '/pokemon/$_subPath';
 
   static GoRoute get route => GoRoute(
-        path: _subPath,
-        builder: (_, state) {
-          final pokemons = state.extra as List<Pokemon>;
-          return CompareScreen(pokemons: pokemons);
-        },
-      );
+    path: _subPath,
+    builder: (_, state) {
+      final pokemons = state.extra as List<Pokemon>;
+      return CompareScreen(pokemons: pokemons);
+    },
+  );
 
   static void show(BuildContext context, {required List<Pokemon> pokemons}) {
     assert(pokemons.isNotEmpty && pokemons.length <= 5);

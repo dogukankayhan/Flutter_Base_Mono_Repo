@@ -3,10 +3,10 @@ import 'palette.dart';
 
 /// Theme-adaptive semantic colors registered as a ThemeExtension.
 ///
-/// ThemeData'ya register:
+/// Register to ThemeData:
 ///   ThemeData(extensions: [AppColors.light])
 ///
-/// Widget'ta erişim:
+/// Access in Widget:
 ///   context.appColors.background
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
@@ -169,7 +169,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tertiaryButtonTextColor: Colors.white,
     tertiaryContainerColor: Palette.colorGray[80]!,
     tertiaryIconColor: Palette.colorGray[50]!,
-    // Primary button — brand rengi dark'ta da aynı kalır
+    // Primary button — brand color remains the same in dark mode as well
     primaryButtonBg: const Color(0xFF5b7dfb),
     primaryButtonBgBusy: const Color(0xFF3a55f7),
     primaryButtonFg: const Color(0xFFFFFFFF),
@@ -251,8 +251,10 @@ class AppColors extends ThemeExtension<AppColors> {
     secondaryContainer: secondaryContainer ?? this.secondaryContainer,
     iconColor: iconColor ?? this.iconColor,
     dropdownTextColor: dropdownTextColor ?? this.dropdownTextColor,
-    tertiaryButtonTextColor: tertiaryButtonTextColor ?? this.tertiaryButtonTextColor,
-    tertiaryContainerColor: tertiaryContainerColor ?? this.tertiaryContainerColor,
+    tertiaryButtonTextColor:
+        tertiaryButtonTextColor ?? this.tertiaryButtonTextColor,
+    tertiaryContainerColor:
+        tertiaryContainerColor ?? this.tertiaryContainerColor,
     tertiaryIconColor: tertiaryIconColor ?? this.tertiaryIconColor,
     primaryButtonBg: primaryButtonBg ?? this.primaryButtonBg,
     primaryButtonBgBusy: primaryButtonBgBusy ?? this.primaryButtonBgBusy,
@@ -263,13 +265,18 @@ class AppColors extends ThemeExtension<AppColors> {
     tertiaryButtonBorder: tertiaryButtonBorder ?? this.tertiaryButtonBorder,
     tertiaryButtonBgBusy: tertiaryButtonBgBusy ?? this.tertiaryButtonBgBusy,
     tertiaryButtonFgBusy: tertiaryButtonFgBusy ?? this.tertiaryButtonFgBusy,
-    tertiaryDisabledButtonBg: tertiaryDisabledButtonBg ?? this.tertiaryDisabledButtonBg,
-    tertiaryDisabledButtonBorder: tertiaryDisabledButtonBorder ?? this.tertiaryDisabledButtonBorder,
-    tertiaryDisabledButtonFg: tertiaryDisabledButtonFg ?? this.tertiaryDisabledButtonFg,
-    textFieldUnFocusBorder: textFieldUnFocusBorder ?? this.textFieldUnFocusBorder,
+    tertiaryDisabledButtonBg:
+        tertiaryDisabledButtonBg ?? this.tertiaryDisabledButtonBg,
+    tertiaryDisabledButtonBorder:
+        tertiaryDisabledButtonBorder ?? this.tertiaryDisabledButtonBorder,
+    tertiaryDisabledButtonFg:
+        tertiaryDisabledButtonFg ?? this.tertiaryDisabledButtonFg,
+    textFieldUnFocusBorder:
+        textFieldUnFocusBorder ?? this.textFieldUnFocusBorder,
     textFieldUnFocusText: textFieldUnFocusText ?? this.textFieldUnFocusText,
     textFieldFocusBorder: textFieldFocusBorder ?? this.textFieldFocusBorder,
-    textFieldDisabledBorder: textFieldDisabledBorder ?? this.textFieldDisabledBorder,
+    textFieldDisabledBorder:
+        textFieldDisabledBorder ?? this.textFieldDisabledBorder,
     textFieldDisabled: textFieldDisabled ?? this.textFieldDisabled,
   );
 
@@ -289,32 +296,120 @@ class AppColors extends ThemeExtension<AppColors> {
       highLight: Color.lerp(highLight, other.highLight, t)!,
       green: Color.lerp(green, other.green, t)!,
       container: Color.lerp(container, other.container, t)!,
-      secondaryTextColor: Color.lerp(secondaryTextColor, other.secondaryTextColor, t)!,
+      secondaryTextColor: Color.lerp(
+        secondaryTextColor,
+        other.secondaryTextColor,
+        t,
+      )!,
       textColor: Color.lerp(textColor, other.textColor, t)!,
-      primaryTitleColor: Color.lerp(primaryTitleColor, other.primaryTitleColor, t)!,
-      secondaryContainer: Color.lerp(secondaryContainer, other.secondaryContainer, t)!,
+      primaryTitleColor: Color.lerp(
+        primaryTitleColor,
+        other.primaryTitleColor,
+        t,
+      )!,
+      secondaryContainer: Color.lerp(
+        secondaryContainer,
+        other.secondaryContainer,
+        t,
+      )!,
       iconColor: Color.lerp(iconColor, other.iconColor, t)!,
-      dropdownTextColor: Color.lerp(dropdownTextColor, other.dropdownTextColor, t)!,
-      tertiaryButtonTextColor: Color.lerp(tertiaryButtonTextColor, other.tertiaryButtonTextColor, t)!,
-      tertiaryContainerColor: Color.lerp(tertiaryContainerColor, other.tertiaryContainerColor, t)!,
-      tertiaryIconColor: Color.lerp(tertiaryIconColor, other.tertiaryIconColor, t)!,
+      dropdownTextColor: Color.lerp(
+        dropdownTextColor,
+        other.dropdownTextColor,
+        t,
+      )!,
+      tertiaryButtonTextColor: Color.lerp(
+        tertiaryButtonTextColor,
+        other.tertiaryButtonTextColor,
+        t,
+      )!,
+      tertiaryContainerColor: Color.lerp(
+        tertiaryContainerColor,
+        other.tertiaryContainerColor,
+        t,
+      )!,
+      tertiaryIconColor: Color.lerp(
+        tertiaryIconColor,
+        other.tertiaryIconColor,
+        t,
+      )!,
       primaryButtonBg: Color.lerp(primaryButtonBg, other.primaryButtonBg, t)!,
-      primaryButtonBgBusy: Color.lerp(primaryButtonBgBusy, other.primaryButtonBgBusy, t)!,
+      primaryButtonBgBusy: Color.lerp(
+        primaryButtonBgBusy,
+        other.primaryButtonBgBusy,
+        t,
+      )!,
       primaryButtonFg: Color.lerp(primaryButtonFg, other.primaryButtonFg, t)!,
-      disabledButtonBg: Color.lerp(disabledButtonBg, other.disabledButtonBg, t)!,
-      disabledButtonFg: Color.lerp(disabledButtonFg, other.disabledButtonFg, t)!,
-      tertiaryButtonBg: Color.lerp(tertiaryButtonBg, other.tertiaryButtonBg, t)!,
-      tertiaryButtonBorder: Color.lerp(tertiaryButtonBorder, other.tertiaryButtonBorder, t)!,
-      tertiaryButtonBgBusy: Color.lerp(tertiaryButtonBgBusy, other.tertiaryButtonBgBusy, t)!,
-      tertiaryButtonFgBusy: Color.lerp(tertiaryButtonFgBusy, other.tertiaryButtonFgBusy, t)!,
-      tertiaryDisabledButtonBg: Color.lerp(tertiaryDisabledButtonBg, other.tertiaryDisabledButtonBg, t)!,
-      tertiaryDisabledButtonBorder: Color.lerp(tertiaryDisabledButtonBorder, other.tertiaryDisabledButtonBorder, t)!,
-      tertiaryDisabledButtonFg: Color.lerp(tertiaryDisabledButtonFg, other.tertiaryDisabledButtonFg, t)!,
-      textFieldUnFocusBorder: Color.lerp(textFieldUnFocusBorder, other.textFieldUnFocusBorder, t)!,
-      textFieldUnFocusText: Color.lerp(textFieldUnFocusText, other.textFieldUnFocusText, t)!,
-      textFieldFocusBorder: Color.lerp(textFieldFocusBorder, other.textFieldFocusBorder, t)!,
-      textFieldDisabledBorder: Color.lerp(textFieldDisabledBorder, other.textFieldDisabledBorder, t)!,
-      textFieldDisabled: Color.lerp(textFieldDisabled, other.textFieldDisabled, t)!,
+      disabledButtonBg: Color.lerp(
+        disabledButtonBg,
+        other.disabledButtonBg,
+        t,
+      )!,
+      disabledButtonFg: Color.lerp(
+        disabledButtonFg,
+        other.disabledButtonFg,
+        t,
+      )!,
+      tertiaryButtonBg: Color.lerp(
+        tertiaryButtonBg,
+        other.tertiaryButtonBg,
+        t,
+      )!,
+      tertiaryButtonBorder: Color.lerp(
+        tertiaryButtonBorder,
+        other.tertiaryButtonBorder,
+        t,
+      )!,
+      tertiaryButtonBgBusy: Color.lerp(
+        tertiaryButtonBgBusy,
+        other.tertiaryButtonBgBusy,
+        t,
+      )!,
+      tertiaryButtonFgBusy: Color.lerp(
+        tertiaryButtonFgBusy,
+        other.tertiaryButtonFgBusy,
+        t,
+      )!,
+      tertiaryDisabledButtonBg: Color.lerp(
+        tertiaryDisabledButtonBg,
+        other.tertiaryDisabledButtonBg,
+        t,
+      )!,
+      tertiaryDisabledButtonBorder: Color.lerp(
+        tertiaryDisabledButtonBorder,
+        other.tertiaryDisabledButtonBorder,
+        t,
+      )!,
+      tertiaryDisabledButtonFg: Color.lerp(
+        tertiaryDisabledButtonFg,
+        other.tertiaryDisabledButtonFg,
+        t,
+      )!,
+      textFieldUnFocusBorder: Color.lerp(
+        textFieldUnFocusBorder,
+        other.textFieldUnFocusBorder,
+        t,
+      )!,
+      textFieldUnFocusText: Color.lerp(
+        textFieldUnFocusText,
+        other.textFieldUnFocusText,
+        t,
+      )!,
+      textFieldFocusBorder: Color.lerp(
+        textFieldFocusBorder,
+        other.textFieldFocusBorder,
+        t,
+      )!,
+      textFieldDisabledBorder: Color.lerp(
+        textFieldDisabledBorder,
+        other.textFieldDisabledBorder,
+        t,
+      )!,
+      textFieldDisabled: Color.lerp(
+        textFieldDisabled,
+        other.textFieldDisabled,
+        t,
+      )!,
     );
   }
 }

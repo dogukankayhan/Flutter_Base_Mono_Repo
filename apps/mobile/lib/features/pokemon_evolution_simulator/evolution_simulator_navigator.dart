@@ -19,15 +19,15 @@ final class EvolutionSimulatorNavigator {
   static const String path = '/pokemon/$_subPath';
 
   static GoRoute get route => GoRoute(
-        path: _subPath,
-        builder: (_, state) {
-          final args = state.extra as EvolutionSimulatorArgs;
-          return EvolutionSimulatorScreen(
-            chain: args.chain,
-            initialPokemonId: args.initialPokemonId,
-          );
-        },
+    path: _subPath,
+    builder: (_, state) {
+      final args = state.extra as EvolutionSimulatorArgs;
+      return EvolutionSimulatorScreen(
+        chain: args.chain,
+        initialPokemonId: args.initialPokemonId,
       );
+    },
+  );
 
   static void show(
     BuildContext context, {

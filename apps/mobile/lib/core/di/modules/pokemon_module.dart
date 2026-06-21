@@ -11,7 +11,9 @@ import '../../domain/repository/pokemon_repository.dart';
 
 void setupPokemonModule(GetIt getIt) {
   getIt.registerLazySingleton<PokemonRepository>(
-    () => PokemonRepositoryImpl(datasource: PokemonRemoteDataSourceImpl(api: getIt<ApiManager>())),
+    () => PokemonRepositoryImpl(
+      datasource: PokemonRemoteDataSourceImpl(api: getIt<ApiManager>()),
+    ),
   );
 
   getIt.registerLazySingleton<FavoritesRepository>(

@@ -8,7 +8,8 @@ final class PokemonDetailNavigator {
     required int pokemonId,
     Pokemon? pokemon,
   }) {
-    final branch = GoRouterState.of(context).uri.pathSegments.firstOrNull ?? 'pokemon';
+    final branch =
+        GoRouterState.of(context).uri.pathSegments.firstOrNull ?? 'pokemon';
     context.push('/$branch/pokemon/$pokemonId', extra: pokemon);
   }
 }

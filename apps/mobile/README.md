@@ -1,17 +1,17 @@
 # apps/mobile
 
-SaloonManager uygulamasının Flutter mobil uygulaması. Tüm `flutter_kit_*` paketlerini tüketir.
+Flutter mobile application for the SaloonManager application. Consumes all `flutter_kit_*` packages.
 
-## Genel Bakış
+## Overview
 
 ```
 apps/mobile/lib/
 ├── core/
-│   ├── components/    ← Uygulama geneli UI bileşenleri (AppButton, AppTextField, AppCard…)
-│   ├── config/        ← AppEnvironment (baseUrl native'den alınır)
-│   ├── data/          ← Repository impls, DTO'lar, remote datasource'lar
-│   ├── di/            ← GetIt modülleri (NetworkModule, AuthModule, NavigationModule)
-│   ├── domain/        ← Entity'ler, repository interface'leri, use case'ler
+│   ├── components/    ← App-wide UI components (AppButton, AppTextField, AppCard…)
+│   ├── config/        ← AppEnvironment (baseUrl is obtained from the native side)
+│   ├── data/          ← Repository implementations, DTOs, remote datasources
+│   ├── di/            ← GetIt modules (NetworkModule, AuthModule, NavigationModule)
+│   ├── domain/        ← Entities, repository interfaces, use cases
 │   └── managers/      ← AppNavigator, AppRouter, DeepLinkManager
 ├── features/
 │   ├── login/
@@ -24,21 +24,21 @@ apps/mobile/lib/
 
 ---
 
-## Flavor ile Çalıştırma
+## Running with Flavors
 
-| Flavor | Komut |
+| Flavor | Command |
 |--------|-------|
 | Development | `flutter run --flavor dev -t lib/main_dev.dart` |
 | Staging | `flutter run --flavor staging -t lib/main_staging.dart` |
 | Production | `flutter run --flavor prod -t lib/main_prod.dart` |
 
-VS Code'da **Run & Debug** panelinde `dev`, `staging`, `prod` konfigürasyonları hazır gelir (`.vscode/launch.json`).
+In VS Code, dev, staging, and prod configurations are available in the **Run & Debug** panel (`.vscode/launch.json`).
 
 ---
 
-## Entry Point'ler
+## Entry Points
 
-Her flavor'ın kendi `main_*.dart` dosyası vardır:
+Each flavor has its own `main_*.dart` file:
 
 ```dart
 // main_dev.dart
@@ -47,37 +47,37 @@ void main() => Initialize.prepare(AppEnvironment.dev);
 
 `Initialize.prepare(env)`:
 1. `WidgetsFlutterBinding.ensureInitialized()`
-2. `ScreenUtil` başlatılır (tasarım boyutu: 390×844)
-3. `setupFirebase(options: firebaseOptions)` çalışır
-4. `Injection.init(apiConfig: AppConfig.apiConfig)` — DI modülleri sırayla kurulur
-5. `runApp(SaloonManagerApp())` çalışır
+2. `ScreenUtil` is initialized (design size: 390×844)
+3. `setupFirebase(options: firebaseOptions)` is executed
+4. `Injection.init(apiConfig: AppConfig.apiConfig)` — DI modules are configured sequentially
+5. `runApp(SaloonManagerApp())` is called
 
 ---
 
-## DI Modül Sırası
+## DI Module Order
 
-`Injection.init()` içinde modüller **bu sırayla** çalışmalıdır:
+Within `Injection.init()`, modules must run in **this exact order**:
 
 ```
 1. setupNetworkModule(getIt, apiConfig: apiConfig)
-   → FlutterSecureStorage, TokenStore, ApiManager kaydedilir
+   → FlutterSecureStorage, TokenStore, ApiManager are registered
 
 2. setupAuthModule(getIt)
-   → AuthRemoteDataSource, AuthRepository, AuthManager, AuthBloc kaydedilir
-   → AuthManager, ApiManager ve TokenStore'a ihtiyaç duyar (1. adıma bağımlı)
+   → AuthRemoteDataSource, AuthRepository, AuthManager, AuthBloc are registered
+   → Requires ApiManager and TokenStore (dependent on step 1)
 
 3. setupNavigationModule(getIt)
-   → GoRouter, AuthRouterNotifier kaydedilir
-   → AuthBloc'a ihtiyaç duyar (2. adıma bağımlı)
+   → GoRouter, AuthRouterNotifier are registered
+   → Requires AuthBloc (dependent on step 2)
 ```
 
-Sıra bozulursa GetIt `Object not registered` hatası verir.
+If the order is violated, GetIt will throw an `Object not registered` error at runtime.
 
 ---
 
-## Feature Dizin Yapısı
+## Feature Directory Structure
 
-Her feature şu dosyaları içerir:
+Each feature includes the following files:
 
 ```
 features/<name>/
@@ -86,25 +86,25 @@ features/<name>/
 │   ├── <name>_event.dart         # Sealed class events
 │   └── <name>_state.dart         # extends BaseState, copyWith
 ├── view/
-│   └── <name>_screen.dart        # UI katmanı
-└── <name>_navigator.dart       # GoRoute + show() metodu
+│   └── <name>_screen.dart        # UI layer
+└── <name>_navigator.dart       # GoRoute + show() method
 ```
 
-`<name>_navigator.dart` dosyası `AppNavigator`'a route'u kaydeder. Tüm navigation bu koordinatörler üzerinden akar.
+The `<name>_navigator.dart` file registers the route to `AppNavigator`. All navigation flows through these coordinators.
 
 ---
 
-## Testleri Çalıştırma
+## Running Tests
 
 ```bash
-# Tüm workspace testleri (proje kökünden)
+# All workspace tests (from the project root)
 melos test
 
-# Sadece mobile app testleri
+# Only mobile app tests
 cd apps/mobile && flutter test
 ```
 
-Test dosyaları `apps/mobile/test/` altında feature mirroring yapısındadır:
+Test files are located under `apps/mobile/test/` using a feature mirroring structure:
 ```
 test/
 ├── features/
@@ -118,36 +118,36 @@ test/
 
 ---
 
-## Firebase Olmadan Yerel Geliştirme
+## Local Development Without Firebase
 
-Firebase dosyaları (`.plist`, `.json`) repo'ya commit edilmez. Ekibin Firebase projesi yoksa ya da yalnızca UI geliştirmesi yapılıyorsa iki yerde bypass yapılır:
+Firebase config files (`.plist`, `.json`) are not committed to the repository. If the team does not have a Firebase project or if only UI development is being performed, bypasses can be configured in two places:
 
-**1. `Initialize` Dart bayrağı** — `apps/mobile/lib/core/initialize/initialize.dart`:
+**1. Initialize Dart flag** — `apps/mobile/lib/core/initialize/initialize.dart`:
 ```dart
-static const bool _firebaseEnabled = false; // Firebase init'i ve bildirimleri atla
+static const bool _firebaseEnabled = false; // Bypass Firebase initialization and notifications
 ```
 
 **2. iOS build script** — `apps/mobile/ios/copy_google_services.sh`:
-- `GoogleService-Info.plist` bulunamazsa `exit 0` döner (uyarı verir ama build'i patlatmaz).
-- Gerçek plist eklendiğinde bu davranış otomatik olarak düzelir.
+- If `GoogleService-Info.plist` is not found, it returns `exit 0` (prints a warning but doesn't break the build).
+- When the actual plist is added, this behavior resolves automatically.
 
-Firebase aktifleştirilmek istendiğinde:
-1. `_firebaseEnabled` değerini `true` yap.
-2. Flavor başına doğru `GoogleService-Info.plist` dosyasını `ios/config/<flavor>/` altına koy.
+When activating Firebase:
+1. Set `_firebaseEnabled` to `true`.
+2. Place the correct `GoogleService-Info.plist` file under `ios/config/<flavor>/` for each flavor.
 
 ---
 
-## CI/CD — Gerekli Secrets
+## CI/CD — Required Secrets
 
-GitHub Actions'da şu secret'lar tanımlı olmalıdır:
+The following secrets must be defined in GitHub Actions:
 
-| Secret | Amaç |
+| Secret | Purpose |
 |--------|------|
-| `FIREBASE_SERVICE_ACCOUNT` | Firebase App Distribution için servis hesabı JSON |
-| `FIREBASE_STAGING_APP_ID` | Staging flavor Firebase App ID |
-| `FIREBASE_PROD_APP_ID` | Prod flavor Firebase App ID |
+| `FIREBASE_SERVICE_ACCOUNT` | Service account JSON for Firebase App Distribution |
+| `FIREBASE_STAGING_APP_ID` | Firebase App ID for the staging flavor |
+| `FIREBASE_PROD_APP_ID` | Firebase App ID for the prod flavor |
 
-Workflow'lar:
-- **`ci.yml`** — her PR'da lint, analyze, test çalıştırır (ubuntu runner)
-- **`android-staging.yml`** — her PR'da staging APK build + Firebase dağıtımı
-- **`android-prod.yml`** — `v*` tag push'unda prod APK build + Firebase dağıtımı
+Workflows:
+- **`ci.yml`** — runs lint, analyze, test on every PR (ubuntu runner)
+- **`android-staging.yml`** — staging APK build + Firebase distribution on every PR
+- **`android-prod.yml`** — prod APK build + Firebase distribution on `v*` tag push

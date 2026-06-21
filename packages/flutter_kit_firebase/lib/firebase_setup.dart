@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_kit_firebase/notification/handlers/notification_background_handler.dart';
 import 'package:flutter_kit_firebase/notification/notification_manager.dart';
 
-/// Firebase paketinin init fonksiyonu.
+/// Firebase package initialization function.
 /// [options] provided from app layer based on environment.
 Future<void> setupFirebase({required FirebaseOptions options}) async {
   try {

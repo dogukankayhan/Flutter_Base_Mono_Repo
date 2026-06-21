@@ -10,7 +10,7 @@ import '../../../features/shell/shell_navigator.dart';
 ///
 /// GoRouter is not taken as constructor parameter here or from GetIt
 /// not pulled because this leads to navigation → auth → firebase cycle.
-/// Bunun yerine [NotificationDeepLinkHandler.onNavigate] callback'i
+/// Instead, the [NotificationDeepLinkHandler.onNavigate] callback is
 /// set at app startup — firebase package does not import router.
 final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 

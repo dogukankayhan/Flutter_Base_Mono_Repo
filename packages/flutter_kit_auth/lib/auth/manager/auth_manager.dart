@@ -84,7 +84,7 @@ class AuthManager {
   final _statusController = StreamController<AuthStatus>.broadcast();
 
   /// Stream to listen for auth state changes.
-  /// AuthBloc bu stream'e subscribe olur.
+  /// AuthBloc subscribes to this stream.
   Stream<AuthStatus> get statusStream => _statusController.stream;
 
   AuthTokens? get tokens => _tokens;

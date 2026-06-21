@@ -6,15 +6,20 @@ extension DateTimeExt on DateTime {
 
   bool get isTomorrow {
     final tomorrow = DateTime.now().add(const Duration(days: 1));
-    return year == tomorrow.year && month == tomorrow.month && day == tomorrow.day;
+    return year == tomorrow.year &&
+        month == tomorrow.month &&
+        day == tomorrow.day;
   }
 
   bool get isYesterday {
     final yesterday = DateTime.now().subtract(const Duration(days: 1));
-    return year == yesterday.year && month == yesterday.month && day == yesterday.day;
+    return year == yesterday.year &&
+        month == yesterday.month &&
+        day == yesterday.day;
   }
 
-  bool get isWeekend => weekday == DateTime.saturday || weekday == DateTime.sunday;
+  bool get isWeekend =>
+      weekday == DateTime.saturday || weekday == DateTime.sunday;
 
   bool isSameDay(DateTime other) =>
       year == other.year && month == other.month && day == other.day;
@@ -25,7 +30,8 @@ extension DateTimeExt on DateTime {
 
   DateTime get startOfMonth => DateTime(year, month);
 
-  DateTime get endOfMonth => DateTime(year, month + 1).subtract(const Duration(milliseconds: 1));
+  DateTime get endOfMonth =>
+      DateTime(year, month + 1).subtract(const Duration(milliseconds: 1));
 
   /// "2 hours ago", "3 days ago", "just now", etc.
   String get timeAgo {

@@ -54,7 +54,11 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
         BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (context, mode) => IconButton(
             tooltip: t.components.themeToggleTooltip,
-            icon: Icon(mode == ThemeMode.dark ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
+            icon: Icon(
+              mode == ThemeMode.dark
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+            ),
             onPressed: () => context.read<ThemeCubit>().toggleTheme(context),
           ),
         ),
@@ -176,7 +180,10 @@ class _ComponentsFormState extends State<_ComponentsForm> {
           type: InputType.numeric,
           onChanged: (v) => bloc.add(ComponentsAgeChanged(v)),
         ),
-        if (state.ageWarning != null) ...[const SizedBox(height: 4), _WarningText(message: state.ageWarning!)],
+        if (state.ageWarning != null) ...[
+          const SizedBox(height: 4),
+          _WarningText(message: state.ageWarning!),
+        ],
         const SizedBox(height: 16),
 
         AppTextField(
@@ -276,7 +283,12 @@ class _WarningText extends StatelessWidget {
         const Icon(Icons.info_outline, size: 14, color: AppBrandColors.warn),
         const SizedBox(width: 4),
         Expanded(
-          child: Text(message, style: context.textStyle.paragraph12Regular.copyWith(color: AppBrandColors.warn)),
+          child: Text(
+            message,
+            style: context.textStyle.paragraph12Regular.copyWith(
+              color: AppBrandColors.warn,
+            ),
+          ),
         ),
       ],
     );

@@ -12,7 +12,9 @@ class ComponentsBloc extends BaseBloc<ComponentsEvent, ComponentsState> {
       '18 yaşından küçükler için bazı özellikler kısıtlı olabilir';
 
   static final _nameValidator = FieldValidator<String>([Validators.required()]);
-  static final _surnameValidator = FieldValidator<String>([Validators.required()]);
+  static final _surnameValidator = FieldValidator<String>([
+    Validators.required(),
+  ]);
   static final _emailValidator = FieldValidator<String>([
     Validators.required(),
     Validators.email(),
@@ -45,11 +47,15 @@ class ComponentsBloc extends BaseBloc<ComponentsEvent, ComponentsState> {
   void _onNameChanged(ComponentsNameChanged e, Emitter<ComponentsState> emit) =>
       emit(state.copyWith(name: e.name, nameError: null));
 
-  void _onSurnameChanged(ComponentsSurnameChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(surname: e.surname, surnameError: null));
+  void _onSurnameChanged(
+    ComponentsSurnameChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(surname: e.surname, surnameError: null));
 
-  void _onFullNameChanged(ComponentsFullNameChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(fullName: e.fullName));
+  void _onFullNameChanged(
+    ComponentsFullNameChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(fullName: e.fullName));
 
   void _onAgeChanged(ComponentsAgeChanged e, Emitter<ComponentsState> emit) {
     final age = int.tryParse(e.age.trim());
@@ -57,26 +63,36 @@ class ComponentsBloc extends BaseBloc<ComponentsEvent, ComponentsState> {
     emit(state.copyWith(age: e.age, ageWarning: warning));
   }
 
-  void _onBirthDateChanged(ComponentsBirthDateChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(birthDate: e.birthDate, birthDateError: null));
+  void _onBirthDateChanged(
+    ComponentsBirthDateChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(birthDate: e.birthDate, birthDateError: null));
 
-  void _onPhoneChanged(ComponentsPhoneChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(phone: e.phone, phoneError: null));
+  void _onPhoneChanged(
+    ComponentsPhoneChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(phone: e.phone, phoneError: null));
 
   void _onIbanChanged(ComponentsIbanChanged e, Emitter<ComponentsState> emit) =>
       emit(state.copyWith(iban: e.iban, ibanError: null));
 
-  void _onEmailChanged(ComponentsEmailChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(email: e.email, emailError: null));
+  void _onEmailChanged(
+    ComponentsEmailChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(email: e.email, emailError: null));
 
-  void _onPasswordChanged(ComponentsPasswordChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(password: e.password, passwordError: null));
+  void _onPasswordChanged(
+    ComponentsPasswordChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(password: e.password, passwordError: null));
 
   void _onUrlChanged(ComponentsUrlChanged e, Emitter<ComponentsState> emit) =>
       emit(state.copyWith(url: e.url, urlError: null));
 
-  void _onNotesChanged(ComponentsNotesChanged e, Emitter<ComponentsState> emit) =>
-      emit(state.copyWith(notes: e.notes));
+  void _onNotesChanged(
+    ComponentsNotesChanged e,
+    Emitter<ComponentsState> emit,
+  ) => emit(state.copyWith(notes: e.notes));
 
   Future<void> _onLanguageToggled(
     ComponentsLanguageToggled e,
@@ -86,21 +102,26 @@ class ComponentsBloc extends BaseBloc<ComponentsEvent, ComponentsState> {
     await LocaleSettings.setLocale(isEn ? AppLocale.tr : AppLocale.en);
   }
 
-  void _onValidateRequested(ComponentsValidateRequested e, Emitter<ComponentsState> emit) {
+  void _onValidateRequested(
+    ComponentsValidateRequested e,
+    Emitter<ComponentsState> emit,
+  ) {
     // "TR" alone = untouched IBAN prefix, treat as empty for validation
     final ibanValue = state.iban == 'TR' ? '' : state.iban;
     // prefixText is visual only — prepend https:// for URL validation
     final urlValue = state.url.isEmpty ? '' : 'https://${state.url}';
 
-    emit(state.copyWith(
-      nameError: _nameValidator.validate(state.name),
-      surnameError: _surnameValidator.validate(state.surname),
-      birthDateError: _dateValidator.validate(state.birthDate),
-      phoneError: _phoneValidator.validate(state.phone),
-      ibanError: _ibanValidator.validate(ibanValue),
-      emailError: _emailValidator.validate(state.email),
-      passwordError: _passwordValidator.validate(state.password),
-      urlError: _urlValidator.validate(urlValue),
-    ));
+    emit(
+      state.copyWith(
+        nameError: _nameValidator.validate(state.name),
+        surnameError: _surnameValidator.validate(state.surname),
+        birthDateError: _dateValidator.validate(state.birthDate),
+        phoneError: _phoneValidator.validate(state.phone),
+        ibanError: _ibanValidator.validate(ibanValue),
+        emailError: _emailValidator.validate(state.email),
+        passwordError: _passwordValidator.validate(state.password),
+        urlError: _urlValidator.validate(urlValue),
+      ),
+    );
   }
 }

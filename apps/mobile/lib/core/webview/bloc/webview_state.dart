@@ -38,6 +38,11 @@ final class WebViewState extends BaseState {
   }
 
   @override
-  List<Object?> get props =>
-      [...super.props, webViewStatus, currentUrl, progress, result];
+  List<Object?> get props => [
+    ...super.props,
+    webViewStatus,
+    currentUrl,
+    progress,
+    result,
+  ];
 }

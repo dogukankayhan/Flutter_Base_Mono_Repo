@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// Uygulama tipografisi.
+/// Application typography.
 ///
-/// Material 3 [TextTheme] standart isimlendirmesi:
+/// Material 3 [TextTheme] standard naming conventions:
 ///   displayLarge / displayMedium / displaySmall
 ///   headlineLarge / headlineMedium / headlineSmall
 ///   titleLarge / titleMedium / titleSmall
@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 ///   labelLarge / labelMedium / labelSmall
 ///
 /// Update [_fontFamily] constant to change font family.
-/// Google Fonts kullanmak istersen pubspec'e google_fonts ekleyip
-/// buradaki TextStyle'lara GoogleFonts.xxx() ile override edebilirsin.
+/// If you want to use Google Fonts, add google_fonts to pubspec
+/// and override the TextStyles here with GoogleFonts.xxx().
 sealed class AppTextTheme {
   AppTextTheme._();
 

@@ -1,22 +1,22 @@
 ---
 name: Feature Request
-about: Yeni bir özellik önermek istiyorum
+about: Suggest a new feature or enhancement
 labels: enhancement
 assignees: ''
 ---
 
-## Çözülmesi Gereken Problem
+## Problem Statement
 
-<!-- Hangi sorunu çözüyor? Kullanıcı perspektifinden açıkla. -->
+<!-- What problem does this solve? Describe from the user's perspective. -->
 
-## Önerilen Çözüm
+## Proposed Solution
 
-<!-- Nasıl uygulanabilir? Teknik detaylar, API tasarımı, UI mock varsa ekle. -->
+<!-- How can it be implemented? Include technical details, API design, or UI mocks if any. -->
 
-## Alternatifler
+## Alternatives Considered
 
-<!-- Düşündüğün başka çözümler? Neden bu yaklaşımı öneriyorsun? -->
+<!-- Any other solutions considered? Why do you prefer this approach? -->
 
-## Ek Bağlam
+## Additional Context
 
-<!-- Mockup, referans uygulama, ilgili issue'lar -->
+<!-- Mocks, reference implementations, related issues, etc. -->

@@ -40,7 +40,8 @@ class PokemonHomeScreen extends StatelessWidget {
                       )
                     : null,
               ),
-              onChanged: (query) => bloc.add(PokemonHomeSearchQueryChanged(query)),
+              onChanged: (query) =>
+                  bloc.add(PokemonHomeSearchQueryChanged(query)),
             ),
             actions: [
               IconButton(
@@ -48,7 +49,9 @@ class PokemonHomeScreen extends StatelessWidget {
                 icon: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   child: Icon(
-                    state.isCompareMode ? Icons.close : Icons.compare_arrows_rounded,
+                    state.isCompareMode
+                        ? Icons.close
+                        : Icons.compare_arrows_rounded,
                     key: ValueKey(state.isCompareMode),
                   ),
                 ),
@@ -83,7 +86,18 @@ class _TypeFilterChips extends StatelessWidget {
   final PokemonHomeBloc bloc;
   final PokemonHomeState state;
 
-  static const _types = ['fire', 'water', 'grass', 'electric', 'psychic', 'ice', 'dragon', 'dark', 'fairy', 'fighting'];
+  static const _types = [
+    'fire',
+    'water',
+    'grass',
+    'electric',
+    'psychic',
+    'ice',
+    'dragon',
+    'dark',
+    'fairy',
+    'fighting',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +116,15 @@ class _TypeFilterChips extends StatelessWidget {
             child: FilterChip(
               label: Text(
                 type.toUpperCase(),
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : null),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? Colors.white : null,
+                ),
               ),
               selected: isSelected,
-              onSelected: (_) => bloc.add(PokemonHomeFilterByType(isSelected ? null : type)),
+              onSelected: (_) =>
+                  bloc.add(PokemonHomeFilterByType(isSelected ? null : type)),
               selectedColor: PokemonUtils.getTypeColor(type),
               checkmarkColor: Colors.white,
             ),
@@ -137,7 +156,11 @@ class _PokemonGrid extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
-            Text(state.errorMessage!, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16)),
+            Text(
+              state.errorMessage!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => bloc.add(PokemonHomeStarted()),
@@ -157,7 +180,9 @@ class _PokemonGrid extends StatelessWidget {
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
           final m = notification.metrics;
-          bloc.add(PokemonHomeScrollPositionChanged(m.pixels, m.maxScrollExtent));
+          bloc.add(
+            PokemonHomeScrollPositionChanged(m.pixels, m.maxScrollExtent),
+          );
         }
         return false;
       },
@@ -169,14 +194,21 @@ class _PokemonGrid extends StatelessWidget {
         child: GridView.builder(
           controller: bloc.scrollController,
           // Extra bottom padding when compare panel is visible
-          padding: EdgeInsets.fromLTRB(16, 16, 16, state.isCompareMode ? 96 : 16),
+          padding: EdgeInsets.fromLTRB(
+            16,
+            16,
+            16,
+            state.isCompareMode ? 96 : 16,
+          ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: childAspectRatio,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
-          itemCount: state.hasMore ? state.items.length + 2 : state.items.length,
+          itemCount: state.hasMore
+              ? state.items.length + 2
+              : state.items.length,
           itemBuilder: (context, index) {
             if (index >= state.items.length) {
               return const Center(child: CircularProgressIndicator.adaptive());
@@ -191,9 +223,16 @@ class _PokemonGrid extends StatelessWidget {
               isFavorite: state.favoriteIds.contains(pokemon.id),
               isCompareMode: state.isCompareMode,
               isSelectedForCompare: isSelected,
-              onTap: () => PokemonDetailNavigator.show(context, pokemonId: pokemon.id, pokemon: pokemon),
-              onFavoriteToggle: () => bloc.add(PokemonHomeToggleFavorite(pokemon.id)),
-              onCompareTap: canSelect ? () => bloc.add(PokemonHomeCompareSelectionToggled(pokemon)) : null,
+              onTap: () => PokemonDetailNavigator.show(
+                context,
+                pokemonId: pokemon.id,
+                pokemon: pokemon,
+              ),
+              onFavoriteToggle: () =>
+                  bloc.add(PokemonHomeToggleFavorite(pokemon.id)),
+              onCompareTap: canSelect
+                  ? () => bloc.add(PokemonHomeCompareSelectionToggled(pokemon))
+                  : null,
             );
           },
         ),
@@ -239,25 +278,41 @@ class _ComparePanelContent extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.15), blurRadius: 16, offset: const Offset(0, -4)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
         ],
-        border: Border(top: BorderSide(color: Theme.of(context).dividerColor, width: 0.5)),
+        border: Border(
+          top: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+        ),
       ),
       child: Row(
         children: [
           for (var i = 0; i < 5; i++) ...[
             if (i > 0) const SizedBox(width: 4),
-            _SlotAvatar(pokemon: i < sel.length ? sel[i] : null, label: '${i + 1}'),
+            _SlotAvatar(
+              pokemon: i < sel.length ? sel[i] : null,
+              label: '${i + 1}',
+            ),
           ],
           const Spacer(),
           FilledButton(
-            onPressed: canCompare ? () => CompareNavigator.show(context, pokemons: sel) : null,
+            onPressed: canCompare
+                ? () => CompareNavigator.show(context, pokemons: sel)
+                : null,
             style: FilledButton.styleFrom(
               backgroundColor: AppBrandColors.primary,
               disabledBackgroundColor: context.appColors.disabledButtonBg,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             ),
-            child: Text('Karşılaştır', style: context.textStyle.paragraph14Bold.copyWith(color: Colors.white)),
+            child: Text(
+              'Karşılaştır',
+              style: context.textStyle.paragraph14Bold.copyWith(
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
@@ -284,13 +339,18 @@ class _SlotAvatar extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: context.textStyle.paragraph12Bold.copyWith(color: context.appColors.textFieldUnFocusText),
+            style: context.textStyle.paragraph12Bold.copyWith(
+              color: context.appColors.textFieldUnFocusText,
+            ),
           ),
         ),
       );
     }
 
-    final imageUrl = pokemon!.sprites.other?.officialArtwork?.frontDefault ?? pokemon!.sprites.frontDefault ?? '';
+    final imageUrl =
+        pokemon!.sprites.other?.officialArtwork?.frontDefault ??
+        pokemon!.sprites.frontDefault ??
+        '';
 
     return Container(
       width: 44,

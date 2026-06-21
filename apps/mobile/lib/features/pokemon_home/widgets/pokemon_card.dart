@@ -35,17 +35,19 @@ class PokemonCard extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: isSelectedForCompare ? const BorderSide(color: Color(0xFF3B82F6), width: 2.5) : BorderSide.none,
+        side: isSelectedForCompare
+            ? const BorderSide(color: Color(0xFF3B82F6), width: 2.5)
+            : BorderSide.none,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: isCompareMode
             ? (onCompareTap != null
-                ? () {
-                    HapticFeedback.lightImpact();
-                    onCompareTap?.call();
-                  }
-                : null)
+                  ? () {
+                      HapticFeedback.lightImpact();
+                      onCompareTap?.call();
+                    }
+                  : null)
             : onTap,
         child: Stack(
           children: [
@@ -55,7 +57,10 @@ class PokemonCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [bgColor.withValues(alpha: 0.6), bgColor.withValues(alpha: 0.3)],
+                  colors: [
+                    bgColor.withValues(alpha: 0.6),
+                    bgColor.withValues(alpha: 0.3),
+                  ],
                 ),
               ),
               child: Column(
@@ -66,14 +71,27 @@ class PokemonCard extends StatelessWidget {
                       tag: 'pokemon-${pokemon.id}',
                       child: CachedNetworkImage(
                         imageUrl:
-                            pokemon.sprites.other?.officialArtwork?.frontDefault ?? pokemon.sprites.frontDefault ?? '',
+                            pokemon
+                                .sprites
+                                .other
+                                ?.officialArtwork
+                                ?.frontDefault ??
+                            pokemon.sprites.frontDefault ??
+                            '',
                         fit: BoxFit.contain,
                         memCacheWidth: 350,
                         placeholder: (context, url) => Center(
-                          child: Icon(Icons.catching_pokemon, size: 48, color: bgColor.withValues(alpha: 0.2)),
+                          child: Icon(
+                            Icons.catching_pokemon,
+                            size: 48,
+                            color: bgColor.withValues(alpha: 0.2),
+                          ),
                         ),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.catching_pokemon, size: 64, color: bgColor.withValues(alpha: 0.3)),
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.catching_pokemon,
+                          size: 64,
+                          color: bgColor.withValues(alpha: 0.3),
+                        ),
                       ),
                     ),
                   ),
@@ -93,7 +111,9 @@ class PokemonCard extends StatelessWidget {
                         Text(
                           '#${pokemon.id.toString().padLeft(3, '0')}',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.5,
+                            ),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -112,10 +132,18 @@ class PokemonCard extends StatelessWidget {
                           spacing: 4,
                           runSpacing: 4,
                           children: pokemon.types.take(2).map((type) {
-                            final typeColor = PokemonUtils.getTypeColor(type.type.name);
+                            final typeColor = PokemonUtils.getTypeColor(
+                              type.type.name,
+                            );
                             return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(12)),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: typeColor,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               child: Text(
                                 type.type.name.capitalize,
                                 style: const TextStyle(
@@ -169,15 +197,21 @@ class PokemonCard extends StatelessWidget {
                   width: 28,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: isSelectedForCompare ? const Color(0xFF3B82F6) : Colors.black.withValues(alpha: 0.45),
+                    color: isSelectedForCompare
+                        ? const Color(0xFF3B82F6)
+                        : Colors.black.withValues(alpha: 0.45),
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isSelectedForCompare ? const Color(0xFF3B82F6) : Colors.white.withValues(alpha: 0.6),
+                      color: isSelectedForCompare
+                          ? const Color(0xFF3B82F6)
+                          : Colors.white.withValues(alpha: 0.6),
                       width: 1.5,
                     ),
                   ),
                   child: Icon(
-                    isSelectedForCompare ? Icons.check_rounded : Icons.add_rounded,
+                    isSelectedForCompare
+                        ? Icons.check_rounded
+                        : Icons.add_rounded,
                     color: Colors.white,
                     size: 16,
                   ),

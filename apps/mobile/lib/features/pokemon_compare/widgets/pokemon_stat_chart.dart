@@ -36,10 +36,7 @@ class PokemonStatChart extends StatelessWidget {
         children: [
           _Legend(pokemons: pokemons),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 200,
-            child: LineChart(_buildChartData()),
-          ),
+          SizedBox(height: 200, child: LineChart(_buildChartData())),
         ],
       ),
     );
@@ -51,15 +48,14 @@ class PokemonStatChart extends StatelessWidget {
         show: true,
         drawVerticalLine: false,
         horizontalInterval: 50,
-        getDrawingHorizontalLine: (_) => const FlLine(
-          color: _kGridLine,
-          strokeWidth: 1,
-          dashArray: [5, 5],
-        ),
+        getDrawingHorizontalLine: (_) =>
+            const FlLine(color: _kGridLine, strokeWidth: 1, dashArray: [5, 5]),
       ),
       titlesData: FlTitlesData(
         topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -110,19 +106,22 @@ class PokemonStatChart extends StatelessWidget {
       ),
       lineBarsData: [
         for (var i = 0; i < pokemons.length; i++)
-          _buildLine(_spotsFrom(pokemons[i]), kCompareColors[i % kCompareColors.length]),
+          _buildLine(
+            _spotsFrom(pokemons[i]),
+            kCompareColors[i % kCompareColors.length],
+          ),
       ],
     );
   }
 
   List<FlSpot> _spotsFrom(Pokemon p) => [
-        FlSpot(0, p.stats.hp.toDouble()),
-        FlSpot(1, p.stats.attack.toDouble()),
-        FlSpot(2, p.stats.defense.toDouble()),
-        FlSpot(3, p.stats.specialAttack.toDouble()),
-        FlSpot(4, p.stats.specialDefense.toDouble()),
-        FlSpot(5, p.stats.speed.toDouble()),
-      ];
+    FlSpot(0, p.stats.hp.toDouble()),
+    FlSpot(1, p.stats.attack.toDouble()),
+    FlSpot(2, p.stats.defense.toDouble()),
+    FlSpot(3, p.stats.specialAttack.toDouble()),
+    FlSpot(4, p.stats.specialDefense.toDouble()),
+    FlSpot(5, p.stats.speed.toDouble()),
+  ];
 
   LineChartBarData _buildLine(List<FlSpot> spots, Color color) {
     return LineChartBarData(

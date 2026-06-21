@@ -17,8 +17,7 @@ final class WebViewSuccess<T> extends WebViewResult<T> {
     required R Function(T data) success,
     required R Function(String message, int? statusCode) failure,
     required R Function() dismissed,
-  }) =>
-      success(data);
+  }) => success(data);
 }
 
 final class WebViewFailure<T> extends WebViewResult<T> {
@@ -31,8 +30,7 @@ final class WebViewFailure<T> extends WebViewResult<T> {
     required R Function(T data) success,
     required R Function(String message, int? statusCode) failure,
     required R Function() dismissed,
-  }) =>
-      failure(message, statusCode);
+  }) => failure(message, statusCode);
 }
 
 final class WebViewDismissed<T> extends WebViewResult<T> {
@@ -43,6 +41,5 @@ final class WebViewDismissed<T> extends WebViewResult<T> {
     required R Function(T data) success,
     required R Function(String message, int? statusCode) failure,
     required R Function() dismissed,
-  }) =>
-      dismissed();
+  }) => dismissed();
 }

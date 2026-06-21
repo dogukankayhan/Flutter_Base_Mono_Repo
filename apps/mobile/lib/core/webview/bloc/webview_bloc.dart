@@ -34,18 +34,22 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
     final scripts = <UserScript>[];
 
     if (config.requestInterceptors.isNotEmpty) {
-      scripts.add(UserScript(
-        source: kXhrInterceptorJs,
-        injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
-      ));
+      scripts.add(
+        UserScript(
+          source: kXhrInterceptorJs,
+          injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
+        ),
+      );
     }
 
     for (final js in config.jsInjections) {
       if (js.injectionTime == InjectionTime.atDocumentStart) {
-        scripts.add(UserScript(
-          source: js.code,
-          injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
-        ));
+        scripts.add(
+          UserScript(
+            source: js.code,
+            injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START,
+          ),
+        );
       }
     }
 
@@ -96,7 +100,8 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
       _controller!.addJavaScriptHandler(
         handlerName: '_wk_xhr',
         callback: (args) {
-          if (args.isNotEmpty) add(WebViewXhrResponseReceived(args.first as String));
+          if (args.isNotEmpty)
+            add(WebViewXhrResponseReceived(args.first as String));
         },
       );
     }
@@ -111,11 +116,13 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
 
   void _onPageStarted(WebViewPageStarted event, Emitter<WebViewState> emit) {
     debugPrint('[WebView] 🌐 Page started → ${event.url}');
-    emit(state.copyWith(
-      webViewStatus: WebViewStatus.loading,
-      currentUrl: event.url,
-      isLoading: true,
-    ));
+    emit(
+      state.copyWith(
+        webViewStatus: WebViewStatus.loading,
+        currentUrl: event.url,
+        isLoading: true,
+      ),
+    );
   }
 
   void _onProgressChanged(
@@ -130,11 +137,13 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
     Emitter<WebViewState> emit,
   ) async {
     debugPrint('[WebView] ✅ Page finished → ${event.url}');
-    emit(state.copyWith(
-      webViewStatus: WebViewStatus.loaded,
-      currentUrl: event.url,
-      isLoading: false,
-    ));
+    emit(
+      state.copyWith(
+        webViewStatus: WebViewStatus.loaded,
+        currentUrl: event.url,
+        isLoading: false,
+      ),
+    );
 
     for (final js in config.jsInjections) {
       if (js.injectionTime == InjectionTime.atDocumentEnd) {
@@ -150,11 +159,13 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
     emit(state.copyWith(currentUrl: event.url));
 
     if (event.interceptedResult != null) {
-      emit(state.copyWith(
-        webViewStatus: WebViewStatus.intercepted,
-        result: event.interceptedResult,
-        isLoading: false,
-      ));
+      emit(
+        state.copyWith(
+          webViewStatus: WebViewStatus.intercepted,
+          result: event.interceptedResult,
+          isLoading: false,
+        ),
+      );
     }
   }
 
@@ -170,7 +181,9 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
       final body = map['body'] as String?;
 
       debugPrint('[WebView] 📡 XHR $method $statusCode → $url');
-      debugPrint('[WebView]    body: ${body?.substring(0, body.length.clamp(0, 200))}');
+      debugPrint(
+        '[WebView]    body: ${body?.substring(0, body.length.clamp(0, 200))}',
+      );
 
       for (final interceptor in config.requestInterceptors) {
         if (interceptor.matchesRequest(url, method)) {
@@ -183,11 +196,13 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
           );
           if (result != null) {
             debugPrint('[WebView] 🏁 RequestInterceptor result → $result');
-            emit(state.copyWith(
-              webViewStatus: WebViewStatus.intercepted,
-              result: result,
-              isLoading: false,
-            ));
+            emit(
+              state.copyWith(
+                webViewStatus: WebViewStatus.intercepted,
+                result: result,
+                isLoading: false,
+              ),
+            );
             return;
           }
         }
@@ -202,20 +217,24 @@ final class WebViewBloc extends BaseBloc<WebViewEvent, WebViewState> {
     Emitter<WebViewState> emit,
   ) {
     debugPrint('[WebView] ❌ Error → ${event.description}');
-    emit(state.copyWith(
-      webViewStatus: WebViewStatus.error,
-      errorMessage: event.description,
-      isLoading: false,
-    ));
+    emit(
+      state.copyWith(
+        webViewStatus: WebViewStatus.error,
+        errorMessage: event.description,
+        isLoading: false,
+      ),
+    );
   }
 
   void _onDismissRequested(
     WebViewDismissRequested event,
     Emitter<WebViewState> emit,
   ) {
-    emit(state.copyWith(
-      webViewStatus: WebViewStatus.intercepted,
-      result: const WebViewDismissed<dynamic>(),
-    ));
+    emit(
+      state.copyWith(
+        webViewStatus: WebViewStatus.intercepted,
+        result: const WebViewDismissed<dynamic>(),
+      ),
+    );
   }
 }

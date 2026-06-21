@@ -8,15 +8,16 @@ import 'package:flutter_kit_network/core/di/service_locator.dart';
 import 'evolution_simulator_event.dart';
 import 'evolution_simulator_state.dart';
 
-class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, EvolutionSimulatorState> {
+class EvolutionSimulatorBloc
+    extends BaseBloc<EvolutionSimulatorEvent, EvolutionSimulatorState> {
   final PokemonRepository _pokemonRepository;
 
   EvolutionSimulatorBloc.create()
-      : this(pokemonRepository: getIt<PokemonRepository>());
+    : this(pokemonRepository: getIt<PokemonRepository>());
 
   EvolutionSimulatorBloc({required PokemonRepository pokemonRepository})
-      : _pokemonRepository = pokemonRepository,
-        super(const EvolutionSimulatorState()) {
+    : _pokemonRepository = pokemonRepository,
+      super(const EvolutionSimulatorState()) {
     on<EvolutionSimulatorStarted>(_onStarted);
     on<EvolutionSimulatorLevelChanged>(_onLevelChanged);
     on<EvolutionSimulatorPokemonSelected>(_onPokemonSelected);
@@ -32,12 +33,14 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
         ? initialNode.minLevel!
         : 1;
 
-    emit(state.copyWith(
-      isLoading: true,
-      chain: event.chain,
-      currentPokemonId: event.initialPokemonId,
-      currentLevel: initialLevel,
-    ));
+    emit(
+      state.copyWith(
+        isLoading: true,
+        chain: event.chain,
+        currentPokemonId: event.initialPokemonId,
+        currentLevel: initialLevel,
+      ),
+    );
 
     try {
       final ids = _getAllSpeciesIds(event.chain.root);
@@ -56,27 +59,28 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
       }
 
       if (apiErrorMessage != null) {
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: apiErrorMessage,
-        ));
+        emit(state.copyWith(isLoading: false, errorMessage: apiErrorMessage));
         return;
       }
 
-      emit(state.copyWith(
-        pokemons: pokemonsMap,
-        isLoading: false,
-        isValid: true,
-        unlockedEvolutions: _calculateUnlockedEvolutions(
-          event.initialPokemonId,
-          initialLevel,
+      emit(
+        state.copyWith(
+          pokemons: pokemonsMap,
+          isLoading: false,
+          isValid: true,
+          unlockedEvolutions: _calculateUnlockedEvolutions(
+            event.initialPokemonId,
+            initialLevel,
+          ),
         ),
-      ));
+      );
     } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: 'Evrim ağacı yüklenemedi',
-      ));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: 'Evrim ağacı yüklenemedi',
+        ),
+      );
     }
   }
 
@@ -84,10 +88,15 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
     EvolutionSimulatorLevelChanged event,
     Emitter<EvolutionSimulatorState> emit,
   ) {
-    emit(state.copyWith(
-      currentLevel: event.level,
-      unlockedEvolutions: _calculateUnlockedEvolutions(state.currentPokemonId, event.level),
-    ));
+    emit(
+      state.copyWith(
+        currentLevel: event.level,
+        unlockedEvolutions: _calculateUnlockedEvolutions(
+          state.currentPokemonId,
+          event.level,
+        ),
+      ),
+    );
   }
 
   void _onPokemonSelected(
@@ -102,11 +111,16 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
         ? targetNode.minLevel!
         : 1;
 
-    emit(state.copyWith(
-      currentPokemonId: event.speciesId,
-      currentLevel: targetLevel,
-      unlockedEvolutions: _calculateUnlockedEvolutions(event.speciesId, targetLevel),
-    ));
+    emit(
+      state.copyWith(
+        currentPokemonId: event.speciesId,
+        currentLevel: targetLevel,
+        unlockedEvolutions: _calculateUnlockedEvolutions(
+          event.speciesId,
+          targetLevel,
+        ),
+      ),
+    );
   }
 
   void _onEvolve(
@@ -115,10 +129,15 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
   ) {
     if (!state.pokemons.containsKey(event.targetSpeciesId)) return;
 
-    emit(state.copyWith(
-      currentPokemonId: event.targetSpeciesId,
-      unlockedEvolutions: _calculateUnlockedEvolutions(event.targetSpeciesId, state.currentLevel),
-    ));
+    emit(
+      state.copyWith(
+        currentPokemonId: event.targetSpeciesId,
+        unlockedEvolutions: _calculateUnlockedEvolutions(
+          event.targetSpeciesId,
+          state.currentLevel,
+        ),
+      ),
+    );
   }
 
   // Recursive helper to get all unique species IDs from the chain tree

@@ -22,7 +22,7 @@ class NotificationManager {
 
   bool _initialized = false;
 
-  /// Terminated state'de gelen notification — splash bitmeden navigate edilemez.
+  /// Notification received in terminated state — cannot navigate until splash screen is completed.
   NotificationPayload? _pendingPayload;
 
   /// Callback to be called when action button is pressed while App is open.
@@ -116,7 +116,7 @@ class NotificationManager {
     }
   }
 
-  // ── FCM dinleyiciler ──────────────────────────────────────────────────────
+  // ── FCM listeners ──────────────────────────────────────────────────────────
 
   void _listenForeground() {
     FirebaseMessaging.onMessage.listen((message) async {

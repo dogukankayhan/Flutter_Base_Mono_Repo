@@ -93,7 +93,12 @@ class _LoginFormState extends State<_LoginForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(t.login.title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  t.login.title,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 20),
                 AppTextField(
                   label: t.login.emailLabel,
@@ -116,7 +121,10 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
                 if (widget.state.errorMessage != null) ...[
                   const SizedBox(height: 12),
-                  AppErrorBanner(message: widget.state.errorMessage!, isInline: true),
+                  AppErrorBanner(
+                    message: widget.state.errorMessage!,
+                    isInline: true,
+                  ),
                 ],
                 const SizedBox(height: 24),
                 AppButton(
@@ -154,7 +162,11 @@ class _Background extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [cs.surface, cs.primaryContainer.withValues(alpha: 0.12), cs.surface],
+          colors: [
+            cs.surface,
+            cs.primaryContainer.withValues(alpha: 0.12),
+            cs.surface,
+          ],
         ),
       ),
       child: child,
@@ -177,13 +189,18 @@ class _Brand extends StatelessWidget {
         Text(
           t.login.appName,
           textAlign: TextAlign.center,
-          style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
           t.login.subtitle,
           textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(color: cs.onSurface.withValues(alpha: 0.55)),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: cs.onSurface.withValues(alpha: 0.55),
+          ),
         ),
       ],
     );
@@ -203,7 +220,9 @@ class _OrDivider extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             context.translations.login.orDivider,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: cs.onSurface.withValues(alpha: 0.4)),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: cs.onSurface.withValues(alpha: 0.4),
+            ),
           ),
         ),
         const Expanded(child: Divider()),
@@ -227,7 +246,11 @@ class _SocialButtons extends StatelessWidget {
           tooltip: t.login.googleTooltip,
         ),
         const SizedBox(width: 16),
-        IconButton.outlined(onPressed: () {}, icon: const Icon(Icons.apple, size: 32), tooltip: t.login.appleTooltip),
+        IconButton.outlined(
+          onPressed: () {},
+          icon: const Icon(Icons.apple, size: 32),
+          tooltip: t.login.appleTooltip,
+        ),
       ],
     );
   }
@@ -243,8 +266,14 @@ class _RegisterLink extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(t.login.noAccount, style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6))),
-        TextButton(onPressed: AppNavigator.instance.register.show, child: Text(t.login.registerLink)),
+        Text(
+          t.login.noAccount,
+          style: TextStyle(color: cs.onSurface.withValues(alpha: 0.6)),
+        ),
+        TextButton(
+          onPressed: AppNavigator.instance.register.show,
+          child: Text(t.login.registerLink),
+        ),
       ],
     );
   }

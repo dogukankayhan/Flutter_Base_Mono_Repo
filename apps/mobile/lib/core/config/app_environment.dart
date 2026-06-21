@@ -20,7 +20,7 @@ class AppConfig {
     required this.googleServerClientId,
   });
 
-  /// Native katmandan (Android: strings.xml/resValue, iOS: Info.plist/xcconfig)
+  /// From the native layer (Android: strings.xml/resValue, iOS: Info.plist/xcconfig)
   /// Reads baseUrl, appName, and googleServerClientId.
   static Future<void> init(AppEnvironment env) async {
     final nativeConfig = await _channel.invokeMapMethod<String, String>(

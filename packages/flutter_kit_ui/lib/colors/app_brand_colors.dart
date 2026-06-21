@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Constant (mode independent) brand colors.
 ///
 /// All values are compile-time const — no runtime allocation.
-/// Context gerektirmez: AppBrandColors.gold, AppBrandColors.primary
+/// Does not require context: AppBrandColors.gold, AppBrandColors.primary
 ///
 /// For rarely used shades: Palette.primary[30]!
 abstract final class AppBrandColors {

@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_base_kit/core/firebase/firebase_options_dev.dart' as dev;
-import 'package:flutter_base_kit/core/firebase/firebase_options_prod.dart' as prod;
-import 'package:flutter_base_kit/core/firebase/firebase_options_staging.dart' as staging;
+import 'package:flutter_base_kit/core/firebase/firebase_options_dev.dart'
+    as dev;
+import 'package:flutter_base_kit/core/firebase/firebase_options_prod.dart'
+    as prod;
+import 'package:flutter_base_kit/core/firebase/firebase_options_staging.dart'
+    as staging;
 import 'package:flutter_base_kit/core/localization/i18n/strings.g.dart';
 import 'package:flutter_kit_firebase/firebase_setup.dart';
 import 'package:flutter_kit_network/core/config/environment_config.dart';
@@ -63,7 +66,10 @@ class Initialize {
   }
 
   static Future<void> _initOrientation() =>
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
 
   static Future<void> _initFirebase(AppEnvironment env) async {
     final options = switch (env) {
@@ -76,9 +82,15 @@ class Initialize {
 
   static Future<void> _initDI(AppEnvironment env) async {
     final config = switch (env) {
-      AppEnvironment.dev => EnvironmentConfig.development(baseUrl: AppConfig.instance.baseUrl),
-      AppEnvironment.staging => EnvironmentConfig.staging(baseUrl: AppConfig.instance.baseUrl),
-      AppEnvironment.prod => EnvironmentConfig.production(baseUrl: AppConfig.instance.baseUrl),
+      AppEnvironment.dev => EnvironmentConfig.development(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
+      AppEnvironment.staging => EnvironmentConfig.staging(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
+      AppEnvironment.prod => EnvironmentConfig.production(
+        baseUrl: AppConfig.instance.baseUrl,
+      ),
     };
     await Injection.init(config: config);
   }
@@ -91,5 +103,6 @@ class Initialize {
 
   static Future<void> _initNotifications() => setupNotifications();
 
-  static Future<bool> _checkJailbreak() => JailbreakDetector.isDeviceCompromised();
+  static Future<bool> _checkJailbreak() =>
+      JailbreakDetector.isDeviceCompromised();
 }

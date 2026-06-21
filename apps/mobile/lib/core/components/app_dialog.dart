@@ -8,19 +8,19 @@ import 'app_button.dart';
 /// Usage:
 ///   context.showAppDialog(
 ///     title: 'Log Out',
-///     content: 'Oturumunuzu kapatmak istiyor musunuz?',
+///     content: 'Are you sure you want to log out?',
 ///     primaryLabel: 'Log Out',
 ///     onPrimary: () { context.read<AuthBloc>().add(LogoutRequested()); },
 ///     secondaryLabel: 'Cancel',
 ///   );
 ///
-///   context.showAppDialog(title: 'Silindi', content: 'Randevu iptal edildi.');
+///   context.showAppDialog(title: 'Deleted', content: 'Appointment cancelled.');
 class AppDialog extends StatelessWidget {
   const AppDialog({
     super.key,
     required this.title,
     required this.content,
-    this.primaryLabel = 'Tamam',
+    this.primaryLabel = 'OK',
     this.secondaryLabel,
     this.onPrimary,
     this.onSecondary,
@@ -81,7 +81,7 @@ extension AppDialogExtension on BuildContext {
   Future<T?> showAppDialog<T>({
     required String title,
     required String content,
-    String primaryLabel = 'Tamam',
+    String primaryLabel = 'OK',
     String? secondaryLabel,
     VoidCallback? onPrimary,
     VoidCallback? onSecondary,

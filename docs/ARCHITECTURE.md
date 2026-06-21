@@ -1,37 +1,37 @@
-# Mimari Rehberi
+# Architecture Guide
 
-## Katman Diyagramı
+## Layer Diagram
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                   Presentation                      │
-│  Screen ← BlocBuilder ← Bloc/Cubit                 │
-│  BaseBlocView: oluşturma, lifecycle, loading overlay │
+│  Screen ← BlocBuilder ← Bloc/Cubit                  │
+│  BaseBlocView: creation, lifecycle, loading overlay  │
 ├─────────────────────────────────────────────────────┤
 │                     Domain                          │
 │  UseCase → Repository (interface) → Entity          │
-│  Saf Dart: platform bağımsız iş mantığı             │
+│  Pure Dart: platform-independent business logic     │
 ├─────────────────────────────────────────────────────┤
 │                      Data                           │
 │  RepositoryImpl → RemoteDataSource → DTO            │
-│  fromJson / toDomain dönüşümleri burada             │
+│  fromJson / toDomain transformations happen here    │
 ├─────────────────────────────────────────────────────┤
 │                    Network                          │
-│  ApiManager → Dio + 8 Interceptor                   │
-│  Result<T, E> tüm yanıtları sarar                   │
+│  ApiManager → Dio + 8 Interceptors                  │
+│  Result<T, E> wraps all responses                   │
 └─────────────────────────────────────────────────────┘
 ```
 
-Bağımlılık yönü: Presentation → Domain → Data → Network. Ters yönde bağımlılık yoktur.
+Dependency direction: Presentation → Domain → Data → Network. There is no dependency in the opposite direction.
 
 ---
 
-## Dashboard Feature — Tam Veri Akışı
+## Dashboard Feature — Full Data Flow
 
-Somut örnek üzerinden tüm katmanlar:
+All layers using a concrete example:
 
 ```
-1. BaseBlocView.initState() → DashboardBloc oluşturulur
+1. BaseBlocView.initState() → DashboardBloc is created
 
 2. (post-frame) DashboardBloc.onReady()
    └── add(DashboardLoadRequested())
@@ -49,20 +49,20 @@ Somut örnek üzerinden tüm katmanlar:
 6. DashboardRemoteDataSourceImpl.getDashboard(path)
    └── ApiManager.get<DashboardDto>(path: path)
 
-7. ApiManager (Dio + interceptor zinciri)
-   AuthInterceptor       → Bearer token ekler
-   ConnectivityInterceptor → çevrimdışıysa hata
-   RetryInterceptor      → 5xx'te exponential backoff (3 deneme)
-   CacheInterceptor      → GET yanıtlarını SQLite'a önbelleğe alır
-   RefreshTokenInterceptor → 401'de token yeniler
-   RateLimiterInterceptor → endpoint başına istek sınırı
-   LoggingInterceptor    → HTTP log
-   CertPinningInterceptor → SSL sertifika doğrulama
+7. ApiManager (Dio + interceptor chain)
+   AuthInterceptor         → Adds Bearer token
+   ConnectivityInterceptor → Error if offline
+   RetryInterceptor        → Exponential backoff on 5xx (3 retries)
+   CacheInterceptor        → Caches GET responses to SQLite
+   RefreshTokenInterceptor → Refreshes token on 401
+   RateLimiterInterceptor  → Rate limit per endpoint
+   LoggingInterceptor      → HTTP log
+   CertPinningInterceptor  → SSL certificate pinning verification
 
-8. Yanıt → DashboardDto.fromJson(json)
+8. Response → DashboardDto.fromJson(json)
    └── DashboardMapper.toDomain(dto) → DashboardSummary entity
 
-9. Result<DashboardSummary, ApiError> her katmandan akar yukarı
+9. Result<DashboardSummary, ApiError> propagates up through all layers
 
 10. DashboardBloc._onLoad
     result.when(
@@ -70,15 +70,15 @@ Somut örnek üzerinden tüm katmanlar:
       err: (e) => emit(state.copyWith(errorMessage: e.message, isLoading: false)),
     )
 
-11. DashboardScreen: BlocBuilder yeni state'i alır, UI güncellenir
-    isLoading: true  → BaseBlocView LoadingOverlay gösterir
-    errorMessage set → AppErrorBanner gösterilir
-    summary set      → stat kartları render edilir
+11. DashboardScreen: BlocBuilder receives the new state, UI updates
+    isLoading: true  → BaseBlocView shows LoadingOverlay
+    errorMessage set → AppErrorBanner is shown
+    summary set      → Stat cards are rendered
 ```
 
 ---
 
-## Navigation Mimarisi — Navigator Pattern
+## Navigation Architecture — Navigator Pattern
 
 ```
 AppNavigator (singleton)
@@ -92,89 +92,89 @@ AppNavigator (singleton)
 └── HomeNavigator       → GoRoute('/home', '/home/showcase')
 ```
 
-Her Navigator:
-- Kendi path constant'ını tutar: `static const path = '/dashboard'`
-- `show(BuildContext context)` static metodu: `context.go(path)`
+Each Navigator:
+- Holds its own path constant: `static const path = '/dashboard'`
+- `show(BuildContext context)` static method: `context.go(path)`
 - `route` getter: `GoRoute(path: path, builder: (_, __) => Screen())`
 
-**Auth Guard:** `AppNavigator.redirect(isLoggedIn, path)` login/register sayfalarına auth kontrolü yapar. GoRouter'ın `redirect:` callback'i bu metodu çağırır.
+**Auth Guard:** `AppNavigator.redirect(isLoggedIn, path)` performs auth check for login/register pages. GoRouter's `redirect:` callback invokes this method.
 
-**Navigation Facade:** `NavigationFacade` low-level helper (`push`, `pop`, `replace`). Feature screen'lerden doğrudan kullanılmaz — her feature kendi navigator'ını kullanır.
-
----
-
-## Paket İzolasyon Kuralları
-
-```
-flutter_kit_core     → hiçbir flutter_kit_* paketine bağımlı olamaz
-flutter_kit_network  → hiçbir flutter_kit_* paketine bağımlı olamaz
-flutter_kit_ui       → hiçbir flutter_kit_* paketine bağımlı olamaz
-flutter_kit_firebase → hiçbir flutter_kit_* paketine bağımlı olamaz
-flutter_kit_auth     → flutter_kit_network + flutter_kit_core'a bağımlı olabilir
-apps/mobile          → hepsine bağımlı olabilir
-```
-
-`flutter_kit_firebase`'in GoRouter veya `flutter_kit_auth`'a bağımlı olması yasaktır (circular dependency yaratır). Çözüm: callback pattern (`NotificationDeepLinkHandler.onNavigate`).
+**Navigation Facade:** `NavigationFacade` is a low-level helper (`push`, `pop`, `replace`). It is not used directly from feature screens — each feature uses its own navigator.
 
 ---
 
-## BaseState.isLoading → LoadingOverlay Akışı
+## Package Isolation Rules
+
+```
+flutter_kit_core     → cannot depend on any flutter_kit_* package
+flutter_kit_network  → cannot depend on any flutter_kit_* package
+flutter_kit_ui       → cannot depend on any flutter_kit_* package
+flutter_kit_firebase → cannot depend on any flutter_kit_* package
+flutter_kit_auth     → can depend on flutter_kit_network + flutter_kit_core
+apps/mobile          → can depend on all of them
+```
+
+`flutter_kit_firebase` is forbidden to depend on GoRouter or `flutter_kit_auth` (creates a circular dependency). Solution: callback pattern (`NotificationDeepLinkHandler.onNavigate`).
+
+---
+
+## BaseState.isLoading → LoadingOverlay Flow
 
 ```
 DashboardBloc.emit(state.copyWith(isLoading: true))
-  └── BlocBuilder state değişikliğini algılar
+  └── BlocBuilder detects state change
       └── BaseBlocView._shouldShowLoading(state) → true
-          └── LoadingOverlay gösterilir (flutter_kit_ui)
+          └── LoadingOverlay is shown (flutter_kit_ui)
 
 DashboardBloc.emit(state.copyWith(isLoading: false))
-  └── LoadingOverlay gizlenir
+  └── LoadingOverlay is hidden
 ```
 
-`BaseBlocView` `isLoading`'i otomatik izler — feature screen'lerin loading overlay'i manuel yönetmesi gerekmez.
+`BaseBlocView` automatically monitors `isLoading` — feature screens do not need to manage the loading overlay manually.
 
 ---
 
-## DI: Factory vs Singleton Kararları
+## DI: Factory vs Singleton Decisions
 
-| Tür | Kayıt | Neden |
+| Type | Registration | Reason |
 |-----|-------|-------|
-| `ApiManager` | `lazySingleton` | Interceptor zinciri bir kez kurulur, uygulama boyunca yaşar |
-| `TokenStore` | `lazySingleton` | SecureStorage wrapper, stateful değil |
-| `AuthManager` | `lazySingleton` | Auth state tek kaynak olmalı |
-| `AuthBloc` | `singleton` | Tüm app auth state'ini dinler, navigasyon guard'ı kullanır |
-| Feature BLoC/Cubit | GetIt'e kayıt yok | `BaseBlocView.create` factory'si üretir, dispose'da kapatır |
+| `ApiManager` | `lazySingleton` | Interceptor chain is established once and lives for the lifetime of the application |
+| `TokenStore` | `lazySingleton` | SecureStorage wrapper, not stateful |
+| `AuthManager` | `lazySingleton` | Auth state must be the single source of truth |
+| `AuthBloc` | `singleton` | Listens to the entire app auth state, used by the navigation guard |
+| Feature BLoC/Cubit | No registration in GetIt | `BaseBlocView.create` factory creates it, closes it on dispose |
 
-Feature BLoC'lar GetIt'e kayıtlı **değildir** — `BaseBlocView` lifecycle'ı yönetir. `getIt<DashboardBloc>()` çalışmaz ve çalışmamalı.
-
----
-
-## Interceptor Zinciri Sırası
-
-Dio interceptor'ları listeye eklendikleri sırayla çalışır (istek: ilkten sona, yanıt: sondan ilke):
-
-```
-İstek yönü (ilk → son):
-  1. CertificatePinningInterceptor  ← SSL doğrulama
-  2. ConnectivityInterceptor        ← çevrimdışı kontrolü
-  3. RateLimiterInterceptor         ← throttle
-  4. AuthInterceptor                ← Bearer token ekle
-  5. CacheInterceptor               ← önbellekten dön (GET)
-  6. LoggingInterceptor             ← istek logu
-  7. RetryInterceptor               ← hata sonrası yeniden dene
-  8. RefreshTokenInterceptor        ← 401 → token yenile → tekrar dene
-```
+Feature BLoCs are not registered in GetIt — `BaseBlocView` manages their lifecycle. `getIt<DashboardBloc>()` does not and should not work.
 
 ---
 
-## Lokalizasyon
+## Interceptor Chain Order
 
-`slang_flutter` kullanılır. Çeviri dosyaları: `apps/mobile/assets/i18n/`.
-Üretilen dosya: `strings.g.dart` (commit edilmez, build_runner üretir).
+Dio interceptors run in the order they are added to the list (request: first to last, response: last to first):
+
+```
+Request direction (first → last):
+  1. CertificatePinningInterceptor  ← SSL verification
+  2. ConnectivityInterceptor        ← Offline check
+  3. RateLimiterInterceptor         ← Throttle
+  4. AuthInterceptor                ← Add Bearer token
+  5. CacheInterceptor               ← Return from cache (GET)
+  6. LoggingInterceptor             ← Request log
+  7. RetryInterceptor               ← Retry after error
+  8. RefreshTokenInterceptor        ← 401 → Refresh token → Retry
+```
+
+---
+
+## Localization
+
+`slang_flutter` is used. Translation files: `apps/mobile/assets/i18n/`.
+Generated file: `strings.g.dart` (not committed, generated by build_runner).
 
 ```dart
-// Kullanım
+// Usage
 Text(context.t.login.title)
 Text(context.t.errors.networkError)
 ```
 
-Hard-coded string kullanmaktan kaçının — her UI metni `strings.g.dart` üzerinden gelmeli.
+Avoid using hard-coded strings — every UI text must come through `strings.g.dart`.

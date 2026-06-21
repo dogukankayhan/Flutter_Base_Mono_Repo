@@ -59,7 +59,8 @@ class EvolutionNodeDto {
     if (detailsList != null && detailsList.isNotEmpty) {
       final details = detailsList.first as Map<String, dynamic>;
       minLevel = details['min_level'] as int?;
-      triggerName = (details['trigger'] as Map<String, dynamic>?)?['name'] as String?;
+      triggerName =
+          (details['trigger'] as Map<String, dynamic>?)?['name'] as String?;
       itemName = (details['item'] as Map<String, dynamic>?)?['name'] as String?;
     }
 

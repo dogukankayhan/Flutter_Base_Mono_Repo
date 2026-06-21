@@ -7,7 +7,8 @@ class EvolutionSimulatorState extends BaseState {
   final Map<int, Pokemon> pokemons; // speciesId -> Pokemon details
   final int currentPokemonId;
   final int currentLevel;
-  final List<EvolutionNode> unlockedEvolutions; // list of nodes that can evolve to based on level
+  final List<EvolutionNode>
+  unlockedEvolutions; // list of nodes that can evolve to based on level
 
   const EvolutionSimulatorState({
     super.isLoading = false,
@@ -47,11 +48,11 @@ class EvolutionSimulatorState extends BaseState {
 
   @override
   List<Object?> get props => [
-        ...super.props,
-        chain,
-        pokemons,
-        currentPokemonId,
-        currentLevel,
-        unlockedEvolutions,
-      ];
+    ...super.props,
+    chain,
+    pokemons,
+    currentPokemonId,
+    currentLevel,
+    unlockedEvolutions,
+  ];
 }

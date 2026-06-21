@@ -21,7 +21,9 @@ class CompareScreen extends StatelessWidget {
       create: () => CompareBloc(pokemons: pokemons),
       loadingOverlay: const SizedBox.shrink(),
       builder: (context, state, bloc) => Scaffold(
-        appBar: AppBar(title: Text('Karşılaştır', style: context.textStyle.title18Bold)),
+        appBar: AppBar(
+          title: Text('Karşılaştır', style: context.textStyle.title18Bold),
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(
@@ -111,13 +113,17 @@ class _PokemonHeaderCard extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 '#${pokemon.id.toString().padLeft(3, '0')}',
-                style: context.textStyle.paragraph12Regular.copyWith(color: context.appColors.textFieldUnFocusText),
+                style: context.textStyle.paragraph12Regular.copyWith(
+                  color: context.appColors.textFieldUnFocusText,
+                ),
               ),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
                   pokemon.name.toUpperCase(),
-                  style: context.textStyle.paragraph12Bold.copyWith(color: color),
+                  style: context.textStyle.paragraph12Bold.copyWith(
+                    color: color,
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                 ),
@@ -133,8 +139,15 @@ class _PokemonHeaderCard extends StatelessWidget {
                 child: Container(
                   width: 18,
                   height: 18,
-                  decoration: BoxDecoration(color: color.withAlpha(180), shape: BoxShape.circle),
-                  child: const Icon(Icons.close_rounded, size: 12, color: Colors.white),
+                  decoration: BoxDecoration(
+                    color: color.withAlpha(180),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.close_rounded,
+                    size: 12,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -176,7 +189,12 @@ class _StatGrid extends StatelessWidget {
             return Column(
               children: [
                 if (isTotal) const Divider(height: 16),
-                _StatRow(label: entry.value.$1, field: entry.value.$2, pokemons: pokemons, isTotal: isTotal),
+                _StatRow(
+                  label: entry.value.$1,
+                  field: entry.value.$2,
+                  pokemons: pokemons,
+                  isTotal: isTotal,
+                ),
               ],
             );
           }),
@@ -189,7 +207,12 @@ class _StatGrid extends StatelessWidget {
 enum _StatField { hp, attack, defense, spAttack, spDefense, speed, total }
 
 class _StatRow extends StatelessWidget {
-  const _StatRow({required this.label, required this.field, required this.pokemons, this.isTotal = false});
+  const _StatRow({
+    required this.label,
+    required this.field,
+    required this.pokemons,
+    this.isTotal = false,
+  });
 
   final String label;
   final _StatField field;
@@ -204,7 +227,12 @@ class _StatRow extends StatelessWidget {
     _StatField.spDefense => p.stats.specialDefense,
     _StatField.speed => p.stats.speed,
     _StatField.total =>
-      p.stats.hp + p.stats.attack + p.stats.defense + p.stats.specialAttack + p.stats.specialDefense + p.stats.speed,
+      p.stats.hp +
+          p.stats.attack +
+          p.stats.defense +
+          p.stats.specialAttack +
+          p.stats.specialDefense +
+          p.stats.speed,
   };
 
   @override
@@ -221,9 +249,11 @@ class _StatRow extends StatelessWidget {
             width: 78,
             child: Text(
               label,
-              style: (isTotal ? context.textStyle.paragraph12Bold : context.textStyle.paragraph12Regular).copyWith(
-                color: context.appColors.textFieldUnFocusText,
-              ),
+              style:
+                  (isTotal
+                          ? context.textStyle.paragraph12Bold
+                          : context.textStyle.paragraph12Regular)
+                      .copyWith(color: context.appColors.textFieldUnFocusText),
             ),
           ),
           Expanded(
@@ -250,7 +280,12 @@ class _StatRow extends StatelessWidget {
 }
 
 class _MiniStatBar extends StatelessWidget {
-  const _MiniStatBar({required this.value, required this.maxValue, required this.color, required this.isBest});
+  const _MiniStatBar({
+    required this.value,
+    required this.maxValue,
+    required this.color,
+    required this.isBest,
+  });
 
   final int value;
   final double maxValue;
@@ -267,7 +302,9 @@ class _MiniStatBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: value / maxValue,
               backgroundColor: color.withAlpha(25),
-              valueColor: AlwaysStoppedAnimation(isBest ? color : color.withAlpha(160)),
+              valueColor: AlwaysStoppedAnimation(
+                isBest ? color : color.withAlpha(160),
+              ),
               minHeight: 6,
             ),
           ),
@@ -301,7 +338,9 @@ class _AnimatedPokemonSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final animUrl = PokemonUtils.animatedSpriteUrl(pokemon.id);
-    final fallbackUrl = pokemon.sprites.other?.officialArtwork?.frontDefault ?? pokemon.sprites.frontDefault;
+    final fallbackUrl =
+        pokemon.sprites.other?.officialArtwork?.frontDefault ??
+        pokemon.sprites.frontDefault;
 
     if (animUrl != null) {
       return Image.network(

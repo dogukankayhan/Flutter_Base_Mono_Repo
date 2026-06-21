@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 enum InputType { text, password, numeric, email, phone, date, iban, url }
 
 /// Usage:
-///   AppTextField(label: 'E-posta', controller: _ctrl, hintText: 'ornek@mail.com', type: InputType.email)
+///   AppTextField(label: 'Email', controller: _ctrl, hintText: 'example@mail.com', type: InputType.email)
 ///   AppTextField(label: 'Password',   controller: _ctrl, hintText: '••••••••',       type: InputType.password)
 ///   AppTextField(label: 'Note',     controller: _ctrl, hintText: 'Enter description', maxLines: 4)
 class AppTextField extends StatefulWidget {
@@ -250,7 +250,9 @@ class _AppTextFieldState extends State<AppTextField> {
 
   // ─── Default validator ──────────────────────────────────
   String? _requiredValidator(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Bu alan boş bırakılamaz';
+    if (value == null || value.trim().isEmpty) {
+      return 'This field cannot be empty';
+    }
     return null;
   }
 }

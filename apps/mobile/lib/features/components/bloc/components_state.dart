@@ -76,7 +76,9 @@ class ComponentsState extends BaseState {
       surname: surname ?? this.surname,
       fullName: fullName ?? this.fullName,
       age: age ?? this.age,
-      ageWarning: identical(ageWarning, _omit) ? this.ageWarning : ageWarning as String?,
+      ageWarning: identical(ageWarning, _omit)
+          ? this.ageWarning
+          : ageWarning as String?,
       birthDate: birthDate ?? this.birthDate,
       phone: phone ?? this.phone,
       iban: iban ?? this.iban,
@@ -84,14 +86,30 @@ class ComponentsState extends BaseState {
       password: password ?? this.password,
       url: url ?? this.url,
       notes: notes ?? this.notes,
-      nameError: identical(nameError, _omit) ? this.nameError : nameError as String?,
-      surnameError: identical(surnameError, _omit) ? this.surnameError : surnameError as String?,
-      birthDateError: identical(birthDateError, _omit) ? this.birthDateError : birthDateError as String?,
-      phoneError: identical(phoneError, _omit) ? this.phoneError : phoneError as String?,
-      ibanError: identical(ibanError, _omit) ? this.ibanError : ibanError as String?,
-      emailError: identical(emailError, _omit) ? this.emailError : emailError as String?,
-      passwordError: identical(passwordError, _omit) ? this.passwordError : passwordError as String?,
-      urlError: identical(urlError, _omit) ? this.urlError : urlError as String?,
+      nameError: identical(nameError, _omit)
+          ? this.nameError
+          : nameError as String?,
+      surnameError: identical(surnameError, _omit)
+          ? this.surnameError
+          : surnameError as String?,
+      birthDateError: identical(birthDateError, _omit)
+          ? this.birthDateError
+          : birthDateError as String?,
+      phoneError: identical(phoneError, _omit)
+          ? this.phoneError
+          : phoneError as String?,
+      ibanError: identical(ibanError, _omit)
+          ? this.ibanError
+          : ibanError as String?,
+      emailError: identical(emailError, _omit)
+          ? this.emailError
+          : emailError as String?,
+      passwordError: identical(passwordError, _omit)
+          ? this.passwordError
+          : passwordError as String?,
+      urlError: identical(urlError, _omit)
+          ? this.urlError
+          : urlError as String?,
     );
   }
 

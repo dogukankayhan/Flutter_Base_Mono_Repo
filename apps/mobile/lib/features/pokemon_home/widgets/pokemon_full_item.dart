@@ -58,7 +58,7 @@ class PokemonFullItem extends StatelessWidget {
               ),
             ),
           ),
-          // Alt gradient + isim
+          // Bottom gradient + name
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(

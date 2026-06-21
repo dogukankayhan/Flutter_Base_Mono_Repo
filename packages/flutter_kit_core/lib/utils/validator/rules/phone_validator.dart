@@ -13,7 +13,9 @@ class PhoneValidator extends Validator<String> {
     if (value == null || value.isEmpty) return null;
     final digits = value.replaceAll(RegExp(r'[^\d]'), '');
     if (!_regex.hasMatch(digits)) {
-      return resolveMessage('Geçerli bir telefon numarası giriniz ((5XX) XXX XX XX)');
+      return resolveMessage(
+        'Geçerli bir telefon numarası giriniz ((5XX) XXX XX XX)',
+      );
     }
     return null;
   }

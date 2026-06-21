@@ -26,20 +26,19 @@ class EvolutionSimulatorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseBlocView<EvolutionSimulatorBloc, EvolutionSimulatorState>(
       create: () => EvolutionSimulatorBloc.create(),
-      onInit: (bloc) => bloc.add(EvolutionSimulatorStarted(
-        chain: chain,
-        initialPokemonId: initialPokemonId,
-      )),
+      onInit: (bloc) => bloc.add(
+        EvolutionSimulatorStarted(
+          chain: chain,
+          initialPokemonId: initialPokemonId,
+        ),
+      ),
       loadingOverlay: const SizedBox.shrink(),
       builder: (context, state, bloc) {
         if (state.isLoading) {
           return const Scaffold(
             backgroundColor: Color(0xFF121212),
             body: Center(
-              child: SpinKitDoubleBounce(
-                color: Color(0xFF3B82F6),
-                size: 80.0,
-              ),
+              child: SpinKitDoubleBounce(color: Color(0xFF3B82F6), size: 80.0),
             ),
           );
         }
@@ -58,7 +57,11 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+                    const Icon(
+                      Icons.error_outline,
+                      size: 64,
+                      color: Colors.redAccent,
+                    ),
                     const SizedBox(height: 16),
                     Text(
                       state.errorMessage!,
@@ -69,13 +72,21 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3B82F6),
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
                       ),
-                      onPressed: () => bloc.add(EvolutionSimulatorStarted(
-                        chain: chain,
-                        initialPokemonId: initialPokemonId,
-                      )),
-                      child: const Text('Tekrar Dene', style: TextStyle(color: Colors.white)),
+                      onPressed: () => bloc.add(
+                        EvolutionSimulatorStarted(
+                          chain: chain,
+                          initialPokemonId: initialPokemonId,
+                        ),
+                      ),
+                      child: const Text(
+                        'Tekrar Dene',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -89,10 +100,7 @@ class EvolutionSimulatorScreen extends StatelessWidget {
           return const Scaffold(
             backgroundColor: Color(0xFF121212),
             body: Center(
-              child: SpinKitDoubleBounce(
-                color: Color(0xFF3B82F6),
-                size: 80.0,
-              ),
+              child: SpinKitDoubleBounce(color: Color(0xFF3B82F6), size: 80.0),
             ),
           );
         }
@@ -130,7 +138,10 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                       elevation: 0,
                       scrolledUnderElevation: 0,
                       leading: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                        ),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       title: const Text(
@@ -147,7 +158,9 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: Container(
-                            color: const Color(0xFF0F0F12).withValues(alpha: 0.5),
+                            color: const Color(
+                              0xFF0F0F12,
+                            ).withValues(alpha: 0.5),
                           ),
                         ),
                       ),
@@ -171,12 +184,15 @@ class EvolutionSimulatorScreen extends StatelessWidget {
 
                     // Level Slider & Stats Cards
                     SliverToBoxAdapter(
-                      child: _buildStatsSimulationSection(context, state, bloc, typeColor),
+                      child: _buildStatsSimulationSection(
+                        context,
+                        state,
+                        bloc,
+                        typeColor,
+                      ),
                     ),
 
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 32),
-                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 32)),
                   ],
                 ),
               ),
@@ -190,7 +206,9 @@ class EvolutionSimulatorScreen extends StatelessWidget {
   // ─── Pokemon Sprite / Banner ───────────────────────────────────────────────
   Widget _buildPokemonBanner(Pokemon pokemon, Color themeColor) {
     final animUrl = PokemonUtils.animatedSpriteUrl(pokemon.id);
-    final fallbackUrl = pokemon.sprites.other?.officialArtwork?.frontDefault ?? pokemon.sprites.frontDefault;
+    final fallbackUrl =
+        pokemon.sprites.other?.officialArtwork?.frontDefault ??
+        pokemon.sprites.frontDefault;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -224,7 +242,8 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                       width: 140,
                       fit: BoxFit.contain,
                       filterQuality: FilterQuality.none,
-                      errorBuilder: (context, error, stackTrace) => _fallbackImage(fallbackUrl, pokemon.id),
+                      errorBuilder: (context, error, stackTrace) =>
+                          _fallbackImage(fallbackUrl, pokemon.id),
                     )
                   : _fallbackImage(fallbackUrl, pokemon.id),
             ),
@@ -259,10 +278,16 @@ class EvolutionSimulatorScreen extends StatelessWidget {
               final tColor = PokemonUtils.getTypeColor(typeName);
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: tColor.withValues(alpha: 0.25),
-                  border: Border.all(color: tColor.withValues(alpha: 0.5), width: 1.0),
+                  border: Border.all(
+                    color: tColor.withValues(alpha: 0.5),
+                    width: 1.0,
+                  ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -284,7 +309,12 @@ class EvolutionSimulatorScreen extends StatelessWidget {
 
   Widget _fallbackImage(String? url, int id) {
     if (url == null) {
-      return Icon(Icons.catching_pokemon, size: 100, color: Colors.white.withValues(alpha: 0.5), key: ValueKey('fallback-$id'));
+      return Icon(
+        Icons.catching_pokemon,
+        size: 100,
+        color: Colors.white.withValues(alpha: 0.5),
+        key: ValueKey('fallback-$id'),
+      );
     }
     return CachedNetworkImage(
       imageUrl: url,
@@ -296,12 +326,17 @@ class EvolutionSimulatorScreen extends StatelessWidget {
   }
 
   // ─── Evolution Chain Map ───────────────────────────────────────────────────
-  Widget _buildEvolutionChainSection(EvolutionSimulatorState state, EvolutionSimulatorBloc bloc) {
+  Widget _buildEvolutionChainSection(
+    EvolutionSimulatorState state,
+    EvolutionSimulatorBloc bloc,
+  ) {
     if (state.chain == null) return const SizedBox.shrink();
 
     final allPaths = state.chain!.allPaths;
     // Show only paths that contain the current pokemon; fall back to all paths
-    final displayPaths = allPaths.where((p) => p.any((n) => n.speciesId == state.currentPokemonId)).toList();
+    final displayPaths = allPaths
+        .where((p) => p.any((n) => n.speciesId == state.currentPokemonId))
+        .toList();
     final paths = displayPaths.isEmpty ? allPaths : displayPaths;
 
     return Column(
@@ -330,10 +365,13 @@ class EvolutionSimulatorScreen extends StatelessWidget {
               separatorBuilder: (_, index) {
                 final nextNode = path[index + 1];
                 String req = 'Lvl ?';
-                if (nextNode.triggerName == 'level-up' && nextNode.minLevel != null) {
+                if (nextNode.triggerName == 'level-up' &&
+                    nextNode.minLevel != null) {
                   req = 'Lvl ${nextNode.minLevel}';
                 } else if (nextNode.itemName != null) {
-                  req = PokemonUtils.capitalize(nextNode.itemName!.replaceAll('-', ' '));
+                  req = PokemonUtils.capitalize(
+                    nextNode.itemName!.replaceAll('-', ' '),
+                  );
                 } else if (nextNode.triggerName == 'trade') {
                   req = 'Trade';
                 }
@@ -343,10 +381,18 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                   children: [
                     Text(
                       req,
-                      style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
-                    const Icon(Icons.arrow_forward_rounded, color: Colors.white24, size: 20),
+                    const Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Colors.white24,
+                      size: 20,
+                    ),
                   ],
                 );
               },
@@ -372,13 +418,17 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: const Color(0xFF1E1E24),
                           border: Border.all(
-                            color: isCurrent ? const Color(0xFF3B82F6) : Colors.white10,
+                            color: isCurrent
+                                ? const Color(0xFF3B82F6)
+                                : Colors.white10,
                             width: isCurrent ? 2.5 : 1.0,
                           ),
                           boxShadow: isCurrent
                               ? [
                                   BoxShadow(
-                                    color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
+                                    color: const Color(
+                                      0xFF3B82F6,
+                                    ).withValues(alpha: 0.3),
                                     blurRadius: 12,
                                     spreadRadius: 2,
                                   ),
@@ -386,17 +436,29 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                               : null,
                         ),
                         child: Container(
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF141417)),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFF141417),
+                          ),
                           clipBehavior: Clip.antiAlias,
                           child: nodePokemon != null
                               ? CachedNetworkImage(
-                                  imageUrl: nodePokemon.sprites.frontDefault ?? '',
+                                  imageUrl:
+                                      nodePokemon.sprites.frontDefault ?? '',
                                   fit: BoxFit.contain,
-                                  errorWidget: (context, url, error) => const Icon(Icons.catching_pokemon, color: Colors.grey),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
+                                        Icons.catching_pokemon,
+                                        color: Colors.grey,
+                                      ),
                                 )
                               : Image.network(
                                   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$kDefaultPokemonSpriteId.png',
-                                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.catching_pokemon, color: Colors.grey),
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(
+                                        Icons.catching_pokemon,
+                                        color: Colors.grey,
+                                      ),
                                 ),
                         ),
                       ),
@@ -406,7 +468,9 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                         style: TextStyle(
                           color: isCurrent ? Colors.white : Colors.white38,
                           fontSize: 10,
-                          fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: isCurrent
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ],
@@ -453,14 +517,23 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {
                   HapticFeedback.heavyImpact();
-                  bloc.add(EvolutionSimulatorEvolve(targetSpeciesId: node.speciesId));
+                  bloc.add(
+                    EvolutionSimulatorEvolve(targetSpeciesId: node.speciesId),
+                  );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14.0,
+                    horizontal: 16.0,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 22),
+                      const Icon(
+                        Icons.auto_awesome_rounded,
+                        color: Colors.white,
+                        size: 22,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         'EVRİMLEŞTİR: ${node.speciesName.toUpperCase()}',
@@ -503,17 +576,30 @@ class EvolutionSimulatorScreen extends StatelessWidget {
       const int iv = 31; // Perfect IVs
       const int ev = 0;
       const double nature = 1.0; // Neutral Nature
-      return (((((2 * base + iv + (ev ~/ 4)) * level) ~/ 100) + 5) * nature).toInt();
+      return (((((2 * base + iv + (ev ~/ 4)) * level) ~/ 100) + 5) * nature)
+          .toInt();
     }
 
     final simulatedHP = calculateHP(stats.hp, state.currentLevel);
     final simulatedAtk = calculateOtherStat(stats.attack, state.currentLevel);
     final simulatedDef = calculateOtherStat(stats.defense, state.currentLevel);
-    final simulatedSpAtk = calculateOtherStat(stats.specialAttack, state.currentLevel);
-    final simulatedSpDef = calculateOtherStat(stats.specialDefense, state.currentLevel);
+    final simulatedSpAtk = calculateOtherStat(
+      stats.specialAttack,
+      state.currentLevel,
+    );
+    final simulatedSpDef = calculateOtherStat(
+      stats.specialDefense,
+      state.currentLevel,
+    );
     final simulatedSpeed = calculateOtherStat(stats.speed, state.currentLevel);
 
-    final simulatedTotal = simulatedHP + simulatedAtk + simulatedDef + simulatedSpAtk + simulatedSpDef + simulatedSpeed;
+    final simulatedTotal =
+        simulatedHP +
+        simulatedAtk +
+        simulatedDef +
+        simulatedSpAtk +
+        simulatedSpDef +
+        simulatedSpeed;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -526,7 +612,10 @@ class EvolutionSimulatorScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.04),
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.08), width: 1.5),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.08),
+                width: 1.5,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -536,14 +625,25 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'SİMÜLASYON SEVİYESİ',
-                      style: TextStyle(color: Colors.white54, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.0),
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                      ),
                     ),
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: themeColor.withValues(alpha: 0.15),
-                        border: Border.all(color: themeColor.withValues(alpha: 0.4), width: 1.0),
+                        border: Border.all(
+                          color: themeColor.withValues(alpha: 0.4),
+                          width: 1.0,
+                        ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -566,7 +666,9 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                     inactiveTrackColor: Colors.white12,
                     thumbColor: Colors.white,
                     overlayColor: themeColor.withValues(alpha: 0.2),
-                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 10,
+                    ),
                     trackHeight: 6,
                   ),
                   child: Slider(
@@ -586,37 +688,90 @@ class EvolutionSimulatorScreen extends StatelessWidget {
                   children: [
                     Text(
                       'SİMÜLE STATLAR (IV: 31 | EV: 0)',
-                      style: TextStyle(color: Colors.white54, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
+                      ),
                     ),
                     Spacer(),
                     Text(
                       'DEĞER',
-                      style: TextStyle(color: Colors.white30, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white30,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
                 const Divider(color: Colors.white10, height: 16),
 
                 // Stat bar widgets
-                _buildStatProgressRow('HP (Sağlık)', simulatedHP, stats.hp, 500, themeColor),
-                _buildStatProgressRow('Attack (Saldırı)', simulatedAtk, stats.attack, 400, themeColor),
-                _buildStatProgressRow('Defense (Savunma)', simulatedDef, stats.defense, 400, themeColor),
-                _buildStatProgressRow('Sp. Attack (Öz. Sal.)', simulatedSpAtk, stats.specialAttack, 400, themeColor),
-                _buildStatProgressRow('Sp. Defense (Öz. Sav.)', simulatedSpDef, stats.specialDefense, 400, themeColor),
-                _buildStatProgressRow('Speed (Hız)', simulatedSpeed, stats.speed, 400, themeColor),
-                
+                _buildStatProgressRow(
+                  'HP (Sağlık)',
+                  simulatedHP,
+                  stats.hp,
+                  500,
+                  themeColor,
+                ),
+                _buildStatProgressRow(
+                  'Attack (Saldırı)',
+                  simulatedAtk,
+                  stats.attack,
+                  400,
+                  themeColor,
+                ),
+                _buildStatProgressRow(
+                  'Defense (Savunma)',
+                  simulatedDef,
+                  stats.defense,
+                  400,
+                  themeColor,
+                ),
+                _buildStatProgressRow(
+                  'Sp. Attack (Öz. Sal.)',
+                  simulatedSpAtk,
+                  stats.specialAttack,
+                  400,
+                  themeColor,
+                ),
+                _buildStatProgressRow(
+                  'Sp. Defense (Öz. Sav.)',
+                  simulatedSpDef,
+                  stats.specialDefense,
+                  400,
+                  themeColor,
+                ),
+                _buildStatProgressRow(
+                  'Speed (Hız)',
+                  simulatedSpeed,
+                  stats.speed,
+                  400,
+                  themeColor,
+                ),
+
                 const Divider(color: Colors.white10, height: 24),
                 // Total stat row
                 Row(
                   children: [
                     const Text(
                       'Total (Toplam Güç)',
-                      style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     Text(
                       simulatedTotal.toString(),
-                      style: TextStyle(color: themeColor, fontSize: 15, fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                        color: themeColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ],
                 ),
@@ -628,7 +783,13 @@ class EvolutionSimulatorScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatProgressRow(String label, int value, int base, double maxPossible, Color color) {
+  Widget _buildStatProgressRow(
+    String label,
+    int value,
+    int base,
+    double maxPossible,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -648,7 +809,11 @@ class EvolutionSimulatorScreen extends StatelessWidget {
               const Spacer(),
               Text(
                 value.toString(),
-                style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),

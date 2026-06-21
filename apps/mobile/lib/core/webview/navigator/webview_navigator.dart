@@ -11,8 +11,10 @@ final class WebViewNavigator {
     BuildContext context, {
     required WebViewConfig config,
   }) {
-    return Navigator.of(context, rootNavigator: true)
-        .push<WebViewResult<dynamic>>(
+    return Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push<WebViewResult<dynamic>>(
       MaterialPageRoute(
         builder: (_) => WebViewScreen(config: config),
         fullscreenDialog: true,
