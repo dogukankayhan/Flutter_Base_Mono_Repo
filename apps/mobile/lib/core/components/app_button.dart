@@ -66,10 +66,7 @@ class AppButton extends StatelessWidget {
     if (isLoading) {
       return SizedBox.square(
         dimension: 18.w,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: _fgColor(colors, enabled: true),
-        ),
+        child: CircularProgressIndicator(strokeWidth: 2, color: _fgColor(colors, enabled: true)),
       );
     }
 
@@ -105,9 +102,7 @@ class AppButton extends StatelessWidget {
       ButtonVariant.tertiary => base.copyWith(
         side: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
-            return const BorderSide(
-              color: AppBrandColors.tertiaryDisabledButtonBorder,
-            );
+            return const BorderSide(color: AppBrandColors.tertiaryDisabledButtonBorder);
           }
           return const BorderSide(color: AppBrandColors.tertiaryButtonBorder);
         }),
@@ -118,9 +113,7 @@ class AppButton extends StatelessWidget {
   ButtonStyle get _baseStyle {
     return switch (variant) {
       ButtonVariant.primary => ElevatedButton.styleFrom(
-        backgroundColor: isLoading
-            ? AppBrandColors.primaryButtonBgBusy
-            : AppBrandColors.primaryButtonBg,
+        backgroundColor: isLoading ? AppBrandColors.primaryButtonBgBusy : AppBrandColors.primaryButtonBg,
         foregroundColor: AppBrandColors.primaryButtonFg,
         disabledBackgroundColor: AppBrandColors.disabledButtonBg,
         disabledForegroundColor: AppBrandColors.disabledButtonFg,
@@ -131,12 +124,8 @@ class AppButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       ButtonVariant.tertiary => ElevatedButton.styleFrom(
-        backgroundColor: isLoading
-            ? AppBrandColors.tertiaryButtonBgBusy
-            : AppBrandColors.tertiaryButtonBg,
-        foregroundColor: isLoading
-            ? AppBrandColors.tertiaryButtonFgBusy
-            : AppBrandColors.tertiaryButtonFg,
+        backgroundColor: isLoading ? AppBrandColors.tertiaryButtonBgBusy : AppBrandColors.tertiaryButtonBg,
+        foregroundColor: isLoading ? AppBrandColors.tertiaryButtonFgBusy : AppBrandColors.tertiaryButtonFg,
         disabledBackgroundColor: AppBrandColors.tertiaryDisabledButtonBg,
         disabledForegroundColor: AppBrandColors.tertiaryDisabledButtonFg,
         elevation: 0,
@@ -152,22 +141,17 @@ class AppButton extends StatelessWidget {
 
   /// Empty callback to prevent disabled styling during loading.
   VoidCallback? get _effectiveCallback {
-    if (isLoading)
+    if (isLoading) {
       return () {}; // enabled look is preserved, clicking is prevented
+    }
     if (!isEnabled) return null; // Flutter disabled styling'i devreye girer
     return onPressed;
   }
 
   Color _fgColor(AppColors colors, {required bool enabled}) {
     return switch (variant) {
-      ButtonVariant.primary =>
-        enabled
-            ? AppBrandColors.primaryButtonFg
-            : AppBrandColors.disabledButtonFg,
-      ButtonVariant.tertiary =>
-        enabled
-            ? AppBrandColors.tertiaryButtonFg
-            : AppBrandColors.tertiaryDisabledButtonFg,
+      ButtonVariant.primary => enabled ? AppBrandColors.primaryButtonFg : AppBrandColors.disabledButtonFg,
+      ButtonVariant.tertiary => enabled ? AppBrandColors.tertiaryButtonFg : AppBrandColors.tertiaryDisabledButtonFg,
     };
   }
 

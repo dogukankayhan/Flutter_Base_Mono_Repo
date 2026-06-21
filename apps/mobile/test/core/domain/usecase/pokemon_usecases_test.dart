@@ -21,14 +21,7 @@ import 'pokemon_usecases_test.mocks.dart';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
-const _kStats = PokemonStats(
-  hp: 45,
-  attack: 49,
-  defense: 49,
-  specialAttack: 65,
-  specialDefense: 65,
-  speed: 45,
-);
+const _kStats = PokemonStats(hp: 45, attack: 49, defense: 49, specialAttack: 65, specialDefense: 65, speed: 45);
 
 const _kPokemon = Pokemon(
   id: 1,
@@ -67,9 +60,7 @@ void main() {
   late MockPokemonRepository mockRepo;
 
   setUp(() {
-    provideDummy<Result<(List<Pokemon>, bool, int), ApiError>>(
-      const Ok(([], false, 0)),
-    );
+    provideDummy<Result<(List<Pokemon>, bool, int), ApiError>>(const Ok(([], false, 0)));
     provideDummy<Result<Pokemon, ApiError>>(const Ok(_kPokemon));
     provideDummy<Result<PokemonSpecies, ApiError>>(const Ok(_kSpecies));
     provideDummy<Result<EvolutionChain, ApiError>>(const Ok(_kEvolution));
@@ -83,9 +74,7 @@ void main() {
     setUp(() => useCase = GetPokemonPageUseCase(mockRepo));
 
     test('returns page data on ok', () async {
-      when(
-        mockRepo.pageWithSize(20, 0),
-      ).thenAnswer((_) async => const Ok(([_kPokemon], true, 20)));
+      when(mockRepo.pageWithSize(20, 0)).thenAnswer((_) async => const Ok(([_kPokemon], true, 20)));
 
       final (items, hasMore, offset) = await useCase(size: 20, offset: 0);
 
@@ -99,9 +88,7 @@ void main() {
 
       expect(
         () => useCase(size: 20, offset: 0),
-        throwsA(
-          isA<ApiError>().having((e) => e.message, 'message', 'network error'),
-        ),
+        throwsA(isA<ApiError>().having((e) => e.message, 'message', 'network error')),
       );
     });
   });
@@ -133,9 +120,7 @@ void main() {
     setUp(() => useCase = GetPokemonByNameUseCase(mockRepo));
 
     test('returns pokemon on ok', () async {
-      when(
-        mockRepo.getByName('bulbasaur'),
-      ).thenAnswer((_) async => Ok(_kPokemon));
+      when(mockRepo.getByName('bulbasaur')).thenAnswer((_) async => Ok(_kPokemon));
 
       final result = await useCase('bulbasaur');
       expect(result.name, 'bulbasaur');
@@ -157,9 +142,7 @@ void main() {
     test('returns species on ok', () async {
       when(mockRepo.getSpecies(any)).thenAnswer((_) async => Ok(_kSpecies));
 
-      final result = await useCase(
-        'https://pokeapi.co/api/v2/pokemon-species/1/',
-      );
+      final result = await useCase('https://pokeapi.co/api/v2/pokemon-species/1/');
       expect(result.name, 'bulbasaur');
     });
 
@@ -177,21 +160,15 @@ void main() {
     setUp(() => useCase = GetEvolutionChainUseCase(mockRepo));
 
     test('returns evolution chain on ok', () async {
-      when(
-        mockRepo.getEvolutionChain(any),
-      ).thenAnswer((_) async => Ok(_kEvolution));
+      when(mockRepo.getEvolutionChain(any)).thenAnswer((_) async => Ok(_kEvolution));
 
-      final result = await useCase(
-        'https://pokeapi.co/api/v2/evolution-chain/1/',
-      );
+      final result = await useCase('https://pokeapi.co/api/v2/evolution-chain/1/');
       expect(result.id, 1);
       expect(result.root.speciesName, 'bulbasaur');
     });
 
     test('throws ApiError on err', () {
-      when(
-        mockRepo.getEvolutionChain(any),
-      ).thenAnswer((_) async => Err(_kError));
+      when(mockRepo.getEvolutionChain(any)).thenAnswer((_) async => Err(_kError));
 
       expect(() => useCase('bad-url'), throwsA(isA<ApiError>()));
     });
@@ -204,29 +181,18 @@ void main() {
     setUp(() => useCase = SearchPokemonUseCase(mockRepo));
 
     test('returns matching pokemons on ok', () async {
-      when(
-        mockRepo.pageSearch('bulb', 20, 0),
-      ).thenAnswer((_) async => const Ok(([_kPokemon], false, 1)));
+      when(mockRepo.pageSearch('bulb', 20, 0)).thenAnswer((_) async => const Ok(([_kPokemon], false, 1)));
 
-      final (items, hasMore, offset) = await useCase(
-        query: 'bulb',
-        size: 20,
-        offset: 0,
-      );
+      final (items, hasMore, offset) = await useCase(query: 'bulb', size: 20, offset: 0);
       expect(items, [_kPokemon]);
       expect(hasMore, false);
       expect(offset, 1);
     });
 
     test('throws ApiError on err', () {
-      when(
-        mockRepo.pageSearch(any, any, any),
-      ).thenAnswer((_) async => Err(_kError));
+      when(mockRepo.pageSearch(any, any, any)).thenAnswer((_) async => Err(_kError));
 
-      expect(
-        () => useCase(query: 'bad', size: 20, offset: 0),
-        throwsA(isA<ApiError>()),
-      );
+      expect(() => useCase(query: 'bad', size: 20, offset: 0), throwsA(isA<ApiError>()));
     });
   });
 
@@ -237,28 +203,17 @@ void main() {
     setUp(() => useCase = FilterPokemonByTypeUseCase(mockRepo));
 
     test('returns filtered pokemons on ok', () async {
-      when(
-        mockRepo.pageByType('grass', 20, 0),
-      ).thenAnswer((_) async => const Ok(([_kPokemon], false, 1)));
+      when(mockRepo.pageByType('grass', 20, 0)).thenAnswer((_) async => const Ok(([_kPokemon], false, 1)));
 
-      final (items, hasMore, _) = await useCase(
-        type: 'grass',
-        size: 20,
-        offset: 0,
-      );
+      final (items, hasMore, _) = await useCase(type: 'grass', size: 20, offset: 0);
       expect(items, [_kPokemon]);
       expect(hasMore, false);
     });
 
     test('throws ApiError on err', () {
-      when(
-        mockRepo.pageByType(any, any, any),
-      ).thenAnswer((_) async => Err(_kError));
+      when(mockRepo.pageByType(any, any, any)).thenAnswer((_) async => Err(_kError));
 
-      expect(
-        () => useCase(type: 'fire', size: 20, offset: 0),
-        throwsA(isA<ApiError>()),
-      );
+      expect(() => useCase(type: 'fire', size: 20, offset: 0), throwsA(isA<ApiError>()));
     });
   });
 }
