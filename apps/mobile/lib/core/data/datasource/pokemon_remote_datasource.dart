@@ -12,6 +12,7 @@ import '../dto/pokemon_species_dto.dart';
 /// Interface for Pokemon remote data operations
 abstract class PokemonRemoteDataSource {
   Future<List<PokemonBrief>> listPokemon({int limit = 20, int offset = 0});
+  Future<List<PokemonBrief>> getAllBriefs();
   Future<Pokemon> getDetailByName(String name, {bool includeMoves = true});
   Future<Pokemon> getDetailByUrl(String url, {bool includeMoves = true});
   Future<List<PokemonBrief>> filterByType(String type);
@@ -25,6 +26,9 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
   final ApiManager _api;
 
   PokemonRemoteDataSourceImpl({required ApiManager api}) : _api = api;
+
+  @override
+  Future<List<PokemonBrief>> getAllBriefs() => listPokemon(limit: 1302);
 
   @override
   Future<List<PokemonBrief>> listPokemon({

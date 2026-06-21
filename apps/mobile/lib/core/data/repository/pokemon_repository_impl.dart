@@ -2,6 +2,7 @@ import 'package:flutter_kit_network/core/network/error/api_error.dart';
 import 'package:flutter_kit_network/core/utils/result.dart';
 
 import '../../domain/entity/evolution_chain_entity.dart';
+import '../../domain/entity/pokemon_brief_entity.dart';
 import '../../domain/entity/pokemon_entity.dart';
 import '../../domain/entity/pokemon_species_entity.dart';
 import '../../domain/repository/pokemon_repository.dart';
@@ -15,6 +16,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
     required PokemonRemoteDataSource datasource,
     this.pageSize = 20,
   }) : _datasource = datasource;
+
+  // Cached after the first search — never re-fetched within the same session.
+  List<PokemonBrief>? _allBriefs;
 
   @override
   Future<Result<(List<Pokemon>, bool, int), ApiError>> page(int offset) {
@@ -64,10 +68,13 @@ class PokemonRepositoryImpl implements PokemonRepository {
     int offset,
   ) async {
     try {
-      final briefs = await _datasource.searchPokemon(query);
-      final batch = briefs.skip(offset).take(size).toList();
+      _allBriefs ??= await _datasource.getAllBriefs();
+      final filtered = _allBriefs!
+          .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      final batch = filtered.skip(offset).take(size).toList();
       final details = await _batchFetchDetails(batch, concurrency: 5);
-      final hasMore = (offset + batch.length) < briefs.length;
+      final hasMore = (offset + batch.length) < filtered.length;
       return Ok((details, hasMore, offset + batch.length));
     } on ApiError catch (e) {
       return Err(e);
@@ -120,7 +127,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
     }
   }
 
-  // Batch fetch with concurrency limit to prevent network congestion
+  // Batch fetch with concurrency limit to prevent network congestion.
+  // Failures are swallowed per-item so a single bad request doesn't wipe the page.
   Future<List<Pokemon>> _batchFetchDetails(
     List briefs, {
     int concurrency = 5,
@@ -128,13 +136,15 @@ class PokemonRepositoryImpl implements PokemonRepository {
     final results = <Pokemon>[];
     for (var i = 0; i < briefs.length; i += concurrency) {
       final batch = briefs.skip(i).take(concurrency).toList();
-      final batchDetails = await Future.wait(
+      final batchResults = await Future.wait(
         batch.map(
-          (b) => _datasource.getDetailByUrl(b.url, includeMoves: false),
+          (b) => _datasource
+              .getDetailByUrl(b.url, includeMoves: false)
+              .then<Pokemon?>((p) => p)
+              .onError((_, _) => null),
         ),
-        eagerError: true,
       );
-      results.addAll(batchDetails);
+      results.addAll(batchResults.whereType<Pokemon>());
     }
     return results;
   }
