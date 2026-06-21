@@ -6,6 +6,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     private val ENVIRONMENT_CHANNEL = "com.yourcompany.baseapp/environment"
+    private val SECURITY_CHANNEL = "com.yourcompany.baseapp/security"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -23,6 +24,16 @@ class MainActivity : FlutterActivity() {
                             "googleServerClientId" to googleServerClientId
                         )
                     )
+                } else {
+                    result.notImplemented()
+                }
+            }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, SECURITY_CHANNEL)
+            .setMethodCallHandler { call, result ->
+                if (call.method == "isJailbroken") {
+                    val manager = JailbreakDetectionManager(this)
+                    result.success(manager.isRooted())
                 } else {
                     result.notImplemented()
                 }

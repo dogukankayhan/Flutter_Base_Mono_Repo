@@ -8,6 +8,7 @@ import 'package:flutter_kit_ui/theme/theme_cubit.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../config/app_environment.dart';
 import '../di/injection.dart';
+import '../security/jailbreak_detector.dart';
 import '../firebase/firebase_options_dev.dart' as dev;
 import '../firebase/firebase_options_prod.dart' as prod;
 import '../firebase/firebase_options_staging.dart' as staging;
@@ -16,8 +17,10 @@ class Initialize {
   Initialize._();
 
   static late ThemeCubit themeCubit;
+  static bool isDeviceCompromised = false;
 
   static const bool _firebaseEnabled = false;
+  static const bool _jailbreakEnabled = false;
 
   static Future<void> prepare(AppEnvironment env) async {
     await _initBinding();
@@ -31,6 +34,7 @@ class Initialize {
   /// Called on splash screen — heavy work done here.
   static Future<void> run() async {
     if (_firebaseEnabled) await _initNotifications();
+    if (_jailbreakEnabled) isDeviceCompromised = await _checkJailbreak();
   }
 
   // ─────────────────────────────────────────────
@@ -95,4 +99,7 @@ class Initialize {
   }
 
   static Future<void> _initNotifications() => setupNotifications();
+
+  static Future<bool> _checkJailbreak() =>
+      JailbreakDetector.isDeviceCompromised();
 }

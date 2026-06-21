@@ -35,6 +35,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       }
     }
 
+    let securityChannel = FlutterMethodChannel(
+      name: "com.yourcompany.baseapp/security",
+      binaryMessenger: flutterViewController.binaryMessenger
+    )
+    securityChannel.setMethodCallHandler { (call, result) in
+      if call.method == "isJailbroken" {
+        result(JailbreakDetector.isJailbroken())
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
+    }
+
     window = UIWindow(windowScene: windowScene)
     window?.rootViewController = flutterViewController
     window?.makeKeyAndVisible()

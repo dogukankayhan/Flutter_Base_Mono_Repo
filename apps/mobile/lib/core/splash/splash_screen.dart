@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/shell/shell_navigator.dart';
 import '../initialize/initialize.dart';
 import '../managers/navigation_manager/app_navigator.dart';
+import '../security/jailbreak_block_app.dart';
 import 'splash_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,6 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
     ]);
 
     if (!mounted) return;
+
+    if (Initialize.isDeviceCompromised) {
+      runApp(const JailbreakBlockApp());
+      return;
+    }
 
     final token = await NotificationManager.instance.getToken();
     debugPrint('FCM TOKEN: $token');
