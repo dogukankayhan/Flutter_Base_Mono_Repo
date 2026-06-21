@@ -74,6 +74,16 @@ class MockPokemonRemoteDataSource extends _i1.Mock
           as _i6.Future<List<_i7.PokemonBrief>>);
 
   @override
+  _i6.Future<List<_i7.PokemonBrief>> getAllBriefs() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAllBriefs, []),
+            returnValue: _i6.Future<List<_i7.PokemonBrief>>.value(
+              <_i7.PokemonBrief>[],
+            ),
+          )
+          as _i6.Future<List<_i7.PokemonBrief>>);
+
+  @override
   _i6.Future<_i2.Pokemon> getDetailByName(
     String? name, {
     bool? includeMoves = true,

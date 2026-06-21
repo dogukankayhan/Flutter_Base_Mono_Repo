@@ -240,7 +240,7 @@ void main() {
 
   group('pageSearch', () {
     test('returns matching results with correct pagination', () async {
-      when(mockDs.searchPokemon('bulb')).thenAnswer((_) async => [_kBrief]);
+      when(mockDs.getAllBriefs()).thenAnswer((_) async => [_kBrief]);
       when(
         mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
       ).thenAnswer((_) async => _kPokemon);
@@ -259,7 +259,7 @@ void main() {
     });
 
     test('returns Err on ApiError from datasource', () async {
-      when(mockDs.searchPokemon(any)).thenThrow(_kError);
+      when(mockDs.getAllBriefs()).thenThrow(_kError);
 
       final result = await repo.pageSearch('bad', 20, 0);
 

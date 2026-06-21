@@ -46,11 +46,21 @@ class EvolutionSimulatorBloc extends BaseBloc<EvolutionSimulatorEvent, Evolution
       );
 
       final pokemonsMap = <int, Pokemon>{};
+      String? apiErrorMessage;
+
       for (final res in detailResults) {
         res.when(
           ok: (pokemon) => pokemonsMap[pokemon.id] = pokemon,
-          err: (err) => throw Exception(err.message),
+          err: (err) => apiErrorMessage = err.message,
         );
+      }
+
+      if (apiErrorMessage != null) {
+        emit(state.copyWith(
+          isLoading: false,
+          errorMessage: apiErrorMessage,
+        ));
+        return;
       }
 
       emit(state.copyWith(
