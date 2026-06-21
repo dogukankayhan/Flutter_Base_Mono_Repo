@@ -45,6 +45,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$register$en register = Translations$register$en._(_root);
 	late final Translations$favorites$en favorites = Translations$favorites$en._(_root);
 	late final Translations$pokemon$en pokemon = Translations$pokemon$en._(_root);
+	late final Translations$components$en components = Translations$components$en._(_root);
 }
 
 // Path: common
@@ -230,6 +231,102 @@ class Translations$pokemon$en {
 	String get searchHint => 'Search Pokémon...';
 
 	late final Translations$pokemon$detail$en detail = Translations$pokemon$detail$en._(_root);
+}
+
+// Path: components
+class Translations$components$en {
+	Translations$components$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Components'
+	String get tabLabel => 'Components';
+
+	/// en: 'Component Showcase'
+	String get title => 'Component Showcase';
+
+	/// en: 'Toggle Language'
+	String get langToggleTooltip => 'Toggle Language';
+
+	/// en: 'Toggle Theme'
+	String get themeToggleTooltip => 'Toggle Theme';
+
+	/// en: 'Name'
+	String get nameLabel => 'Name';
+
+	/// en: 'Enter name'
+	String get nameHint => 'Enter name';
+
+	/// en: 'Surname'
+	String get surnameLabel => 'Surname';
+
+	/// en: 'Enter surname'
+	String get surnameHint => 'Enter surname';
+
+	/// en: 'Full Name'
+	String get fullNameLabel => 'Full Name';
+
+	/// en: 'Enter full name'
+	String get fullNameHint => 'Enter full name';
+
+	/// en: 'Age'
+	String get ageLabel => 'Age';
+
+	/// en: 'e.g. 25'
+	String get ageHint => 'e.g. 25';
+
+	/// en: 'Some features may be restricted for users under 18'
+	String get ageWarning => 'Some features may be restricted for users under 18';
+
+	/// en: 'Birth Date'
+	String get birthDateLabel => 'Birth Date';
+
+	/// en: 'DD.MM.YYYY'
+	String get birthDateHint => 'DD.MM.YYYY';
+
+	/// en: 'Phone'
+	String get phoneLabel => 'Phone';
+
+	/// en: '(5XX) XXX XX XX'
+	String get phoneHint => '(5XX) XXX XX XX';
+
+	/// en: 'IBAN'
+	String get ibanLabel => 'IBAN';
+
+	/// en: 'TR00 0000 0000 0000 0000 0000'
+	String get ibanHint => 'TR00 0000 0000 0000 0000 0000';
+
+	/// en: 'Email'
+	String get emailLabel => 'Email';
+
+	/// en: 'example@email.com'
+	String get emailHint => 'example@email.com';
+
+	/// en: 'Password'
+	String get passwordLabel => 'Password';
+
+	/// en: '••••••••'
+	String get passwordHint => '••••••••';
+
+	/// en: 'Website'
+	String get urlLabel => 'Website';
+
+	/// en: 'yourwebsite.com'
+	String get urlHint => 'yourwebsite.com';
+
+	/// en: 'Notes'
+	String get notesLabel => 'Notes';
+
+	/// en: 'Enter your notes...'
+	String get notesHint => 'Enter your notes...';
+
+	/// en: 'Validate'
+	String get validateButton => 'Validate';
+
+	/// en: 'Password must be at least 8 characters'
+	String get passwordMinLength => 'Password must be at least 8 characters';
 }
 
 // Path: pokemon.detail
@@ -446,6 +543,35 @@ extension on Translations {
 			'pokemon.detail.evolution.noData' => 'No evolution data found',
 			'pokemon.detail.evolution.chainTitle' => 'Evolution Chain',
 			'pokemon.detail.moves.learnMethod' => ({required Object method}) => 'Learn method: ${method}',
+			'components.tabLabel' => 'Components',
+			'components.title' => 'Component Showcase',
+			'components.langToggleTooltip' => 'Toggle Language',
+			'components.themeToggleTooltip' => 'Toggle Theme',
+			'components.nameLabel' => 'Name',
+			'components.nameHint' => 'Enter name',
+			'components.surnameLabel' => 'Surname',
+			'components.surnameHint' => 'Enter surname',
+			'components.fullNameLabel' => 'Full Name',
+			'components.fullNameHint' => 'Enter full name',
+			'components.ageLabel' => 'Age',
+			'components.ageHint' => 'e.g. 25',
+			'components.ageWarning' => 'Some features may be restricted for users under 18',
+			'components.birthDateLabel' => 'Birth Date',
+			'components.birthDateHint' => 'DD.MM.YYYY',
+			'components.phoneLabel' => 'Phone',
+			'components.phoneHint' => '(5XX) XXX XX XX',
+			'components.ibanLabel' => 'IBAN',
+			'components.ibanHint' => 'TR00 0000 0000 0000 0000 0000',
+			'components.emailLabel' => 'Email',
+			'components.emailHint' => 'example@email.com',
+			'components.passwordLabel' => 'Password',
+			'components.passwordHint' => '••••••••',
+			'components.urlLabel' => 'Website',
+			'components.urlHint' => 'yourwebsite.com',
+			'components.notesLabel' => 'Notes',
+			'components.notesHint' => 'Enter your notes...',
+			'components.validateButton' => 'Validate',
+			'components.passwordMinLength' => 'Password must be at least 8 characters',
 			_ => null,
 		};
 	}

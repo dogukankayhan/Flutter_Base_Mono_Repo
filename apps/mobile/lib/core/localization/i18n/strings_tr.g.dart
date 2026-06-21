@@ -42,6 +42,7 @@ class TranslationsTr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _Translations$register$tr register = _Translations$register$tr._(_root);
 	@override late final _Translations$favorites$tr favorites = _Translations$favorites$tr._(_root);
 	@override late final _Translations$pokemon$tr pokemon = _Translations$pokemon$tr._(_root);
+	@override late final _Translations$components$tr components = _Translations$components$tr._(_root);
 }
 
 // Path: common
@@ -134,6 +135,44 @@ class _Translations$pokemon$tr implements Translations$pokemon$en {
 	// Translations
 	@override String get searchHint => 'Pokémon Ara...';
 	@override late final _Translations$pokemon$detail$tr detail = _Translations$pokemon$detail$tr._(_root);
+}
+
+// Path: components
+class _Translations$components$tr implements Translations$components$en {
+	_Translations$components$tr._(this._root);
+
+	final TranslationsTr _root; // ignore: unused_field
+
+	// Translations
+	@override String get tabLabel => 'Bileşenler';
+	@override String get title => 'Bileşen Vitrini';
+	@override String get langToggleTooltip => 'Dil Değiştir';
+	@override String get themeToggleTooltip => 'Tema Değiştir';
+	@override String get nameLabel => 'Ad';
+	@override String get nameHint => 'Adınızı girin';
+	@override String get surnameLabel => 'Soyad';
+	@override String get surnameHint => 'Soyadınızı girin';
+	@override String get fullNameLabel => 'Ad Soyad';
+	@override String get fullNameHint => 'Ad ve soyadınızı girin';
+	@override String get ageLabel => 'Yaş';
+	@override String get ageHint => 'örn. 25';
+	@override String get ageWarning => '18 yaşından küçükler için bazı özellikler kısıtlı olabilir';
+	@override String get birthDateLabel => 'Doğum Tarihi';
+	@override String get birthDateHint => 'GG.AA.YYYY';
+	@override String get phoneLabel => 'Telefon';
+	@override String get phoneHint => '(5XX) XXX XX XX';
+	@override String get ibanLabel => 'IBAN';
+	@override String get ibanHint => 'TR00 0000 0000 0000 0000 0000';
+	@override String get emailLabel => 'E-posta';
+	@override String get emailHint => 'ornek@mail.com';
+	@override String get passwordLabel => 'Şifre';
+	@override String get passwordHint => '••••••••';
+	@override String get urlLabel => 'Web Sitesi';
+	@override String get urlHint => 'sitenizinadı.com';
+	@override String get notesLabel => 'Notlar';
+	@override String get notesHint => 'Notlarınızı girin...';
+	@override String get validateButton => 'Doğrula';
+	@override String get passwordMinLength => 'Şifre en az 8 karakter olmalıdır';
 }
 
 // Path: pokemon.detail
@@ -299,6 +338,35 @@ extension on TranslationsTr {
 			'pokemon.detail.evolution.noData' => 'Evrim verisi bulunamadı',
 			'pokemon.detail.evolution.chainTitle' => 'Evrim Zinciri',
 			'pokemon.detail.moves.learnMethod' => ({required Object method}) => 'Öğrenme yöntemi: ${method}',
+			'components.tabLabel' => 'Bileşenler',
+			'components.title' => 'Bileşen Vitrini',
+			'components.langToggleTooltip' => 'Dil Değiştir',
+			'components.themeToggleTooltip' => 'Tema Değiştir',
+			'components.nameLabel' => 'Ad',
+			'components.nameHint' => 'Adınızı girin',
+			'components.surnameLabel' => 'Soyad',
+			'components.surnameHint' => 'Soyadınızı girin',
+			'components.fullNameLabel' => 'Ad Soyad',
+			'components.fullNameHint' => 'Ad ve soyadınızı girin',
+			'components.ageLabel' => 'Yaş',
+			'components.ageHint' => 'örn. 25',
+			'components.ageWarning' => '18 yaşından küçükler için bazı özellikler kısıtlı olabilir',
+			'components.birthDateLabel' => 'Doğum Tarihi',
+			'components.birthDateHint' => 'GG.AA.YYYY',
+			'components.phoneLabel' => 'Telefon',
+			'components.phoneHint' => '(5XX) XXX XX XX',
+			'components.ibanLabel' => 'IBAN',
+			'components.ibanHint' => 'TR00 0000 0000 0000 0000 0000',
+			'components.emailLabel' => 'E-posta',
+			'components.emailHint' => 'ornek@mail.com',
+			'components.passwordLabel' => 'Şifre',
+			'components.passwordHint' => '••••••••',
+			'components.urlLabel' => 'Web Sitesi',
+			'components.urlHint' => 'sitenizinadı.com',
+			'components.notesLabel' => 'Notlar',
+			'components.notesHint' => 'Notlarınızı girin...',
+			'components.validateButton' => 'Doğrula',
+			'components.passwordMinLength' => 'Şifre en az 8 karakter olmalıdır',
 			_ => null,
 		};
 	}

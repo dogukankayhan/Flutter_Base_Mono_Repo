@@ -91,5 +91,36 @@
         "learnMethod": "Öğrenme yöntemi: {method}"
       }
     }
+  },
+  "components": {
+    "tabLabel": "Bileşenler",
+    "title": "Bileşen Vitrini",
+    "langToggleTooltip": "Dil Değiştir",
+    "themeToggleTooltip": "Tema Değiştir",
+    "nameLabel": "Ad",
+    "nameHint": "Adınızı girin",
+    "surnameLabel": "Soyad",
+    "surnameHint": "Soyadınızı girin",
+    "fullNameLabel": "Ad Soyad",
+    "fullNameHint": "Ad ve soyadınızı girin",
+    "ageLabel": "Yaş",
+    "ageHint": "örn. 25",
+    "ageWarning": "18 yaşından küçükler için bazı özellikler kısıtlı olabilir",
+    "birthDateLabel": "Doğum Tarihi",
+    "birthDateHint": "GG.AA.YYYY",
+    "phoneLabel": "Telefon",
+    "phoneHint": "(5XX) XXX XX XX",
+    "ibanLabel": "IBAN",
+    "ibanHint": "TR00 0000 0000 0000 0000 0000",
+    "emailLabel": "E-posta",
+    "emailHint": "ornek@mail.com",
+    "passwordLabel": "Şifre",
+    "passwordHint": "••••••••",
+    "urlLabel": "Web Sitesi",
+    "urlHint": "sitenizinadı.com",
+    "notesLabel": "Notlar",
+    "notesHint": "Notlarınızı girin...",
+    "validateButton": "Doğrula",
+    "passwordMinLength": "Şifre en az 8 karakter olmalıdır"
   }
 }

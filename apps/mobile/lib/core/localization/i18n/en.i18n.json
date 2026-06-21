@@ -91,5 +91,36 @@
         "learnMethod": "Learn method: {method}"
       }
     }
+  },
+  "components": {
+    "tabLabel": "Components",
+    "title": "Component Showcase",
+    "langToggleTooltip": "Toggle Language",
+    "themeToggleTooltip": "Toggle Theme",
+    "nameLabel": "Name",
+    "nameHint": "Enter name",
+    "surnameLabel": "Surname",
+    "surnameHint": "Enter surname",
+    "fullNameLabel": "Full Name",
+    "fullNameHint": "Enter full name",
+    "ageLabel": "Age",
+    "ageHint": "e.g. 25",
+    "ageWarning": "Some features may be restricted for users under 18",
+    "birthDateLabel": "Birth Date",
+    "birthDateHint": "DD.MM.YYYY",
+    "phoneLabel": "Phone",
+    "phoneHint": "(5XX) XXX XX XX",
+    "ibanLabel": "IBAN",
+    "ibanHint": "TR00 0000 0000 0000 0000 0000",
+    "emailLabel": "Email",
+    "emailHint": "example@email.com",
+    "passwordLabel": "Password",
+    "passwordHint": "••••••••",
+    "urlLabel": "Website",
+    "urlHint": "yourwebsite.com",
+    "notesLabel": "Notes",
+    "notesHint": "Enter your notes...",
+    "validateButton": "Validate",
+    "passwordMinLength": "Password must be at least 8 characters"
   }
 }

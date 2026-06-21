@@ -60,6 +60,7 @@ class _BottomNavState extends State<_BottomNav> {
   static const _tabs = [
     (SvgIcon.lightning, SvgIcon.lightning, 'Pokemon'),
     (SvgIcon.calendar, SvgIcon.calendarBold, 'Favorilerim'),
+    (SvgIcon.setting, SvgIcon.settingTool, 'Bileşenler'),
   ];
 
   List<BottomNavigationBarItem>? _items;

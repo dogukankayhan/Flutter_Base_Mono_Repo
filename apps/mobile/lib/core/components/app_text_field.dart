@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_base_kit/core/enums/app_icon.dart';
+import 'package:flutter_kit_core/utils/formatter/date_input_formatter.dart';
+import 'package:flutter_kit_core/utils/formatter/iban_input_formatter.dart';
+import 'package:flutter_kit_core/utils/formatter/phone_input_formatter.dart';
 import 'package:flutter_kit_ui/theme/app_brand_colors.dart';
 import 'package:flutter_kit_ui/theme/app_colors.dart';
 import 'package:flutter_kit_ui/theme/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum InputType { text, password, numeric, email, phone }
+enum InputType { text, password, numeric, email, phone, date, iban, url }
 
 /// Usage:
 ///   AppTextField(label: 'E-posta', controller: _ctrl, hintText: 'ornek@mail.com', type: InputType.email)
@@ -28,6 +31,8 @@ class AppTextField extends StatefulWidget {
     this.validator,
     this.validationMessage,
     this.onChanged,
+    this.textCapitalization = TextCapitalization.none,
+    this.prefixText,
   });
 
   final String label;
@@ -49,6 +54,8 @@ class AppTextField extends StatefulWidget {
   /// To provide direct error message from outside instead of validator message.
   final String? validationMessage;
   final ValueChanged<String>? onChanged;
+  final TextCapitalization textCapitalization;
+  final String? prefixText;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -94,6 +101,7 @@ class _AppTextFieldState extends State<AppTextField> {
           obscureText: _isPassword && !passwordVisible,
           keyboardType: _keyboardType,
           inputFormatters: _inputFormatters,
+          textCapitalization: widget.textCapitalization,
           maxLines: _isPassword ? 1 : widget.maxLines,
           minLines: _isPassword ? 1 : widget.maxLines,
           enabled: widget.isEnabled,
@@ -134,6 +142,10 @@ class _AppTextFieldState extends State<AppTextField> {
       hintText: widget.hintText,
       hintStyle: context.textStyle.paragraph16Regular.copyWith(
         color: AppBrandColors.textFieldUnFocusText,
+      ),
+      prefixText: widget.prefixText,
+      prefixStyle: context.textStyle.paragraph16Regular.copyWith(
+        color: AppBrandColors.textFieldFocusBorder,
       ),
       filled: true,
       fillColor: Colors.transparent,
@@ -222,11 +234,16 @@ class _AppTextFieldState extends State<AppTextField> {
     InputType.numeric => TextInputType.number,
     InputType.email => TextInputType.emailAddress,
     InputType.phone => TextInputType.phone,
+    InputType.date => TextInputType.number,
+    InputType.iban => TextInputType.number,
+    InputType.url => TextInputType.url,
   };
 
   List<TextInputFormatter>? get _inputFormatters => switch (widget.type) {
-    InputType.numeric ||
-    InputType.phone => [FilteringTextInputFormatter.digitsOnly],
+    InputType.numeric => [FilteringTextInputFormatter.digitsOnly],
+    InputType.phone => [PhoneInputFormatter()],
+    InputType.date => [DateInputFormatter()],
+    InputType.iban => [IbanInputFormatter()],
     _ => null,
   };
 

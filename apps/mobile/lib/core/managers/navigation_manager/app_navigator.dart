@@ -31,6 +31,7 @@ final class AppNavigator {
   static const _shellPaths = {
     ShellNavigator.appointmentsPath,
     ShellNavigator.pokemonPath,
+    ShellNavigator.componentsPath,
   };
 
   String? redirect({required bool isLoggedIn, required String path}) {
