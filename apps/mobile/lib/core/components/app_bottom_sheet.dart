@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_ui/colors/app_colors.dart';
+import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,13 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 ///     child: FilterSheet(),
 ///   );
 class AppBottomSheet extends StatelessWidget {
-  const AppBottomSheet({
-    super.key,
-    required this.child,
-    this.title,
-    this.showDragHandle = true,
-    this.padding,
-  });
+  const AppBottomSheet({super.key, required this.child, this.title, this.showDragHandle = true, this.padding});
 
   final Widget child;
   final String? title;
@@ -52,9 +46,7 @@ class AppBottomSheet extends StatelessWidget {
               Divider(height: 1.h),
             ],
             Padding(
-              padding:
-                  padding ??
-                  EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              padding: padding ?? EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: child,
             ),
           ],
@@ -75,14 +67,7 @@ extension AppBottomSheetExtension on BuildContext {
     context: this,
     isScrollControlled: isScrollControlled,
     backgroundColor: appColors.surface,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-    ),
-    builder: (_) => AppBottomSheet(
-      title: title,
-      showDragHandle: showDragHandle,
-      padding: padding,
-      child: child,
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24.r))),
+    builder: (_) => AppBottomSheet(title: title, showDragHandle: showDragHandle, padding: padding, child: child),
   );
 }

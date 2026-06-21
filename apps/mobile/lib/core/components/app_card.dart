@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
-import 'package:flutter_kit_ui/colors/app_colors.dart';
+import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// Usage examples:
@@ -32,19 +32,14 @@ class AppCard extends StatelessWidget {
     final bg = backgroundColor ?? context.appColors.surface;
     final elev = elevation ?? 0.0;
 
-    final content = Padding(
-      padding: padding ?? EdgeInsets.all(16.w),
-      child: child,
-    );
+    final content = Padding(padding: padding ?? EdgeInsets.all(16.w), child: child);
 
     return Material(
       color: bg,
       borderRadius: radius,
       elevation: elev,
       shadowColor: AppBrandColors.shadow,
-      child: onTap != null
-          ? InkWell(onTap: onTap, borderRadius: radius, child: content)
-          : content,
+      child: onTap != null ? InkWell(onTap: onTap, borderRadius: radius, child: content) : content,
     );
   }
 }
