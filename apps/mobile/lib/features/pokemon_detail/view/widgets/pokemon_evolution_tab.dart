@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_base_kit/core/domain/entity/evolution_chain_entity.dart';
 import 'package:flutter_base_kit/core/localization/localization_extension.dart';
+import 'package:flutter_base_kit/features/pokemon_evolution_simulator/evolution_simulator_navigator.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/pokemon_utils.dart';
 
@@ -54,14 +56,38 @@ class _PokemonEvolutionTabState extends State<PokemonEvolutionTab>
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              Text(
-                context.translations.pokemon.detail.evolution.chainTitle,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.translations.pokemon.detail.evolution.chainTitle,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton.icon(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                    icon: const Icon(Icons.analytics_outlined, size: 18),
+                    label: Text(
+                      context.translations.pokemon.detail.evolution.simulatorButton,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      EvolutionSimulatorNavigator.show(
+                        context,
+                        chain: widget.chain!,
+                        initialPokemonId: widget.currentPokemonId ?? 1,
+                      );
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               ...paths.map((path) => _buildEvolutionPath(context, path)),
             ]),
           ),

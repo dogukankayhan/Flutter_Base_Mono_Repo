@@ -85,7 +85,8 @@
       },
       "evolution": {
         "noData": "No evolution data found",
-        "chainTitle": "Evolution Chain"
+        "chainTitle": "Evolution Chain",
+        "simulatorButton": "Open Evolution Simulator"
       },
       "moves": {
         "learnMethod": "Learn method: {method}"

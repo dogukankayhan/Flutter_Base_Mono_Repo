@@ -85,7 +85,8 @@
       },
       "evolution": {
         "noData": "Evrim verisi bulunamadı",
-        "chainTitle": "Evrim Zinciri"
+        "chainTitle": "Evrim Zinciri",
+        "simulatorButton": "Evrim Simülatörünü Aç"
       },
       "moves": {
         "learnMethod": "Öğrenme yöntemi: {method}"

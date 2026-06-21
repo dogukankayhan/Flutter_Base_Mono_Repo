@@ -247,6 +247,7 @@ class _Translations$pokemon$detail$evolution$tr implements Translations$pokemon$
 	// Translations
 	@override String get noData => 'Evrim verisi bulunamadı';
 	@override String get chainTitle => 'Evrim Zinciri';
+	@override String get simulatorButton => 'Evrim Simülatörünü Aç';
 }
 
 // Path: pokemon.detail.moves
@@ -337,6 +338,7 @@ extension on TranslationsTr {
 			'pokemon.detail.stats.speed' => 'Hız',
 			'pokemon.detail.evolution.noData' => 'Evrim verisi bulunamadı',
 			'pokemon.detail.evolution.chainTitle' => 'Evrim Zinciri',
+			'pokemon.detail.evolution.simulatorButton' => 'Evrim Simülatörünü Aç',
 			'pokemon.detail.moves.learnMethod' => ({required Object method}) => 'Öğrenme yöntemi: ${method}',
 			'components.tabLabel' => 'Bileşenler',
 			'components.title' => 'Bileşen Vitrini',

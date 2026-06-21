@@ -30,10 +30,16 @@ class EvolutionNode {
   final String speciesName;
   final int speciesId;
   final List<EvolutionNode> evolvesTo;
+  final int? minLevel;
+  final String? triggerName;
+  final String? itemName;
 
   const EvolutionNode({
     required this.speciesName,
     required this.speciesId,
     required this.evolvesTo,
+    this.minLevel,
+    this.triggerName,
+    this.itemName,
   });
 }

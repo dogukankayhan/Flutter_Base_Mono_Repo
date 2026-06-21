@@ -450,6 +450,9 @@ class Translations$pokemon$detail$evolution$en {
 
 	/// en: 'Evolution Chain'
 	String get chainTitle => 'Evolution Chain';
+
+	/// en: 'Open Evolution Simulator'
+	String get simulatorButton => 'Open Evolution Simulator';
 }
 
 // Path: pokemon.detail.moves
@@ -542,6 +545,7 @@ extension on Translations {
 			'pokemon.detail.stats.speed' => 'Speed',
 			'pokemon.detail.evolution.noData' => 'No evolution data found',
 			'pokemon.detail.evolution.chainTitle' => 'Evolution Chain',
+			'pokemon.detail.evolution.simulatorButton' => 'Open Evolution Simulator',
 			'pokemon.detail.moves.learnMethod' => ({required Object method}) => 'Learn method: ${method}',
 			'components.tabLabel' => 'Components',
 			'components.title' => 'Component Showcase',
