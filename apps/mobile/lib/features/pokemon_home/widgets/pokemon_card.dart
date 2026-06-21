@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/domain/entity/pokemon_entity.dart';
 import '../../../core/utils/pokemon_utils.dart';
 
@@ -8,6 +9,9 @@ class PokemonCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
+  final bool isCompareMode;
+  final bool isSelectedForCompare;
+  final VoidCallback? onCompareTap;
 
   const PokemonCard({
     super.key,
@@ -15,6 +19,9 @@ class PokemonCard extends StatelessWidget {
     required this.onTap,
     this.isFavorite = false,
     required this.onFavoriteToggle,
+    this.isCompareMode = false,
+    this.isSelectedForCompare = false,
+    this.onCompareTap,
   });
 
   @override
@@ -25,14 +32,25 @@ class PokemonCard extends StatelessWidget {
 
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: isSelectedForCompare ? const BorderSide(color: Color(0xFF3B82F6), width: 2.5) : BorderSide.none,
+      ),
       child: InkWell(
-        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        onTap: isCompareMode
+            ? (onCompareTap != null
+                ? () {
+                    HapticFeedback.lightImpact();
+                    onCompareTap?.call();
+                  }
+                : null)
+            : onTap,
         child: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                borderRadius: BorderRadius.circular(16),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -42,9 +60,7 @@ class PokemonCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Pokemon Image
                   Expanded(
-                    flex: 3,
                     child: Hero(
                       tag: 'pokemon-${pokemon.id}',
                       child: CachedNetworkImage(
@@ -60,92 +76,112 @@ class PokemonCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // Pokemon Info
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: theme.cardColor,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '#${pokemon.id.toString().padLeft(3, '0')}',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Pokemon ID
-                          Text(
-                            '#${pokemon.id.toString().padLeft(3, '0')}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                              fontWeight: FontWeight.bold,
-                            ),
+                        const SizedBox(height: 4),
+                        Text(
+                          PokemonUtils.capitalize(pokemon.name),
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
                           ),
-                          const SizedBox(height: 4),
-
-                          // Pokemon Name
-                          Text(
-                            PokemonUtils.capitalize(pokemon.name),
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 8),
-
-                          Wrap(
-                            spacing: 4,
-                            runSpacing: 4,
-                            children: pokemon.types.take(2).map((type) {
-                              final typeColor = PokemonUtils.getTypeColor(type.type.name);
-                              return Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(12)),
-                                child: Text(
-                                  PokemonUtils.capitalize(type.type.name),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 4,
+                          runSpacing: 4,
+                          children: pokemon.types.take(2).map((type) {
+                            final typeColor = PokemonUtils.getTypeColor(type.type.name);
+                            return Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(12)),
+                              child: Text(
+                                PokemonUtils.capitalize(type.type.name),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Favorite Button
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Material(
-                color: Colors.transparent,
-                child: IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.white,
-                    size: 24,
-                  ),
-                  onPressed: onFavoriteToggle,
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.black.withValues(alpha: 0.3),
-                    padding: const EdgeInsets.all(8),
+            // Favorite button — hidden in compare mode
+            if (!isCompareMode)
+              Positioned(
+                top: 4,
+                right: 4,
+                child: Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.white,
+                      size: 24,
+                    ),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      onFavoriteToggle();
+                    },
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.black.withValues(alpha: 0.3),
+                      padding: const EdgeInsets.all(8),
+                    ),
                   ),
                 ),
               ),
-            ),
+
+            // Compare selector badge
+            if (isCompareMode)
+              Positioned(
+                top: 6,
+                right: 6,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: isSelectedForCompare ? const Color(0xFF3B82F6) : Colors.black.withValues(alpha: 0.45),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelectedForCompare ? const Color(0xFF3B82F6) : Colors.white.withValues(alpha: 0.6),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Icon(
+                    isSelectedForCompare ? Icons.check_rounded : Icons.add_rounded,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

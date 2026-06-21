@@ -63,6 +63,13 @@ class PokemonHomeFavoritesUpdated extends PokemonHomeEvent {
   PokemonHomeFavoritesUpdated(this.favoriteIds);
 }
 
+class PokemonHomeCompareModeToggled extends PokemonHomeEvent {}
+
+class PokemonHomeCompareSelectionToggled extends PokemonHomeEvent {
+  final Pokemon pokemon;
+  PokemonHomeCompareSelectionToggled(this.pokemon);
+}
+
 /// Pokemon Home Bloc - Event-driven architecture
 class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
     with PaginatedBloc<Pokemon, PokemonHomeEvent, PokemonHomeState> {
@@ -189,11 +196,24 @@ class PokemonHomeBloc extends BaseBloc<PokemonHomeEvent, PokemonHomeState>
     on<PokemonHomeToggleFavorite>((event, emit) async {
       await favoritesRepo.toggleFavorite(event.pokemonId);
     });
-  }
 
-  @override
-  void onInit() {
-    super.onInit();
+    on<PokemonHomeCompareModeToggled>((event, emit) {
+      emit(state.copyWith(
+        isCompareMode: !state.isCompareMode,
+        compareSelection: const [],
+      ));
+    });
+
+    on<PokemonHomeCompareSelectionToggled>((event, emit) {
+      final current = List<Pokemon>.from(state.compareSelection);
+      final existingIndex = current.indexWhere((p) => p.id == event.pokemon.id);
+      if (existingIndex != -1) {
+        current.removeAt(existingIndex);
+      } else if (current.length < 5) {
+        current.add(event.pokemon);
+      }
+      emit(state.copyWith(compareSelection: current));
+    });
   }
 
   @override

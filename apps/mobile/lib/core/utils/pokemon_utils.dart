@@ -35,4 +35,12 @@ class PokemonUtils {
     if (percentage >= 0.4) return Colors.orange;
     return Colors.red;
   }
+
+  // Gen 5 Black/White animated sprite — available for Pokémon #1–649.
+  // Returns null for IDs without an animated sprite (Gen 6+).
+  static String? animatedSpriteUrl(int id) {
+    if (id < 1 || id > 649) return null;
+    return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/'
+        'sprites/pokemon/versions/generation-v/black-white/animated/$id.gif';
+  }
 }

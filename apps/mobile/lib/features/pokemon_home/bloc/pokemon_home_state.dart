@@ -11,6 +11,8 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
   final String? searchQuery;
   final String? selectedType;
   final Set<int> favoriteIds;
+  final bool isCompareMode;
+  final List<Pokemon> compareSelection;
 
   const PokemonHomeState({
     this.items = const [],
@@ -19,10 +21,15 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
     this.searchQuery,
     this.selectedType,
     this.favoriteIds = const {},
+    this.isCompareMode = false,
+    this.compareSelection = const [],
     super.isLoading,
     super.isValid,
     super.errorMessage,
   });
+
+  bool isSelectedForCompare(int pokemonId) =>
+      compareSelection.any((p) => p.id == pokemonId);
 
   PokemonHomeState copyWith({
     List<Pokemon>? items,
@@ -34,6 +41,8 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
     String? searchQuery,
     String? selectedType,
     Set<int>? favoriteIds,
+    bool? isCompareMode,
+    List<Pokemon>? compareSelection,
     bool clearError = false,
     bool clearSearch = false,
     bool clearFilter = false,
@@ -48,6 +57,8 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
       searchQuery: clearSearch ? null : (searchQuery ?? this.searchQuery),
       selectedType: clearFilter ? null : (selectedType ?? this.selectedType),
       favoriteIds: favoriteIds ?? this.favoriteIds,
+      isCompareMode: isCompareMode ?? this.isCompareMode,
+      compareSelection: compareSelection ?? this.compareSelection,
     );
   }
 
@@ -64,5 +75,7 @@ class PokemonHomeState extends PaginatedState<Pokemon> {
     searchQuery,
     selectedType,
     favoriteIds,
+    isCompareMode,
+    compareSelection,
   ];
 }
