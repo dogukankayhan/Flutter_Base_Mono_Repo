@@ -6,6 +6,7 @@ import 'package:flutter_kit_core/utils/formatter/iban_input_formatter.dart';
 import 'package:flutter_kit_core/utils/formatter/phone_input_formatter.dart';
 import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
 import 'package:flutter_kit_ui/colors/app_colors.dart';
+import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -141,11 +142,11 @@ class _AppTextFieldState extends State<AppTextField> {
     return InputDecoration(
       hintText: widget.hintText,
       hintStyle: context.textStyle.paragraph16Regular.copyWith(
-        color: AppBrandColors.textFieldUnFocusText,
+        color: colors.textFieldUnFocusText,
       ),
       prefixText: widget.prefixText,
       prefixStyle: context.textStyle.paragraph16Regular.copyWith(
-        color: AppBrandColors.textFieldFocusBorder,
+        color: colors.textFieldFocusBorder,
       ),
       filled: true,
       fillColor: Colors.transparent,
@@ -160,12 +161,12 @@ class _AppTextFieldState extends State<AppTextField> {
       errorStyle: context.textStyle.paragraph14Regular.copyWith(
         color: AppBrandColors.error,
       ),
-      border: _border(AppBrandColors.textFieldUnFocusBorder),
-      enabledBorder: _border(AppBrandColors.textFieldUnFocusBorder),
-      focusedBorder: _border(AppBrandColors.textFieldFocusBorder),
+      border: _border(colors.textFieldUnFocusBorder),
+      enabledBorder: _border(colors.textFieldUnFocusBorder),
+      focusedBorder: _border(colors.textFieldFocusBorder),
       errorBorder: _border(AppBrandColors.error),
       focusedErrorBorder: _border(AppBrandColors.error),
-      disabledBorder: _border(AppBrandColors.textFieldDisabledBorder),
+      disabledBorder: _border(colors.textFieldDisabledBorder),
     );
   }
 
@@ -193,7 +194,7 @@ class _AppTextFieldState extends State<AppTextField> {
         valueListenable: _isPasswordVisible,
         builder: (_, visible, _) => IconButton(
           icon: (visible ? SvgIcon.eye : SvgIcon.eyeSlash).call(
-            color: AppBrandColors.textFieldUnFocusBorder,
+            color: colors.textFieldUnFocusBorder,
           ),
           onPressed: () => _isPasswordVisible.value = !_isPasswordVisible.value,
         ),
@@ -210,8 +211,8 @@ class _AppTextFieldState extends State<AppTextField> {
             child: Center(
               child: widget.suffixIcon!.call(
                 color: focused
-                    ? AppBrandColors.textFieldFocusBorder
-                    : AppBrandColors.textFieldUnFocusBorder,
+                    ? colors.textFieldFocusBorder
+                    : colors.textFieldUnFocusBorder,
               ),
             ),
           ),

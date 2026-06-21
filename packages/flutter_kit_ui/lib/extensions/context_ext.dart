@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import '../colors/app_colors.dart';
 
 extension BuildContextExt on BuildContext {
+  // ─── App colors ──────────────────────────────────────────────────────────
+
+  AppColors get appColors => Theme.of(this).extension<AppColors>()!;
+
   // ─── Keyboard ────────────────────────────────────────────────────────────
 
   void dismissKeyboard() {

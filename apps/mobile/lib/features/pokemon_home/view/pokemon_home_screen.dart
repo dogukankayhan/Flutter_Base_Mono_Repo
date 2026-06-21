@@ -6,6 +6,7 @@ import 'package:flutter_base_kit/core/utils/pokemon_utils.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/compare_navigator.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
 import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
+import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:go_router/go_router.dart';
 import '../bloc/pokemon_home_bloc.dart';
@@ -253,7 +254,7 @@ class _ComparePanelContent extends StatelessWidget {
             onPressed: canCompare ? () => CompareNavigator.show(context, pokemons: sel) : null,
             style: FilledButton.styleFrom(
               backgroundColor: AppBrandColors.primary,
-              disabledBackgroundColor: AppBrandColors.disabledButtonBg,
+              disabledBackgroundColor: context.appColors.disabledButtonBg,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             ),
             child: Text('Karşılaştır', style: context.textStyle.paragraph14Bold.copyWith(color: Colors.white)),
@@ -283,7 +284,7 @@ class _SlotAvatar extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: context.textStyle.paragraph12Bold.copyWith(color: AppBrandColors.textFieldUnFocusText),
+            style: context.textStyle.paragraph12Bold.copyWith(color: context.appColors.textFieldUnFocusText),
           ),
         ),
       );

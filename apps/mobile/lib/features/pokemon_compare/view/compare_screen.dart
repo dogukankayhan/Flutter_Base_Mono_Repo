@@ -6,7 +6,7 @@ import 'package:flutter_base_kit/features/pokemon_compare/bloc/compare_event.dar
 import 'package:flutter_base_kit/features/pokemon_compare/bloc/compare_state.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/widgets/pokemon_stat_chart.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
-import 'package:flutter_kit_ui/colors/app_brand_colors.dart';
+import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -111,7 +111,7 @@ class _PokemonHeaderCard extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 '#${pokemon.id.toString().padLeft(3, '0')}',
-                style: context.textStyle.paragraph12Regular.copyWith(color: AppBrandColors.textFieldUnFocusText),
+                style: context.textStyle.paragraph12Regular.copyWith(color: context.appColors.textFieldUnFocusText),
               ),
               FittedBox(
                 fit: BoxFit.scaleDown,
@@ -222,7 +222,7 @@ class _StatRow extends StatelessWidget {
             child: Text(
               label,
               style: (isTotal ? context.textStyle.paragraph12Bold : context.textStyle.paragraph12Regular).copyWith(
-                color: AppBrandColors.textFieldUnFocusText,
+                color: context.appColors.textFieldUnFocusText,
               ),
             ),
           ),

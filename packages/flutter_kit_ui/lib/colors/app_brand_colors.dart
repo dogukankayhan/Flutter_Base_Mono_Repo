@@ -62,40 +62,6 @@ abstract final class AppBrandColors {
   static const Color selectedTabIconColor = Color(0xFF5b7dfb); // primary[40]
   static const Color unSelectedTabIconColor = Color(0xFF6c748b); // gray[50]
 
-  // ─── Primary Button ───────────────────────────────────
-  static const Color primaryButtonBg = Color(0xFF5b7dfb); // primary[40]
-  static const Color primaryButtonBgBusy = Color(0xFF3a55f7); // primary[50]
-  static const Color primaryButtonFg = Color(0xFFffffff); // white[10]
-  static const Color disabledButtonBg = Color(0xFFdbe2fe); // primary[10]
-  static const Color disabledButtonFg = Color(0xFF5b7dfb); // primary[40]
-
-  // ─── Tertiary Button ──────────────────────────────────
-  static const Color tertiaryButtonBg = Color(0xFFffffff); // white[10]
-  static const Color tertiaryButtonBorder = Color(0xFF9847ff); // tertiary[50]
-  static const Color tertiaryButtonFg = Color(0xFF24252d); // gray[100]
-  static const Color tertiaryButtonBgBusy = Color(0xFF8e3afa); // tertiary[60]
-  static const Color tertiaryButtonFgBusy = Color(0xFFffffff); // white[10]
-  static const Color tertiaryDisabledButtonBg = Colors.transparent;
-  static const Color tertiaryDisabledButtonBorder = Color(
-    0xFFd1aeff,
-  ); // tertiary[30]
-  static const Color tertiaryDisabledButtonFg = Color(
-    0xFFd1aeff,
-  ); // tertiary[30]
-
-  // ─── Text Form Field ──────────────────────────────────
-  static const Color textFieldUnFocusBorder = Color(0xFF8a91a6); // gray[40]
-  static const Color textFieldUnFocusText = Color(0xFF8a91a6); // gray[40]
-  static const Color textFieldFocusBorder = Color(0xFF3a55f7); // primary[50]
-  static const Color textFieldFocusText = Color(0xFF575d72); // gray[60]
-  static const Color textFieldErrorBorder = Color(0xFF8a91a6); // gray[40]
-  static final Color textFieldDisabledBorder = const Color(
-    0xFF8a91a6,
-  ).withValues(alpha: .6); // gray[40] @60%
-  static final Color textFieldDisabled = const Color(
-    0xFF8a91a6,
-  ).withValues(alpha: .6); // gray[40] @60%
-
   // ─── Gradients ────────────────────────────────────────
   static const LinearGradient mainGradient = LinearGradient(
     colors: [
