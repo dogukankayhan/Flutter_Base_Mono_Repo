@@ -59,6 +59,7 @@ melos bootstrap
 apps/mobile/lib/
 ├── core/
 │   ├── config/             # AppEnvironment, AppConfig (native channel)
+│   ├── data/               # Shared DTOs, datasources, repositories
 │   ├── deeplink/           # DeepLinkManager
 │   ├── di/                 # Injection.init() — all DI registrations
 │   ├── firebase/           # FirebaseOptions per flavor (dev/staging/prod)
@@ -67,12 +68,18 @@ apps/mobile/lib/
 │   ├── managers/
 │   │   ├── device_info_manager/
 │   │   └── navigation_manager/ # AppNavigator, GoRouter, auth guard
-│   └── splash/             # SplashScreen, SplashNavigator
+│   ├── network/            # App-level network config
+│   ├── security/           # Jailbreak / root detection
+│   ├── splash/             # SplashScreen, SplashNavigator
+│   └── webview/            # WebView management (bloc, navigator, interceptors, JS bridge)
 └── features/
     ├── login/
     ├── register/
+    ├── shell/
     ├── pokemon_home/
     ├── pokemon_detail/
+    ├── pokemon_compare/
+    ├── pokemon_evolution_simulator/
     ├── pokemon_favorites/
     └── favorites/
 ```
@@ -200,6 +207,7 @@ Built on `DioClient`. All requests go through the `ApiManager` interface.
 | `RetryInterceptor` | Retries up to 3x on network errors |
 | `CacheInterceptor` | Caches GET responses |
 | `RateLimiterInterceptor` | Flood protection per endpoint |
+| `CertificatePinningInterceptor` | Validates server certificate SHA-256 fingerprint (pass primary + backup) |
 | `LoggingInterceptor` | Logs requests/responses in non-prod environments |
 
 ### Token Flow
