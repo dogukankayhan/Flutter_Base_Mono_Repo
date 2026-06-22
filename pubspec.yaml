@@ -49,3 +49,15 @@ melos:
     gen:feature:
       run: dart scripts/gen_feature.dart
       description: Yeni feature scaffold oluştur (interaktif)
+
+    integration:
+      run: flutter test --tags integration
+      description: Run integration tests (hits real network — DummyJSON + httpbin)
+      exec:
+        concurrency: 1
+
+    test:unit:
+      run: flutter test --exclude-tags integration
+      description: Run only unit tests (no network calls)
+      exec:
+        concurrency: 2
