@@ -1,6 +1,6 @@
 # apps/mobile
 
-Flutter mobile application for the SaloonManager application. Consumes all `flutter_kit_*` packages.
+Flutter mobile application for the FlutterBaseKit application. Consumes all `flutter_kit_*` packages.
 
 ## Overview
 
@@ -50,7 +50,7 @@ void main() => Initialize.prepare(AppEnvironment.dev);
 2. `ScreenUtil` is initialized (design size: 390×844)
 3. `setupFirebase(options: firebaseOptions)` is executed
 4. `Injection.init(apiConfig: AppConfig.apiConfig)` — DI modules are configured sequentially
-5. `runApp(SaloonManagerApp())` is called
+5. `runApp(FlutterBaseKitApp())` is called
 
 ---
 
