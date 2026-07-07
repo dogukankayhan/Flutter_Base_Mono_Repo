@@ -32,4 +32,23 @@ extension StringExt on String {
 
   bool get isUrl =>
       Uri.tryParse(this)?.hasAbsolutePath == true && startsWith('http');
+
+  static const Map<String, String> _turkishDiacritics = {
+    'ç': 'c', 'Ç': 'C',
+    'ğ': 'g', 'Ğ': 'G',
+    'ı': 'i', 'İ': 'I',
+    'ö': 'o', 'Ö': 'O',
+    'ş': 's', 'Ş': 'S',
+    'ü': 'u', 'Ü': 'U',
+  };
+
+  /// Lowercased with Turkish diacritics folded to their ASCII equivalent, so
+  /// e.g. "İstanbul" and "istanbul" match the same search query.
+  String get normalizedForSearch {
+    final buffer = StringBuffer();
+    for (final char in split('')) {
+      buffer.write(_turkishDiacritics[char] ?? char);
+    }
+    return buffer.toString().toLowerCase();
+  }
 }

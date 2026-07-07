@@ -15,6 +15,17 @@ extension ListExt<T> on List<T> {
     }
     return result;
   }
+
+  /// Index of the first element matching [test], or null if none matches.
+  int? indexOrNull(bool Function(T) test) {
+    final index = indexWhere(test);
+    return index == -1 ? null : index;
+  }
+}
+
+extension NullableIterableExt<T> on Iterable<T?> {
+  /// Drops null elements. `[1, null, 2]` → `[1, 2]`.
+  List<T> whereNotNull() => where((e) => e != null).cast<T>().toList();
 }
 
 extension IterableExt<T> on Iterable<T> {

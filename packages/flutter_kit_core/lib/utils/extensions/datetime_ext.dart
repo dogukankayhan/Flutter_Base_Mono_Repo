@@ -33,15 +33,36 @@ extension DateTimeExt on DateTime {
   DateTime get endOfMonth =>
       DateTime(year, month + 1).subtract(const Duration(milliseconds: 1));
 
-  /// "2 hours ago", "3 days ago", "just now", etc.
-  String get timeAgo {
+  /// "2h ago", "3d ago", "just now", etc. Pass [labels] to localize.
+  String timeAgo([TimeAgoLabels labels = const TimeAgoLabels()]) {
     final diff = DateTime.now().difference(this);
-    if (diff.inSeconds < 60) return 'just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays < 7) return '${diff.inDays}d ago';
-    if (diff.inDays < 30) return '${(diff.inDays / 7).floor()}w ago';
-    if (diff.inDays < 365) return '${(diff.inDays / 30).floor()}mo ago';
-    return '${(diff.inDays / 365).floor()}y ago';
+    if (diff.inSeconds < 60) return labels.justNow;
+    if (diff.inMinutes < 60) return '${diff.inMinutes}${labels.minutesAgo}';
+    if (diff.inHours < 24) return '${diff.inHours}${labels.hoursAgo}';
+    if (diff.inDays < 7) return '${diff.inDays}${labels.daysAgo}';
+    if (diff.inDays < 30) return '${(diff.inDays / 7).floor()}${labels.weeksAgo}';
+    if (diff.inDays < 365) return '${(diff.inDays / 30).floor()}${labels.monthsAgo}';
+    return '${(diff.inDays / 365).floor()}${labels.yearsAgo}';
   }
+}
+
+/// Suffixes used by [DateTimeExt.timeAgo]. Override to localize.
+class TimeAgoLabels {
+  const TimeAgoLabels({
+    this.justNow = 'just now',
+    this.minutesAgo = 'm ago',
+    this.hoursAgo = 'h ago',
+    this.daysAgo = 'd ago',
+    this.weeksAgo = 'w ago',
+    this.monthsAgo = 'mo ago',
+    this.yearsAgo = 'y ago',
+  });
+
+  final String justNow;
+  final String minutesAgo;
+  final String hoursAgo;
+  final String daysAgo;
+  final String weeksAgo;
+  final String monthsAgo;
+  final String yearsAgo;
 }

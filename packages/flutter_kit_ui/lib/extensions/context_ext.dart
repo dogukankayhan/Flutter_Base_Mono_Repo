@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../colors/app_colors.dart';
 
@@ -22,11 +23,30 @@ extension BuildContextExt on BuildContext {
   EdgeInsets get bottomInsetPadding =>
       EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(this).bottom);
 
+  /// `true` while the software keyboard is visible.
+  bool get isKeyboardOpen => MediaQuery.viewInsetsOf(this).bottom > 0;
+
   // ─── Screen size ─────────────────────────────────────────────────────────
 
   double get screenWidth => MediaQuery.sizeOf(this).width;
   double get screenHeight => MediaQuery.sizeOf(this).height;
   Size get screenSize => MediaQuery.sizeOf(this);
+
+  bool get isPortrait =>
+      MediaQuery.orientationOf(this) == Orientation.portrait;
+  bool get isLandscape =>
+      MediaQuery.orientationOf(this) == Orientation.landscape;
+
+  // ─── Breakpoints (Material window size classes) ─────────────────────────
+
+  bool get isCompactScreen => screenWidth < 600;
+  bool get isMediumScreen => screenWidth >= 600 && screenWidth < 1024;
+  bool get isExpandedScreen => screenWidth >= 1024;
+
+  // ─── Platform ────────────────────────────────────────────────────────────
+
+  bool get isIOS => defaultTargetPlatform == TargetPlatform.iOS;
+  bool get isAndroid => defaultTargetPlatform == TargetPlatform.android;
 
   // ─── Theme shortcuts ─────────────────────────────────────────────────────
 

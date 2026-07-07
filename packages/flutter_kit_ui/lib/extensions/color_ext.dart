@@ -30,3 +30,9 @@ extension ColorExt on Color {
 
   bool get isDark => !isBright;
 }
+
+extension StringAvatarColorExt on String {
+  /// A deterministic color from [Colors.primaries], stable for this string.
+  /// Pairs well with `StringExt.initials` for avatar backgrounds.
+  Color get avatarColor => Colors.primaries[hashCode.abs() % Colors.primaries.length];
+}
