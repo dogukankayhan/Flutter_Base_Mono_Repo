@@ -1,15 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_base_kit/core/domain/entity/evolution_chain_entity.dart';
+import 'package:flutter_base_kit/core/domain/entity/pokemon_move_entity.dart';
+import 'package:flutter_base_kit/core/domain/entity/pokemon_species_entity.dart';
 import 'package:flutter_base_kit/core/localization/localization_extension.dart';
-import 'package:flutter_base_kit/features/pokemon_detail/view/widgets/pokemon_evolution_tab.dart';
-import 'package:flutter_base_kit/features/pokemon_detail/view/widgets/pokemon_moves_tab.dart';
+import 'package:flutter_base_kit/features/pokemon_evolution_simulator/evolution_simulator_navigator.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/utils/pokemon_utils.dart';
 import '../../../core/domain/entity/pokemon_entity.dart';
 import '../bloc/detail_bloc.dart';
 import '../bloc/detail_state.dart';
-import 'widgets/pokemon_about_tab.dart';
-import 'widgets/pokemon_stats_tab.dart';
+
+part 'widgets/pokemon_about_tab.dart';
+part 'widgets/pokemon_evolution_tab.dart';
+part 'widgets/pokemon_moves_tab.dart';
+part 'widgets/pokemon_stats_tab.dart';
 
 class PokemonDetailScreen extends StatefulWidget {
   final int pokemonId;

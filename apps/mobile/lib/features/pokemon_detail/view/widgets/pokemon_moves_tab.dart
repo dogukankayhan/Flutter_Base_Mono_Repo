@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_move_entity.dart';
-import 'package:flutter_base_kit/core/localization/localization_extension.dart';
-import '../../../../core/utils/pokemon_utils.dart';
+part of '../pokemon_detail_screen.dart';
 
 class PokemonMovesTab extends StatefulWidget {
   final Pokemon pokemon;

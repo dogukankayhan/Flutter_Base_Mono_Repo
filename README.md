@@ -596,6 +596,21 @@ Navigation is always done through the navigator:
 MyFeatureNavigator.show(context);
 ```
 
+### 5. Screen-specific widgets (`part of`)
+
+If your screen splits into sub-widgets (tabs, sections) that **only that screen uses**, put them in a `widgets/` folder next to it and join them to the screen's library with `part`/`part of`, instead of separate importable files:
+
+```
+apps/mobile/lib/features/my_feature/view/
+├── my_feature_screen.dart   # part 'widgets/my_feature_tab.dart';
+└── widgets/
+    └── my_feature_tab.dart  # part of '../my_feature_screen.dart';
+```
+
+All imports live in the screen file — the `part of` files declare no imports of their own. See `features/pokemon_detail/view/` (four tabs) or `features/pokemon_compare/view/` + `widgets/pokemon_stat_chart.dart` for real examples.
+
+**This only applies when the widget has a single consumer.** A widget used by more than one screen (e.g. `PokemonCard`, shared by `pokemon_home` and `pokemon_favorites`) must stay a normal standalone file that gets `import`-ed.
+
 ---
 
 ## Testing

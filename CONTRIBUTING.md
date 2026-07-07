@@ -98,6 +98,8 @@ apps/mobile/lib/features/<feature_name>/
 
 It does **not** generate entities, use cases, repositories, or DTOs — those are shared and live under `apps/mobile/lib/core/domain/` and `apps/mobile/lib/core/data/`.
 
+If the screen needs sub-widgets (tabs, sections) that only it uses, add them under a `widgets/` folder joined via `part`/`part of` rather than separate imported files — see `CLAUDE.md`'s "Screen-Specific Widgets" pattern. Only do this for single-consumer widgets; anything reused by another screen must stay a standalone `import`-ed file.
+
 **Steps:**
 1. Open a `feat/<feature>` branch.
 2. Run the generator (or create files matching the structure above by hand).

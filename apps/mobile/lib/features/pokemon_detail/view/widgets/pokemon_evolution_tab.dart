@@ -1,11 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_base_kit/core/domain/entity/evolution_chain_entity.dart';
-import 'package:flutter_base_kit/core/localization/localization_extension.dart';
-import 'package:flutter_base_kit/features/pokemon_evolution_simulator/evolution_simulator_navigator.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/utils/pokemon_utils.dart';
+part of '../pokemon_detail_screen.dart';
 
 class PokemonEvolutionTab extends StatefulWidget {
   final EvolutionChain? chain;

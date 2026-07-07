@@ -1,14 +1,16 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
 import 'package:flutter_base_kit/core/utils/pokemon_utils.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/bloc/compare_bloc.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/bloc/compare_event.dart';
 import 'package:flutter_base_kit/features/pokemon_compare/bloc/compare_state.dart';
-import 'package:flutter_base_kit/features/pokemon_compare/widgets/pokemon_stat_chart.dart';
 import 'package:flutter_kit_core/base_bloc/base_bloc_view.dart';
 import 'package:flutter_kit_ui/extensions/context_ext.dart';
 import 'package:flutter_kit_ui/typography/app_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+part '../widgets/pokemon_stat_chart.dart';
 
 class CompareScreen extends StatelessWidget {
   const CompareScreen({super.key, required this.pokemons});

@@ -186,6 +186,34 @@ class AppointmentBloc extends BaseBloc<AppointmentEvent, AppointmentState>
 
 ---
 
+## Critical Pattern 9: Screen-Specific Widgets (`part of`)
+
+A widget used by **exactly one** screen lives next to it in a `widgets/` folder and joins the screen's library via `part`/`part of`, instead of being a separately imported file. This avoids re-importing the same entities/utils in every tab/section file and makes the "only this screen uses it" relationship explicit.
+
+```dart
+// feature_screen.dart — the library file: all imports live here
+import 'package:flutter/material.dart';
+// ...other imports needed by the screen AND its parts
+
+part 'widgets/feature_about_tab.dart';
+part 'widgets/feature_stats_tab.dart';
+
+class FeatureScreen extends StatelessWidget { ... }
+```
+
+```dart
+// widgets/feature_about_tab.dart — no imports of its own
+part of '../feature_screen.dart';
+
+class FeatureAboutTab extends StatelessWidget { ... }
+```
+
+See `pokemon_detail/view/pokemon_detail_screen.dart` (+ `view/widgets/*_tab.dart`) and `pokemon_compare/view/compare_screen.dart` (+ `widgets/pokemon_stat_chart.dart`).
+
+**If a widget is used by more than one screen** (e.g. `PokemonCard`, used by both `pokemon_home` and `pokemon_favorites`), it must stay a normal standalone file that gets `import`-ed — never make a widget `part of` a screen it isn't exclusive to.
+
+---
+
 ## Test Pattern Summary
 
 ```dart
@@ -231,6 +259,7 @@ dart run build_runner build --delete-conflicting-outputs
 | Event | `feature_event.dart` |
 | State | `feature_state.dart` |
 | Screen | `feature_screen.dart` |
+| Screen-only widget (single consumer) | `widgets/feature_thing.dart`, `part of '../feature_screen.dart'` |
 | Navigator | `feature_navigator.dart` |
 | Test | `feature_bloc_test.dart` |
 | Mocks | `feature_bloc_test.mocks.dart` (auto-generated) |
@@ -259,3 +288,4 @@ melos format:check    # Check formatting (used in CI, does not modify files)
 | Hardcoding path strings in repository impl | Untestable and cannot change by environment — add default param to constructor |
 | Importing `auth` or `router` inside `firebase` package | Circular dependency — use callback pattern |
 | Calling `emit()` directly in async callbacks | Crash after cubit is closed — use `safeEmit()` |
+| Making a widget `part of` a screen it isn't exclusive to | Breaks reuse — widgets used by 2+ screens must stay standalone, `import`-ed files |

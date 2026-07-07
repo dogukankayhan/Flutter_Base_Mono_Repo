@@ -1,7 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
-import 'package:flutter_kit_ui/typography/app_text_style.dart';
+part of '../view/compare_screen.dart';
 
 const List<Color> kCompareColors = [
   Color(0xFFE8702A), // orange
