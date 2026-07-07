@@ -3,18 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i4;
 
-import 'package:flutter_base_kit/core/data/datasource/pokemon_remote_datasource.dart'
-    as _i5;
-import 'package:flutter_base_kit/core/domain/entity/evolution_chain_entity.dart'
-    as _i4;
-import 'package:flutter_base_kit/core/domain/entity/pokemon_brief_entity.dart'
-    as _i7;
-import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart' as _i2;
-import 'package:flutter_base_kit/core/domain/entity/pokemon_species_entity.dart'
+import 'package:dio/dio.dart' as _i5;
+import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart'
     as _i3;
+import 'package:flutter_kit_network/core/network/api/api_response.dart' as _i2;
+import 'package:flutter_kit_network/core/network/serializer/serializer_interface.dart'
+    as _i6;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -31,149 +29,355 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakePokemon_0 extends _i1.SmartFake implements _i2.Pokemon {
-  _FakePokemon_0(Object parent, Invocation parentInvocation)
+class _FakeApiResponse_0<T1> extends _i1.SmartFake
+    implements _i2.ApiResponse<T1> {
+  _FakeApiResponse_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePokemonSpecies_1 extends _i1.SmartFake
-    implements _i3.PokemonSpecies {
-  _FakePokemonSpecies_1(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeEvolutionChain_2 extends _i1.SmartFake
-    implements _i4.EvolutionChain {
-  _FakeEvolutionChain_2(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-/// A class which mocks [PokemonRemoteDataSource].
+/// A class which mocks [ApiManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPokemonRemoteDataSource extends _i1.Mock
-    implements _i5.PokemonRemoteDataSource {
-  MockPokemonRemoteDataSource() {
+class MockApiManager extends _i1.Mock implements _i3.ApiManager {
+  MockApiManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<List<_i7.PokemonBrief>> listPokemon({
-    int? limit = 20,
-    int? offset = 0,
+  _i4.Future<_i2.ApiResponse<T>> get<T>({
+    required String? path,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
+    String? listWrapperKey,
+    T Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#listPokemon, [], {
-              #limit: limit,
-              #offset: offset,
+            Invocation.method(#get, [], {
+              #path: path,
+              #query: query,
+              #headers: headers,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+              #listWrapperKey: listWrapperKey,
+              #extractor: extractor,
+              #priority: priority,
             }),
-            returnValue: _i6.Future<List<_i7.PokemonBrief>>.value(
-              <_i7.PokemonBrief>[],
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
+                this,
+                Invocation.method(#get, [], {
+                  #path: path,
+                  #query: query,
+                  #headers: headers,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                  #listWrapperKey: listWrapperKey,
+                  #extractor: extractor,
+                  #priority: priority,
+                }),
+              ),
             ),
           )
-          as _i6.Future<List<_i7.PokemonBrief>>);
+          as _i4.Future<_i2.ApiResponse<T>>);
 
   @override
-  _i6.Future<List<_i7.PokemonBrief>> getAllBriefs() =>
+  _i4.Future<_i2.ApiResponse<T>> post<T>({
+    required String? path,
+    Object? body,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
+    String? listWrapperKey,
+    T Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#getAllBriefs, []),
-            returnValue: _i6.Future<List<_i7.PokemonBrief>>.value(
-              <_i7.PokemonBrief>[],
+            Invocation.method(#post, [], {
+              #path: path,
+              #body: body,
+              #query: query,
+              #headers: headers,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+              #listWrapperKey: listWrapperKey,
+              #extractor: extractor,
+              #priority: priority,
+            }),
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
+                this,
+                Invocation.method(#post, [], {
+                  #path: path,
+                  #body: body,
+                  #query: query,
+                  #headers: headers,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                  #listWrapperKey: listWrapperKey,
+                  #extractor: extractor,
+                  #priority: priority,
+                }),
+              ),
             ),
           )
-          as _i6.Future<List<_i7.PokemonBrief>>);
+          as _i4.Future<_i2.ApiResponse<T>>);
 
   @override
-  _i6.Future<_i2.Pokemon> getDetailByName(
-    String? name, {
-    bool? includeMoves = true,
+  _i4.Future<_i2.ApiResponse<T>> put<T>({
+    required String? path,
+    Object? body,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
+    String? listWrapperKey,
+    T Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#put, [], {
+              #path: path,
+              #body: body,
+              #query: query,
+              #headers: headers,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+              #listWrapperKey: listWrapperKey,
+              #extractor: extractor,
+              #priority: priority,
+            }),
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
+                this,
+                Invocation.method(#put, [], {
+                  #path: path,
+                  #body: body,
+                  #query: query,
+                  #headers: headers,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                  #listWrapperKey: listWrapperKey,
+                  #extractor: extractor,
+                  #priority: priority,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.ApiResponse<T>>);
+
+  @override
+  _i4.Future<_i2.ApiResponse<T>> patch<T>({
+    required String? path,
+    Object? body,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
+    String? listWrapperKey,
+    T Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#patch, [], {
+              #path: path,
+              #body: body,
+              #query: query,
+              #headers: headers,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+              #listWrapperKey: listWrapperKey,
+              #extractor: extractor,
+              #priority: priority,
+            }),
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
+                this,
+                Invocation.method(#patch, [], {
+                  #path: path,
+                  #body: body,
+                  #query: query,
+                  #headers: headers,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                  #listWrapperKey: listWrapperKey,
+                  #extractor: extractor,
+                  #priority: priority,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.ApiResponse<T>>);
+
+  @override
+  _i4.Future<_i2.ApiResponse<T>> delete<T>({
+    required String? path,
+    Object? body,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
+    String? listWrapperKey,
+    T Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#delete, [], {
+              #path: path,
+              #body: body,
+              #query: query,
+              #headers: headers,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+              #listWrapperKey: listWrapperKey,
+              #extractor: extractor,
+              #priority: priority,
+            }),
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
+                this,
+                Invocation.method(#delete, [], {
+                  #path: path,
+                  #body: body,
+                  #query: query,
+                  #headers: headers,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                  #listWrapperKey: listWrapperKey,
+                  #extractor: extractor,
+                  #priority: priority,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.ApiResponse<T>>);
+
+  @override
+  _i4.Future<_i2.ApiResponse<R>> sendRequest<T, R>(
+    String? path, {
+    required T Function(Map<String, dynamic>)? fromJson,
+    required _i3.RequestMethod? method,
+    Map<String, dynamic>? queryParameters,
+    Object? data,
+    Map<String, String>? headers,
+    _i5.CancelToken? cancelToken,
+    String? listWrapperKey,
+    R Function(Object?)? extractor,
+    _i3.RequestPriority? priority = _i3.RequestPriority.normal,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
-              #getDetailByName,
-              [name],
-              {#includeMoves: includeMoves},
+              #sendRequest,
+              [path],
+              {
+                #fromJson: fromJson,
+                #method: method,
+                #queryParameters: queryParameters,
+                #data: data,
+                #headers: headers,
+                #cancelToken: cancelToken,
+                #listWrapperKey: listWrapperKey,
+                #extractor: extractor,
+                #priority: priority,
+              },
             ),
-            returnValue: _i6.Future<_i2.Pokemon>.value(
-              _FakePokemon_0(
+            returnValue: _i4.Future<_i2.ApiResponse<R>>.value(
+              _FakeApiResponse_0<R>(
                 this,
                 Invocation.method(
-                  #getDetailByName,
-                  [name],
-                  {#includeMoves: includeMoves},
+                  #sendRequest,
+                  [path],
+                  {
+                    #fromJson: fromJson,
+                    #method: method,
+                    #queryParameters: queryParameters,
+                    #data: data,
+                    #headers: headers,
+                    #cancelToken: cancelToken,
+                    #listWrapperKey: listWrapperKey,
+                    #extractor: extractor,
+                    #priority: priority,
+                  },
                 ),
               ),
             ),
           )
-          as _i6.Future<_i2.Pokemon>);
+          as _i4.Future<_i2.ApiResponse<R>>);
 
   @override
-  _i6.Future<_i2.Pokemon> getDetailByUrl(
-    String? url, {
-    bool? includeMoves = true,
+  _i4.Future<_i2.ApiResponse<T>> upload<T>({
+    required String? path,
+    required String? filePath,
+    String? fileKey = 'file',
+    Map<String, dynamic>? fields,
+    Map<String, String>? headers,
+    _i5.ProgressCallback? onSendProgress,
+    _i5.CancelToken? cancelToken,
+    _i6.FromJson<dynamic>? fromJson,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(
-              #getDetailByUrl,
-              [url],
-              {#includeMoves: includeMoves},
-            ),
-            returnValue: _i6.Future<_i2.Pokemon>.value(
-              _FakePokemon_0(
+            Invocation.method(#upload, [], {
+              #path: path,
+              #filePath: filePath,
+              #fileKey: fileKey,
+              #fields: fields,
+              #headers: headers,
+              #onSendProgress: onSendProgress,
+              #cancelToken: cancelToken,
+              #fromJson: fromJson,
+            }),
+            returnValue: _i4.Future<_i2.ApiResponse<T>>.value(
+              _FakeApiResponse_0<T>(
                 this,
-                Invocation.method(
-                  #getDetailByUrl,
-                  [url],
-                  {#includeMoves: includeMoves},
-                ),
+                Invocation.method(#upload, [], {
+                  #path: path,
+                  #filePath: filePath,
+                  #fileKey: fileKey,
+                  #fields: fields,
+                  #headers: headers,
+                  #onSendProgress: onSendProgress,
+                  #cancelToken: cancelToken,
+                  #fromJson: fromJson,
+                }),
               ),
             ),
           )
-          as _i6.Future<_i2.Pokemon>);
+          as _i4.Future<_i2.ApiResponse<T>>);
 
   @override
-  _i6.Future<List<_i7.PokemonBrief>> filterByType(String? type) =>
+  _i4.Future<String> download({
+    required String? path,
+    required String? savePath,
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    _i5.ProgressCallback? onReceiveProgress,
+    _i5.CancelToken? cancelToken,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#filterByType, [type]),
-            returnValue: _i6.Future<List<_i7.PokemonBrief>>.value(
-              <_i7.PokemonBrief>[],
-            ),
-          )
-          as _i6.Future<List<_i7.PokemonBrief>>);
-
-  @override
-  _i6.Future<List<_i7.PokemonBrief>> searchPokemon(String? query) =>
-      (super.noSuchMethod(
-            Invocation.method(#searchPokemon, [query]),
-            returnValue: _i6.Future<List<_i7.PokemonBrief>>.value(
-              <_i7.PokemonBrief>[],
-            ),
-          )
-          as _i6.Future<List<_i7.PokemonBrief>>);
-
-  @override
-  _i6.Future<_i3.PokemonSpecies> getSpeciesByUrl(String? url) =>
-      (super.noSuchMethod(
-            Invocation.method(#getSpeciesByUrl, [url]),
-            returnValue: _i6.Future<_i3.PokemonSpecies>.value(
-              _FakePokemonSpecies_1(
+            Invocation.method(#download, [], {
+              #path: path,
+              #savePath: savePath,
+              #query: query,
+              #headers: headers,
+              #onReceiveProgress: onReceiveProgress,
+              #cancelToken: cancelToken,
+            }),
+            returnValue: _i4.Future<String>.value(
+              _i7.dummyValue<String>(
                 this,
-                Invocation.method(#getSpeciesByUrl, [url]),
+                Invocation.method(#download, [], {
+                  #path: path,
+                  #savePath: savePath,
+                  #query: query,
+                  #headers: headers,
+                  #onReceiveProgress: onReceiveProgress,
+                  #cancelToken: cancelToken,
+                }),
               ),
             ),
           )
-          as _i6.Future<_i3.PokemonSpecies>);
-
-  @override
-  _i6.Future<_i4.EvolutionChain> getEvolutionChain(String? url) =>
-      (super.noSuchMethod(
-            Invocation.method(#getEvolutionChain, [url]),
-            returnValue: _i6.Future<_i4.EvolutionChain>.value(
-              _FakeEvolutionChain_2(
-                this,
-                Invocation.method(#getEvolutionChain, [url]),
-              ),
-            ),
-          )
-          as _i6.Future<_i4.EvolutionChain>);
+          as _i4.Future<String>);
 }

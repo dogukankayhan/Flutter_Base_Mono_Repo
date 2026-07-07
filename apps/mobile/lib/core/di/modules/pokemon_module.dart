@@ -5,15 +5,12 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/datasource/favorites_local_datasource.dart';
-import '../../data/datasource/pokemon_remote_datasource.dart';
 import '../../data/repository/pokemon_repository_impl.dart';
 import '../../domain/repository/pokemon_repository.dart';
 
 void setupPokemonModule(GetIt getIt) {
   getIt.registerLazySingleton<PokemonRepository>(
-    () => PokemonRepositoryImpl(
-      datasource: PokemonRemoteDataSourceImpl(api: getIt<ApiManager>()),
-    ),
+    () => PokemonRepositoryImpl(getIt<ApiManager>()),
   );
 
   getIt.registerLazySingleton<FavoritesRepository>(

@@ -1,12 +1,14 @@
-import 'package:flutter_base_kit/core/data/datasource/pokemon_remote_datasource.dart';
+import 'package:flutter_base_kit/core/data/dto/evolution_chain_dto.dart';
+import 'package:flutter_base_kit/core/data/dto/pokemon_brief_dto.dart';
+import 'package:flutter_base_kit/core/data/dto/pokemon_dto.dart';
+import 'package:flutter_base_kit/core/data/dto/pokemon_species_dto.dart';
+import 'package:flutter_base_kit/core/data/dto/pokemon_sprites_dto.dart';
+import 'package:flutter_base_kit/core/data/dto/pokemon_stats_dto.dart';
 import 'package:flutter_base_kit/core/data/repository/pokemon_repository_impl.dart';
-import 'package:flutter_base_kit/core/domain/entity/evolution_chain_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_brief_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_species_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_sprites_entity.dart';
-import 'package:flutter_base_kit/core/domain/entity/pokemon_stats_entity.dart';
+import 'package:flutter_kit_network/core/network/api/api_manager_interface.dart';
+import 'package:flutter_kit_network/core/network/api/api_response.dart';
 import 'package:flutter_kit_network/core/network/error/api_error.dart';
+import 'package:flutter_kit_network/core/network/error/api_exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -15,72 +17,85 @@ import 'pokemon_repository_impl_test.mocks.dart';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
-const _kBrief = PokemonBrief(
+final _kBriefDto = PokemonBriefDto(
   name: 'bulbasaur',
   url: 'https://pokeapi.co/api/v2/pokemon/1/',
 );
 
-const _kStats = PokemonStats(
-  hp: 45,
-  attack: 49,
-  defense: 49,
-  specialAttack: 65,
-  specialDefense: 65,
-  speed: 45,
-);
-
-const _kPokemon = Pokemon(
+final _kPokemonDto = PokemonDto(
   id: 1,
   name: 'bulbasaur',
   height: 7,
   weight: 69,
-  types: [],
-  abilities: [],
-  stats: _kStats,
-  sprites: PokemonSprites(),
+  types: const [],
+  abilities: const [],
+  stats: PokemonStatsDto(
+    hp: 45,
+    attack: 49,
+    defense: 49,
+    specialAttack: 65,
+    specialDefense: 65,
+    speed: 45,
+  ),
+  sprites: PokemonSpritesDto(),
+  moves: const [],
   speciesName: 'bulbasaur',
   speciesUrl: 'https://pokeapi.co/api/v2/pokemon-species/1/',
 );
 
-const _kSpecies = PokemonSpecies(
+final _kSpeciesDto = PokemonSpeciesDto(
   id: 1,
   name: 'bulbasaur',
   description: 'A strange seed',
   genus: 'Seed Pokémon',
-  eggGroups: [],
+  eggGroups: const [],
   genderRate: 1,
   evolutionChainUrl: 'https://pokeapi.co/api/v2/evolution-chain/1/',
 );
 
-const _kEvolution = EvolutionChain(
+final _kEvolutionDto = EvolutionChainDto(
   id: 1,
-  root: EvolutionNode(speciesName: 'bulbasaur', speciesId: 1, evolvesTo: []),
+  root: EvolutionNodeDto(speciesName: 'bulbasaur', speciesId: 1, evolvesTo: const []),
 );
 
-final _kError = ApiError(message: 'network error');
+ApiException _makeException([String msg = 'network error']) =>
+    ApiException(ApiError(message: msg));
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
-@GenerateMocks([PokemonRemoteDataSource])
+@GenerateMocks([ApiManager])
 void main() {
-  late MockPokemonRemoteDataSource mockDs;
+  late MockApiManager mockApi;
   late PokemonRepositoryImpl repo;
 
   setUp(() {
-    mockDs = MockPokemonRemoteDataSource();
-    repo = PokemonRepositoryImpl(datasource: mockDs);
+    mockApi = MockApiManager();
+    repo = PokemonRepositoryImpl(mockApi);
   });
+
+  void stubList(List<PokemonBriefDto> briefs) {
+    when(
+      mockApi.get<List<PokemonBriefDto>>(
+        path: anyNamed('path'),
+        query: anyNamed('query'),
+        fromJson: anyNamed('fromJson'),
+        listWrapperKey: anyNamed('listWrapperKey'),
+      ),
+    ).thenAnswer((_) async => ApiResponse(data: briefs));
+  }
+
+  void stubDetail(PokemonDto pokemon) {
+    when(
+      mockApi.get<PokemonDto>(path: anyNamed('path'), fromJson: anyNamed('fromJson')),
+    ).thenAnswer((_) async => ApiResponse(data: pokemon));
+  }
 
   // ─── pageWithSize ──────────────────────────────────────────────────────────
 
   group('pageWithSize', () {
     test('returns Ok with correct items and offset on full page', () async {
-      when(
-        mockDs.listPokemon(limit: 20, offset: 0),
-      ).thenAnswer((_) async => List.filled(20, _kBrief));
-      when(
-        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-      ).thenAnswer((_) async => _kPokemon);
+      stubList(List.filled(20, _kBriefDto));
+      stubDetail(_kPokemonDto);
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -98,12 +113,8 @@ void main() {
     test(
       'hasMore=false when returned list is smaller than requested size',
       () async {
-        when(
-          mockDs.listPokemon(limit: 20, offset: 0),
-        ).thenAnswer((_) async => [_kBrief]);
-        when(
-          mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-        ).thenAnswer((_) async => _kPokemon);
+        stubList([_kBriefDto]);
+        stubDetail(_kPokemonDto);
 
         final result = await repo.pageWithSize(20, 0);
 
@@ -115,12 +126,7 @@ void main() {
     );
 
     test('hasMore=false on empty list', () async {
-      when(
-        mockDs.listPokemon(
-          limit: anyNamed('limit'),
-          offset: anyNamed('offset'),
-        ),
-      ).thenAnswer((_) async => []);
+      stubList([]);
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -135,13 +141,15 @@ void main() {
       );
     });
 
-    test('returns Err wrapping ApiError from datasource', () async {
+    test('returns Err wrapping ApiError from ApiException', () async {
       when(
-        mockDs.listPokemon(
-          limit: anyNamed('limit'),
-          offset: anyNamed('offset'),
+        mockApi.get<List<PokemonBriefDto>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+          fromJson: anyNamed('fromJson'),
+          listWrapperKey: anyNamed('listWrapperKey'),
         ),
-      ).thenThrow(_kError);
+      ).thenThrow(_makeException());
 
       final result = await repo.pageWithSize(20, 0);
 
@@ -153,9 +161,11 @@ void main() {
 
     test('wraps generic exception as Err(ApiError)', () async {
       when(
-        mockDs.listPokemon(
-          limit: anyNamed('limit'),
-          offset: anyNamed('offset'),
+        mockApi.get<List<PokemonBriefDto>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+          fromJson: anyNamed('fromJson'),
+          listWrapperKey: anyNamed('listWrapperKey'),
         ),
       ).thenThrow(Exception('timeout'));
 
@@ -172,16 +182,19 @@ void main() {
 
   group('page', () {
     test('delegates to pageWithSize with default pageSize=20', () async {
-      when(
-        mockDs.listPokemon(limit: 20, offset: 0),
-      ).thenAnswer((_) async => [_kBrief]);
-      when(
-        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-      ).thenAnswer((_) async => _kPokemon);
+      stubList([_kBriefDto]);
+      stubDetail(_kPokemonDto);
 
       await repo.page(0);
 
-      verify(mockDs.listPokemon(limit: 20, offset: 0)).called(1);
+      verify(
+        mockApi.get<List<PokemonBriefDto>>(
+          path: 'pokemon',
+          query: {'limit': 20, 'offset': 0},
+          fromJson: anyNamed('fromJson'),
+          listWrapperKey: 'results',
+        ),
+      ).called(1);
     });
   });
 
@@ -189,11 +202,13 @@ void main() {
 
   group('pageByType', () {
     test('returns first slice with hasMore=true when more exist', () async {
-      final briefs = List.filled(3, _kBrief);
-      when(mockDs.filterByType('grass')).thenAnswer((_) async => briefs);
       when(
-        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-      ).thenAnswer((_) async => _kPokemon);
+        mockApi.get<List<PokemonBriefDto>>(
+          path: 'type/grass',
+          extractor: anyNamed('extractor'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: List.filled(3, _kBriefDto)));
+      stubDetail(_kPokemonDto);
 
       final result = await repo.pageByType('grass', 2, 0);
 
@@ -210,11 +225,12 @@ void main() {
 
     test('hasMore=false on last slice', () async {
       when(
-        mockDs.filterByType('grass'),
-      ).thenAnswer((_) async => [_kBrief, _kBrief]);
-      when(
-        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-      ).thenAnswer((_) async => _kPokemon);
+        mockApi.get<List<PokemonBriefDto>>(
+          path: 'type/grass',
+          extractor: anyNamed('extractor'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: [_kBriefDto, _kBriefDto]));
+      stubDetail(_kPokemonDto);
 
       final result = await repo.pageByType('grass', 5, 0);
 
@@ -224,8 +240,13 @@ void main() {
       );
     });
 
-    test('returns Err on ApiError from datasource', () async {
-      when(mockDs.filterByType(any)).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<List<PokemonBriefDto>>(
+          path: 'type/fire',
+          extractor: anyNamed('extractor'),
+        ),
+      ).thenThrow(_makeException());
 
       final result = await repo.pageByType('fire', 20, 0);
 
@@ -240,17 +261,15 @@ void main() {
 
   group('pageSearch', () {
     test('returns matching results with correct pagination', () async {
-      when(mockDs.getAllBriefs()).thenAnswer((_) async => [_kBrief]);
-      when(
-        mockDs.getDetailByUrl(any, includeMoves: anyNamed('includeMoves')),
-      ).thenAnswer((_) async => _kPokemon);
+      stubList([_kBriefDto]);
+      stubDetail(_kPokemonDto);
 
       final result = await repo.pageSearch('bulb', 20, 0);
 
       result.when(
         ok: (data) {
           final (items, hasMore, offset) = data;
-          expect(items, [_kPokemon]);
+          expect(items.map((p) => p.name), ['bulbasaur']);
           expect(hasMore, false);
           expect(offset, 1);
         },
@@ -258,8 +277,15 @@ void main() {
       );
     });
 
-    test('returns Err on ApiError from datasource', () async {
-      when(mockDs.getAllBriefs()).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<List<PokemonBriefDto>>(
+          path: anyNamed('path'),
+          query: anyNamed('query'),
+          fromJson: anyNamed('fromJson'),
+          listWrapperKey: anyNamed('listWrapperKey'),
+        ),
+      ).thenThrow(_makeException());
 
       final result = await repo.pageSearch('bad', 20, 0);
 
@@ -273,17 +299,21 @@ void main() {
   // ─── getById ───────────────────────────────────────────────────────────────
 
   group('getById', () {
-    test('converts id to string and calls getDetailByName', () async {
-      when(mockDs.getDetailByName('1')).thenAnswer((_) async => _kPokemon);
+    test('converts id to string and calls the detail endpoint', () async {
+      stubDetail(_kPokemonDto);
 
       final result = await repo.getById(1);
 
       result.when(ok: (p) => expect(p.id, 1), err: (_) => fail('expected ok'));
-      verify(mockDs.getDetailByName('1')).called(1);
+      verify(
+        mockApi.get<PokemonDto>(path: 'pokemon/1', fromJson: anyNamed('fromJson')),
+      ).called(1);
     });
 
-    test('returns Err on ApiError', () async {
-      when(mockDs.getDetailByName(any)).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<PokemonDto>(path: anyNamed('path'), fromJson: anyNamed('fromJson')),
+      ).thenThrow(_makeException());
 
       final result = await repo.getById(99);
 
@@ -298,9 +328,7 @@ void main() {
 
   group('getByName', () {
     test('returns Ok with pokemon on success', () async {
-      when(
-        mockDs.getDetailByName('bulbasaur'),
-      ).thenAnswer((_) async => _kPokemon);
+      stubDetail(_kPokemonDto);
 
       final result = await repo.getByName('bulbasaur');
 
@@ -310,8 +338,10 @@ void main() {
       );
     });
 
-    test('returns Err on ApiError', () async {
-      when(mockDs.getDetailByName(any)).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<PokemonDto>(path: anyNamed('path'), fromJson: anyNamed('fromJson')),
+      ).thenThrow(_makeException());
 
       final result = await repo.getByName('unknown');
 
@@ -325,9 +355,14 @@ void main() {
   // ─── getSpecies ────────────────────────────────────────────────────────────
 
   group('getSpecies', () {
-    test('delegates to getSpeciesByUrl and returns Ok', () async {
+    test('extracts id from url and returns Ok', () async {
       const url = 'https://pokeapi.co/api/v2/pokemon-species/1/';
-      when(mockDs.getSpeciesByUrl(url)).thenAnswer((_) async => _kSpecies);
+      when(
+        mockApi.get<PokemonSpeciesDto>(
+          path: 'pokemon-species/1',
+          fromJson: anyNamed('fromJson'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kSpeciesDto));
 
       final result = await repo.getSpecies(url);
 
@@ -337,8 +372,13 @@ void main() {
       );
     });
 
-    test('returns Err on ApiError', () async {
-      when(mockDs.getSpeciesByUrl(any)).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<PokemonSpeciesDto>(
+          path: anyNamed('path'),
+          fromJson: anyNamed('fromJson'),
+        ),
+      ).thenThrow(_makeException());
 
       final result = await repo.getSpecies('bad-url');
 
@@ -352,9 +392,14 @@ void main() {
   // ─── getEvolutionChain ─────────────────────────────────────────────────────
 
   group('getEvolutionChain', () {
-    test('delegates to datasource and returns Ok', () async {
+    test('extracts id from url and returns Ok', () async {
       const url = 'https://pokeapi.co/api/v2/evolution-chain/1/';
-      when(mockDs.getEvolutionChain(url)).thenAnswer((_) async => _kEvolution);
+      when(
+        mockApi.get<EvolutionChainDto>(
+          path: 'evolution-chain/1',
+          fromJson: anyNamed('fromJson'),
+        ),
+      ).thenAnswer((_) async => ApiResponse(data: _kEvolutionDto));
 
       final result = await repo.getEvolutionChain(url);
 
@@ -367,8 +412,13 @@ void main() {
       );
     });
 
-    test('returns Err on ApiError', () async {
-      when(mockDs.getEvolutionChain(any)).thenThrow(_kError);
+    test('returns Err on ApiException', () async {
+      when(
+        mockApi.get<EvolutionChainDto>(
+          path: anyNamed('path'),
+          fromJson: anyNamed('fromJson'),
+        ),
+      ).thenThrow(_makeException());
 
       final result = await repo.getEvolutionChain('bad-url');
 
