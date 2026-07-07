@@ -83,22 +83,26 @@ docs(core): document PaginatedBloc pattern
 
 ## Adding a New Feature
 
+Prefer scaffolding with `dart run scripts/gen_feature.dart` — see the README's "Adding a New Feature" section for the interactive prompts and full generated tree. It produces:
+
 ```
 apps/mobile/lib/features/<feature_name>/
-├── bloc/
+├── bloc/                         # or cubit/ if you chose Cubit
 │   ├── <feature>_bloc.dart      # extends BaseBloc<Event, State>
 │   ├── <feature>_event.dart     # Sealed class events
 │   └── <feature>_state.dart     # extends BaseState, copyWith pattern
 ├── view/
 │   └── <feature>_screen.dart    # extends StatelessWidget, wrapped with BaseBlocView
-└── <feature>_navigator.dart   # GoRoute definition + show() method
+└── <feature>_navigator.dart     # GoRoute definition + show() method
 ```
+
+It does **not** generate entities, use cases, repositories, or DTOs — those are shared and live under `apps/mobile/lib/core/domain/` and `apps/mobile/lib/core/data/`.
 
 **Steps:**
 1. Open a `feat/<feature>` branch.
-2. Create files according to the structure above.
-3. Register the new navigator with `AppNavigator`.
-4. Add the required use case / repository / datasource under `apps/mobile/lib/core/`.
+2. Run the generator (or create files matching the structure above by hand).
+3. For standalone/nested routes the generator registers the navigator with `AppNavigator`/`ShellNavigator` automatically; for a tab route, add it to the shell branch manually.
+4. Add the required use case / repository / entity under `apps/mobile/lib/core/`. Prefer calling `ApiManager` directly from the repository (see `PokemonRepositoryImpl`, `UserRepositoryImpl`) — only add a separate datasource when a source is local (e.g. `SharedPreferences`) or genuinely needs to be swapped independently of the repository.
 5. Add registration to the DI module (if needed).
 6. Add a test file under `apps/mobile/test/features/<feature>/`.
 7. Verify tests with `melos test`.

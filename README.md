@@ -555,28 +555,22 @@ String? emailError = _form.errorFor('email');
 dart run scripts/gen_feature.dart
 ```
 
-The interactive script prompts for a feature name, asks whether it needs pagination, and generates all files (bloc, event, state, screen, navigator, use case stubs, repository interface + impl).
+The interactive script asks for a feature name, whether it's a `Bloc` (event-driven) or `Cubit` (method-driven), whether it needs pagination, and where the screen is routed (standalone / nested in the shell / a shell tab). It then generates the presentation layer and registers the route automatically. **It does not generate entities, use cases, repositories, or DTOs** — those are shared, live under `apps/mobile/lib/core/`, and are written by hand (see step 4).
 
 ### 2. Folder structure (generated)
 
 ```
 apps/mobile/lib/features/my_feature/
-├── bloc/
+├── bloc/                          # or cubit/, depending on your choice
 │   ├── my_feature_bloc.dart
 │   ├── my_feature_event.dart
 │   └── my_feature_state.dart
-├── data/
-│   ├── dto/
-│   ├── datasources/
-│   └── repositories/
-├── domain/
-│   ├── entities/
-│   ├── repositories/
-│   └── usecases/
-└── view/
-    ├── my_feature_navigator.dart
-    └── my_feature_screen.dart
+├── view/
+│   └── my_feature_screen.dart
+└── my_feature_navigator.dart      # GoRoute definition + show() method
 ```
+
+This mirrors the existing features — compare `features/login/` (Bloc) or `features/shell/` (Cubit). The `_navigator.dart` file lives at the feature root, not inside `view/`.
 
 ### 3. Register with DI
 
@@ -589,9 +583,11 @@ getIt.registerLazySingleton<MyRepository>(
 
 ### 4. Register the route
 
+For **standalone** and **nested** features, the generator already wires `MyFeatureNavigator.route` into `AppNavigator` / `ShellNavigator` for you. For a **tab** route, add it manually to the relevant `StatefulShellBranch` in `ShellNavigator`:
+
 ```dart
-// In AppNavigator (or equivalent router file)
-MyFeatureNavigator.route(),
+// route is a getter, not a method
+MyFeatureNavigator.route,
 ```
 
 Navigation is always done through the navigator:

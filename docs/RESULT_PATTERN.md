@@ -141,15 +141,17 @@ When `statusCode` is null, it usually indicates a timeout, DNS, or SSL error.
 
 ## Propagation from Repository to UseCase
 
+`ApiManager` itself never returns a `Result` — it returns `ApiResponse<T>` on success and **throws** `ApiException` on failure. The `Result` is born in the repository, which wraps the call in try/catch:
+
 ```
-ApiManager.get()              → Result<DashboardDto, ApiError>
-DataSource.getDashboard()     → Result<DashboardSummary, ApiError>  (after DTO→Entity mapping)
-RepositoryImpl.getDashboard() → Result<DashboardSummary, ApiError>  (return datasource directly)
-UseCase.call()                → Result<DashboardSummary, ApiError>  (return repo directly)
-Bloc._onLoad()                → updates state, does not return anything
+ApiManager.get<DashboardDto>() → ApiResponse<DashboardDto>  (throws ApiException on failure)
+RepositoryImpl.getDashboard()  → Result<DashboardSummary, ApiError>  (dto.toDomain() on success,
+                                  catch (ApiException e) → Err(e.error) on failure)
+UseCase.call()                 → Result<DashboardSummary, ApiError>  (return repo directly)
+Bloc._onLoad()                 → updates state, does not return anything
 ```
 
-Each layer passes the Result along without wrapping it — only the BLoC layer converts it to state.
+Every layer after the Repository passes the `Result` along without rewrapping it — only the BLoC layer converts it to state. See `PokemonRepositoryImpl`/`UserRepositoryImpl` for the real `try`/`on ApiException catch` pattern.
 
 ---
 
