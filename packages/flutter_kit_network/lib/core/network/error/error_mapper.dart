@@ -30,6 +30,7 @@ class ErrorMapper {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
         message = messages.connectionTimeout;
         code = 'TIMEOUT';
         break;
