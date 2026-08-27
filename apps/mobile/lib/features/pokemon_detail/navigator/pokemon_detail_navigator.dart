@@ -1,0 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_base_kit/core/domain/entity/pokemon_entity.dart';
+import 'package:go_router/go_router.dart';
+
+final class PokemonDetailNavigator {
+  static void show(
+    BuildContext context, {
+    required int pokemonId,
+    Pokemon? pokemon,
+  }) {
+    final branch =
+        GoRouterState.of(context).uri.pathSegments.firstOrNull ?? 'pokemon';
+    context.push('/$branch/pokemon/$pokemonId', extra: pokemon);
+  }
+}
