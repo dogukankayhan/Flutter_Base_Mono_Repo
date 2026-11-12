@@ -21,7 +21,7 @@
 
 # Local tooling
 .fvm/
-.claude/settings.local.json
+.claude/
 pubspec_overrides.yaml
 .env
 .env.*
